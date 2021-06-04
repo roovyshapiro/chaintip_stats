@@ -1,8 +1,4 @@
-#TODO:
-#Consider adding parent comment
-#Does praw have some kind of comment_id as u/chaintip is designed to edit the same comment depending on wether the tip has been claimed or returned and it would be easier to track.
-
-
+#https://praw.readthedocs.io/en/latest/index.html
 import praw, datetime, json
 
 class Chaintip_stats:
@@ -26,11 +22,10 @@ class Chaintip_stats:
 
     def gather_chaintip_stats(self):
         redditor_chaintip = self.reddit.redditor("chaintip")
-        print("u/chaintip's comment karma: ", redditor_chaintip.comment_karma)
+        #print("u/chaintip's comment karma: ", redditor_chaintip.comment_karma)
 
         for comment in self.reddit.redditor("chaintip").comments.new(limit=None):
             comment_dict ={}
-            comment_dict["subreddit"] = comment.subreddit.display_name
             if "[been sent]" in comment.body:
                 comment_dict['type'] = 'sent'
                 body_list = comment.body.replace("you've [been sent]","").replace("by","").replace("via [chaintip](http://www.chaintip.org).","").replace("(","").replace(")","").replace('|',"").replace("***","").replace("`","").replace("~","").split()
@@ -64,7 +59,12 @@ class Chaintip_stats:
                 comment_dict['body']['fiat_value'] = body_list[3]
                 comment_dict['body']['fiat_type'] = body_list[4]
                 comment_dict['body']['sender'] = ' '
+            comment_dict["subreddit"] = comment.subreddit.display_name
             comment_dict["body_text"] = comment.body.replace("***","").replace("\n"," ")
+            comment_dict["id"] = comment.id
+            comment_dict["parent_id"] = comment.parent_id
+            parent_comment_id = comment.parent_id.replace('t1_','').replace('t3_','')
+            comment_dict['parent_comment_permalink'] = "https://reddit.com" + comment.permalink.replace(comment.id,parent_comment_id)
             comment_dict["created_utc"] = comment.created_utc
             comment_dict["created_datetime"] = datetime.datetime.utcfromtimestamp(int(comment.created_utc)).strftime("%m/%d/%Y, %H:%M:%S")
             comment_dict["score"] = comment.score
