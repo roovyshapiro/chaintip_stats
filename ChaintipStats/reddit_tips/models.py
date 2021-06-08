@@ -29,7 +29,7 @@ class RedditTip(models.Model):
     blockchain_tx = models.CharField(max_length=150)
     coin_amount = models.FloatField()
     coin_type = models.CharField(max_length=10)
-    fiat_type = models.Charfield(max_length=10)
+    fiat_type = models.CharField(max_length=10)
     fiat_value = models.FloatField()
     receiver = models.CharField(max_length=30) 
     sender = models.CharField(max_length=30)

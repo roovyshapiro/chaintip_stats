@@ -66,7 +66,7 @@ class Chaintip_stats:
             parent_comment_id = comment.parent_id.replace('t1_','').replace('t3_','')
             comment_dict['parent_comment_permalink'] = "https://reddit.com" + comment.permalink.replace(comment.id,parent_comment_id)
             comment_dict["created_utc"] = comment.created_utc
-            comment_dict["created_datetime"] = datetime.datetime.utcfromtimestamp(int(comment.created_utc)).strftime("%m/%d/%Y, %H:%M:%S")
+            comment_dict["created_datetime"] = datetime.datetime.utcfromtimestamp(int(comment.created_utc))
             comment_dict["score"] = comment.score
             comment_dict["permalink"] = "https://reddit.com" + comment.permalink
             self.chaintip_comments.append(comment_dict)

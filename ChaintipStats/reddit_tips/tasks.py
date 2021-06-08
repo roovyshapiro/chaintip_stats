@@ -1,11 +1,11 @@
 from __future__ import absolute_import, unicode_literals
 #from celery import Celery, shared_task
-#from django.utils import timezone
-#from django.utils.timezone import make_aware
+from django.utils import timezone
+from django.utils.timezone import make_aware
  
 from .models import RedditTip
-from chaintip_stats import Chaintip_stats
-import json
+from .chaintip_stats import Chaintip_stats
+import json, os
 
 #@shared_task
 def get_tips():
@@ -74,7 +74,8 @@ def get_tips():
         new_tip.sender = tip['body']['sender']
 
         new_tip.body_text = tip['body_text']
-        new_tip.created_datetime = tip['created_datetime']
+        new_tip.created_datetime = make_aware(tip['created_datetime'])
+
         new_tip.created_utc = tip['created_utc']
         new_tip.comment_id = tip['id']
         new_tip.parent_comment_permalink = tip['parent_comment_permalink']
@@ -89,7 +90,9 @@ def get_tips():
 def retrieve_reddit_tips():
     '''
     '''
-    with open('credentials.json') as f:
+    credentials_file = 'credentials.json'
+    credentials_path = os.path.join(os.path.abspath('.'), credentials_file)
+    with open(credentials_path) as f:
         data = f.read()
     credential_dict = json.loads(data)
     chaintip_api = Chaintip_stats(credential_dict['client_id'], credential_dict['client_secret'], credential_dict['user_agent'], credential_dict['username'], credential_dict['password'])
