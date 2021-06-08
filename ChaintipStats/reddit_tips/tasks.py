@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-#from celery import Celery, shared_task
+from celery import Celery, shared_task
 from django.utils import timezone
 from django.utils.timezone import make_aware
  
@@ -7,7 +7,7 @@ from .models import RedditTip
 from .chaintip_stats import Chaintip_stats
 import json, os
 
-#@shared_task
+@shared_task
 def get_tips():
     '''    Example Tip:
     {
