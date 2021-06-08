@@ -22,8 +22,7 @@
                         <th>Subreddit</th>
                         <th>BCH</th>
                         <th>USD</th>
-                        <th>Claimed</th>
-                        <th>Returned</th>
+                        <th>Status</th>
                         <th>Created (UTC)</th>
                     </tr>
                     {% for tip in all_tips %}
@@ -36,13 +35,10 @@
                             <td>{{ tip.fiat_value }}</td>
                             {% if tip.claimed %}
                                 <td>Claimed</td>
-                                <td></td>
                             {% elif tip.returned %}
-                                <td></td>
                                 <td>Returned</td>
                             {% else %}
-                                <td></td>
-                                <td></td>
+                                <td>Sent</td>
                             {% endif %}
                             <td>{{ tip.created_datetime }}</td>
                         </tr>
