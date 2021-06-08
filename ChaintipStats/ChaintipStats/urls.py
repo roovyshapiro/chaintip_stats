@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from reddit_tips import views as reddit_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', reddit_views.main, name='reddit_main'),
 ]
