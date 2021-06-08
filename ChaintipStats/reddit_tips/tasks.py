@@ -48,7 +48,9 @@ def get_tips():
     permalink = models.CharField(max_length=150)
     score = models.IntegerField()
     subreddit = models.CharField(max_length=30)
-    type = models.CharField(max_length = 15)
+    sent = models.BooleanField(Blank=True)
+    claimed = models.BooleanField(Blank=True)
+    returned = models.BooleanField(Blank=True)
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -83,7 +85,14 @@ def get_tips():
         new_tip.permalink = tip['permalink']
         new_tip.score = tip['score']
         new_tip.subreddit = tip['subreddit']
-        new_tip.type = tip['type']
+        new_tip.sent = True
+        if tip['type'] == "claimed":
+            new_tip.claimed = True
+            new_tip.returned = False
+        elif tip['type'] == "returned":
+            new_tip.returned = True
+            new_tip.claimed = False
+
 
         new_tip.save()
 

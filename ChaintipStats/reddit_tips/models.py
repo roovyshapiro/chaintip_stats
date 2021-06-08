@@ -1,3 +1,4 @@
+from os import set_inheritable
 from django.db import models
 from django.utils import timezone
 
@@ -43,10 +44,12 @@ class RedditTip(models.Model):
     permalink = models.CharField(max_length=150)
     score = models.IntegerField()
     subreddit = models.CharField(max_length=30)
-    type = models.CharField(max_length = 15)
+    sent = models.BooleanField(null=True, default=None)
+    claimed = models.BooleanField(null=True, default=None)
+    returned = models.BooleanField(null=True, default=None)
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.sender} -> {self.receiver} - {self.subreddit} - {self.created_datetime.strftime("%Y-%m-%d %H:%M:%S")}'
+        return f'{self.sender} -> {self.receiver} - r/{self.subreddit} - {self.created_datetime.strftime("%Y-%m-%d %H:%M:%S")}'
