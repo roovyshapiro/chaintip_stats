@@ -20,4 +20,5 @@ from reddit_tips import views as reddit_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', reddit_views.main, name='reddit_main'),
+    path('gettips/', reddit_views.populate_db, name='get_reddit_tips'),
 ]

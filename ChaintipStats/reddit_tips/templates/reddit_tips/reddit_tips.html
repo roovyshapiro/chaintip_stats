@@ -1,0 +1,56 @@
+{% load static %}
+
+<HTML>
+    <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+        <link rel="stylesheet" type="text/css" href="{% static 'reddit_tips/style.css' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <div>
+            <p>All Tips: {{ all_stats.total_tips }}</p>
+            <p>Claimed Tips: {{ all_stats.claimed_tips }}</p>
+            <p>Returned Tips: {{all_stats.returned_tips }}</p>
+        </div>
+        <div>
+            <table id="tip_table">
+                <tbody>
+                    <tr>
+                        <th>#</th>
+                        <th>Sender</th>
+                        <th>Receiver</th>
+                        <th>Subreddit</th>
+                        <th>BCH</th>
+                        <th>USD</th>
+                        <th>Claimed</th>
+                        <th>Returned</th>
+                        <th>Created (UTC)</th>
+                    </tr>
+                    {% for tip in all_tips %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ tip.sender }}</td>
+                            <td>{{ tip.receiver }}</td>
+                            <td><a href='{{ tip.parent_comment_permalink }}'>{{ tip.subreddit }}</a></td>
+                            <td>{{ tip.coin_amount }}</td>
+                            <td>{{ tip.fiat_value }}</td>
+                            {% if tip.claimed %}
+                                <td>Claimed</td>
+                                <td></td>
+                            {% elif tip.returned %}
+                                <td></td>
+                                <td>Returned</td>
+                            {% else %}
+                                <td></td>
+                                <td></td>
+                            {% endif %}
+                            <td>{{ tip.created_datetime }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <script type="text/javascript" src="{% static 'reddit_tips/script.js' %}"></script>
+    </body>
+</HTML>
