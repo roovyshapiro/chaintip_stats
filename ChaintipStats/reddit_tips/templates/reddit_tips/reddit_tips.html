@@ -16,13 +16,13 @@
             <p>Awaiting Claim:  {{ all_stats.claim_waiting }} - {{ all_stats.claim_waiting_percent }} </p>
             <p>Total BCH Tipped: {{ all_stats.total_BCH.coin_amount__sum }}</p>
             <p>Earliest Tip: {{ all_stats.start_date }}</p>
-
+            <p>Subreddits: {{ all_stats.distinct_subs_amount }}
             <p> ---- </p>
 
             <p>Top Tippers: </p>
             {% for user,tip in all_stats.top_senders %}
                 {% if user != ' ' %}
-                    <p>{{ user }} - {{ tip }}</p>
+                    <p><a href='https://reddit.com/{{ user }}'>{{ user }}</a> - {{ tip }}</p>
                 {% endif %}
             {% endfor %}
 
@@ -31,10 +31,25 @@
             <p>Top Tip Recipients: </p>
             {% for user,tip in all_stats.top_receivers %}
                 {% if user != ' ' %}
-                    <p>{{ user }} - {{ tip }}</p>
+                    <p><a href='https://reddit.com/{{ user }}'>{{ user }}</a> - {{ tip }}</p>
                 {% endif %}
             {% endfor %}
 
+            <p> ---- </p>
+
+            <p>Top Subs: </p>
+            {% for sub,tip in all_stats.top_subs %}
+                <p><a href='https://reddit.com/r/{{ sub }}'>{{ sub }}</a> - {{ tip }}</p>
+            {% endfor %}
+
+            <p> ---- </p>
+
+            <p>Distinct Subs: </p>
+            <p>
+            {% for sub in all_stats.distinct_subs %}
+                <a href='https://reddit.com/r/{{ sub }}'>{{ sub }}</a>, 
+            {% endfor %}
+            </p>
         </div>
         <div>
             <table id="tip_table">
