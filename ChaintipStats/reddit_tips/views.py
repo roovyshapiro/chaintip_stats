@@ -45,4 +45,6 @@ def main(request):
 def populate_db(request):
     from .tasks import get_tips
     get_tips()
+    #from .tasks import get_price
+    #get_price()
     return HttpResponse('Testing!')

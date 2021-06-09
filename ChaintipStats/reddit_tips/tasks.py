@@ -155,7 +155,7 @@ def get_price():
      '''
 
     credentials_file = 'credentials.json'
-    credentials_path = os.path.join(os.path.abspath('..'), credentials_file)   
+    credentials_path = os.path.join(os.path.abspath('.'), credentials_file)
     with open(credentials_path) as f:
         data = f.read()
     credential_dict = json.loads(data)
@@ -166,6 +166,6 @@ def get_price():
     new_price.price = api_response['price']
     new_price.price_format = api_response['price_format']
     new_price.time = api_response['time']
-    new_price.time_dt = api_response['time_dt']
+    new_price.time_dt = make_aware(api_response['time_dt'])
 
     new_price.save()
