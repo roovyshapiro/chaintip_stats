@@ -16,7 +16,11 @@ def main(request):
     all_stats['claim_waiting'] = all_stats['total_tips'] - (all_stats['claimed_tips'] + all_stats['returned_tips'])
     all_stats['claim_waiting_percent'] = format(all_stats['claim_waiting'] / all_stats['total_tips'], '.2%')
 
-    all_stats['total_BCH'] = all_tips.aggregate(Sum('coin_amount'))
+    total_BCH = all_tips.aggregate(Sum('coin_amount'))
+    all_stats['total_BCH'] = format(total_BCH['coin_amount__sum'], '.9')
+    total_USD = all_tips.aggregate(Sum('fiat_value'))
+    all_stats['total_USD'] = "{:.2f}".format(total_USD['fiat_value__sum'])
+
     all_tips_ordered = all_tips.order_by('-created_datetime')
     all_stats['start_date'] = all_tips_ordered.last().created_datetime
     top_senders = all_tips.values_list('sender').annotate(sender_count=Count('sender')).order_by('-sender_count')
