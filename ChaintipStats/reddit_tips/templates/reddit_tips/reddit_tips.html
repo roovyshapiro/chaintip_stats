@@ -10,7 +10,31 @@
         <div>
             <p>All Tips: {{ all_stats.total_tips }}</p>
             <p>Claimed Tips: {{ all_stats.claimed_tips }}</p>
-            <p>Returned Tips: {{all_stats.returned_tips }}</p>
+            <p>Claimed Percentage: {{ all_stats.claimed_percentage }} </p>
+            <p>Returned Tips: {{ all_stats.returned_tips }}</p>
+            <p>Returned Percentage: {{ all_stats.returned_percentage }} </p>
+            <p>Awaiting Claim:  {{ all_stats.claim_waiting }} - {{ all_stats.claim_waiting_percent }} </p>
+            <p>Total BCH Tipped: {{ all_stats.total_BCH.coin_amount__sum }}</p>
+            <p>Earliest Tip: {{ all_stats.start_date }}</p>
+
+            <p> ---- </p>
+
+            <p>Top Tippers: </p>
+            {% for user,tip in all_stats.top_senders %}
+                {% if user != ' ' %}
+                    <p>{{ user }} - {{ tip }}</p>
+                {% endif %}
+            {% endfor %}
+
+            <p> ---- </p>
+
+            <p>Top Tip Recipients: </p>
+            {% for user,tip in all_stats.top_receivers %}
+                {% if user != ' ' %}
+                    <p>{{ user }} - {{ tip }}</p>
+                {% endif %}
+            {% endfor %}
+
         </div>
         <div>
             <table id="tip_table">
