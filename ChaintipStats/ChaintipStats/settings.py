@@ -182,6 +182,6 @@ from celery.schedules import crontab
 CELERY_BEAT_SCHEDULE = {
     'get_reddit_tips':{
         'task': 'reddit_tips.tasks.get_tips',
-        'schedule': crontab(minute='*/6'),
+        'schedule': crontab(minute='*/15'),
     },
 }
