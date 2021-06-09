@@ -10,7 +10,8 @@ import json, os
 
 @shared_task
 def get_tips():
-    '''    Example Tip:
+    '''    
+    Example Tip:
     {
         "body": {
             "blockchain_tx": "https://explorer.bitcoin.com/bch/address/bitcoincash:qrelay2vk63vgym22t2azxjjechraf74dcks4ef00x",
@@ -96,18 +97,6 @@ def get_tips():
 
         new_tip.save()
 
-def retrieve_reddit_tips():
-    '''
-    '''
-    credentials_file = 'credentials.json'
-    credentials_path = os.path.join(os.path.abspath('.'), credentials_file)
-    with open(credentials_path) as f:
-        data = f.read()
-    credential_dict = json.loads(data)
-    chaintip_api = Chaintip_stats(credential_dict['client_id'], credential_dict['client_secret'], credential_dict['user_agent'], credential_dict['username'], credential_dict['password'])
-    chaintip_comments = chaintip_api.gather_chaintip_stats()
-
-    return chaintip_comments
 
 @shared_task
 def get_price():
@@ -152,7 +141,7 @@ def get_price():
 
     def __str__(self):
         return f'{self.price_format} - {self.time_dt.strftime("%Y-%m-%d %H:%M:%S")}'   
-     '''
+    '''
 
     credentials_file = 'credentials.json'
     credentials_path = os.path.join(os.path.abspath('.'), credentials_file)
@@ -169,3 +158,17 @@ def get_price():
     new_price.time_dt = make_aware(api_response['time_dt'])
 
     new_price.save()
+
+
+def retrieve_reddit_tips():
+    '''
+    '''
+    credentials_file = 'credentials.json'
+    credentials_path = os.path.join(os.path.abspath('.'), credentials_file)
+    with open(credentials_path) as f:
+        data = f.read()
+    credential_dict = json.loads(data)
+    chaintip_api = Chaintip_stats(credential_dict['client_id'], credential_dict['client_secret'], credential_dict['user_agent'], credential_dict['username'], credential_dict['password'])
+    chaintip_comments = chaintip_api.gather_chaintip_stats()
+
+    return chaintip_comments

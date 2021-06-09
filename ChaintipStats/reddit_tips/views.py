@@ -1,10 +1,11 @@
 from django.http.response import HttpResponse
 from django.db.models import Q, Sum, Count
 from django.shortcuts import render
-from .models import RedditTip
+from .models import RedditTip, BCHPrice
 
 def main(request):
     all_tips = RedditTip.objects.all()
+    bch_prices = BCHPrice.objects.all().order_by('-time_dt')
 
     all_stats = {}
 
@@ -35,6 +36,11 @@ def main(request):
     distinct_subs = [''.join(i) for i in distinct_subs]
     all_stats['distinct_subs'] = distinct_subs
     all_stats['distinct_subs_amount'] = len(distinct_subs)
+
+    all_stats['bch_price'] = bch_prices.first().price_format
+    print(all_stats['bch_price'], type(all_stats['bch_price']))
+    print(all_stats['total_BCH'], type(all_stats['total_BCH']))
+    all_stats['total_USD_current'] = "{:.2f}".format(float(all_stats['total_BCH']) * all_stats['bch_price'])
 
     context = {
         'all_tips':all_tips,

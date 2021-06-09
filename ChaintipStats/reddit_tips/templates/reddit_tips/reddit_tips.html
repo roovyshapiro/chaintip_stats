@@ -14,12 +14,15 @@
             <p>Returned Tips: {{ all_stats.returned_tips }}</p>
             <p>Returned Percentage: {{ all_stats.returned_percentage }} </p>
             <p>Awaiting Claim:  {{ all_stats.claim_waiting }} - {{ all_stats.claim_waiting_percent }} </p>
-            <p>Total BCH Tipped: {{ all_stats.total_BCH }}</p>
-            <p>Total USD Tipped: {{ all_stats.total_USD }}</p>
-            <p>Earliest Tip: {{ all_stats.start_date }}</p>
-            <p>Subreddits: {{ all_stats.distinct_subs_amount }}
             <p> ---- </p>
 
+            <p>Current BCH Price: {{ all_stats.bch_price }}
+            <p>Total BCH Tipped: {{ all_stats.total_BCH }}</p>
+            <p>Total USD Tipped: {{ all_stats.total_USD }}</p>
+            <p>Total USD Tipped (current value): {{ all_stats.total_USD_current }}</p>
+            <p>Earliest Tip: {{ all_stats.start_date }}</p>
+            <p>Unique Subreddits: {{ all_stats.distinct_subs_amount }}
+            <p> ---- </p>
             <p>Top Tippers: </p>
             {% for user,tip in all_stats.top_senders %}
                 {% if user != ' ' %}

@@ -61,6 +61,7 @@ class CoinMarketCapAPI:
             api_response['time'] = data['data']['quote']['USD']['last_updated']
             api_response['time_dt'] = datetime.datetime.strptime(api_response['time'], "%Y-%m-%dT%H:%M:%S.000Z")
             api_response['full_response'] = data
+            print(f"1 BCH = {api_response['price_format']} USD")
         except (ConnectionError, Timeout, TooManyRedirects) as e:
             print(e)
             api_response = 'error'
