@@ -53,3 +53,47 @@ class RedditTip(models.Model):
 
     def __str__(self):
         return f'{self.sender} -> {self.receiver} - r/{self.subreddit} - {self.created_datetime.strftime("%Y-%m-%d %H:%M:%S")}'
+
+class BCHPrice(models.Model):
+    '''
+    Uses CoinMarketCap's API returns the following response in coinmarketcap.py:
+    {
+        "full_response": {
+            "data": {
+                "amount": 1,
+                "id": 1831,
+                "last_updated": "2021-06-09T03:09:07.000Z",
+                "name": "Bitcoin Cash",
+                "quote": {
+                    "USD": {
+                        "last_updated": "2021-06-09T03:09:07.000Z",
+                        "price": 570.8301798074937
+                    }
+                },
+                "symbol": "BCH"
+            },
+            "status": {
+                "credit_count": 1,
+                "elapsed": 19,
+                "error_code": 0,
+                "error_message": null,
+                "notice": null,
+                "timestamp": "2021-06-09T03:09:34.028Z"
+            }
+        },
+        "price": 570.8301798074937,
+        "price_format": "570.83",
+        "time": "2021-06-09T03:09:07.000Z"
+        'time_dt': datetime.datetime(2021, 6, 9, 3, 9, 7),
+    }
+    '''
+    price = models.CharField(max_length=30) 
+    price_format = models.FloatField()
+    time = models.CharField(max_length=30)
+    time_dt = models.DateTimeField(null=True)
+
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.price_format} - {self.time_dt.strftime("%Y-%m-%d %H:%M:%S")}'
