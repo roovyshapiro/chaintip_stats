@@ -184,4 +184,8 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'reddit_tips.tasks.get_tips',
         'schedule': crontab(minute='*/15'),
     },
+    'get_BCH_price':{
+        'task': 'reddit_tips.tasks.get_price',
+        'schedule': crontab(minute='*/30'),     
+    }
 }
