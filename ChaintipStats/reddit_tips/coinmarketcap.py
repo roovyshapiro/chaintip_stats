@@ -20,10 +20,33 @@ class CoinMarketCapAPI:
         '''
         returns the following:
         {
-            'price': 573.6099658775632, 
-            'price_format': '573.61', 
-            'time': '2021-06-09T02:10:08.000Z', 
-            'time_dt': datetime.datetime(2021, 6, 9, 2, 10, 8)
+            "full_response": {
+                "data": {
+                    "amount": 1,
+                    "id": 1831,
+                    "last_updated": "2021-06-09T03:09:07.000Z",
+                    "name": "Bitcoin Cash",
+                    "quote": {
+                        "USD": {
+                            "last_updated": "2021-06-09T03:09:07.000Z",
+                            "price": 570.8301798074937
+                        }
+                    },
+                    "symbol": "BCH"
+                },
+                "status": {
+                    "credit_count": 1,
+                    "elapsed": 19,
+                    "error_code": 0,
+                    "error_message": null,
+                    "notice": null,
+                    "timestamp": "2021-06-09T03:09:34.028Z"
+                }
+            },
+            "price": 570.8301798074937,
+            "price_format": "570.83",
+            "time": "2021-06-09T03:09:07.000Z"
+            'time_dt': datetime.datetime(2021, 6, 9, 3, 8, 8),
         }
         '''
         api_response = {}
