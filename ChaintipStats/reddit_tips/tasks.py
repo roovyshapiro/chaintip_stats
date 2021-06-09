@@ -3,8 +3,9 @@ from celery import Celery, shared_task
 from django.utils import timezone
 from django.utils.timezone import make_aware
  
-from .models import RedditTip
+from .models import RedditTip, BCHPrice
 from .chaintip_stats import Chaintip_stats
+from .coinmarketcap import CoinMarketCapAPI
 import json, os
 
 @shared_task
@@ -93,7 +94,6 @@ def get_tips():
             new_tip.returned = True
             new_tip.claimed = False
 
-
         new_tip.save()
 
 def retrieve_reddit_tips():
@@ -108,3 +108,64 @@ def retrieve_reddit_tips():
     chaintip_comments = chaintip_api.gather_chaintip_stats()
 
     return chaintip_comments
+
+@shared_task
+def get_price():
+    '''
+    Uses CoinMarketCap's API returns the following response in coinmarketcap.py:
+    {
+        "full_response": {
+            "data": {
+                "amount": 1,
+                "id": 1831,
+                "last_updated": "2021-06-09T03:09:07.000Z",
+                "name": "Bitcoin Cash",
+                "quote": {
+                    "USD": {
+                        "last_updated": "2021-06-09T03:09:07.000Z",
+                        "price": 570.8301798074937
+                    }
+                },
+                "symbol": "BCH"
+            },
+            "status": {
+                "credit_count": 1,
+                "elapsed": 19,
+                "error_code": 0,
+                "error_message": null,
+                "notice": null,
+                "timestamp": "2021-06-09T03:09:34.028Z"
+            }
+        },
+        "price": 570.8301798074937,
+        "price_format": "570.83",
+        "time": "2021-06-09T03:09:07.000Z"
+        'time_dt': datetime.datetime(2021, 6, 9, 3, 9, 7),
+    }
+    price = models.CharField(max_length=30) 
+    price_format = models.FloatField()
+    time = models.CharField(max_length=30)
+    time_dt = models.DateTimeField(null=True)
+
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.price_format} - {self.time_dt.strftime("%Y-%m-%d %H:%M:%S")}'   
+     '''
+
+    credentials_file = 'credentials.json'
+    credentials_path = os.path.join(os.path.abspath('..'), credentials_file)   
+    with open(credentials_path) as f:
+        data = f.read()
+    credential_dict = json.loads(data)
+    cmcapi = CoinMarketCapAPI(credential_dict['coinmarketcap_apikey'])
+    api_response = cmcapi.get_bch_price()
+
+    new_price = BCHPrice()
+    new_price.price = api_response['price']
+    new_price.price_format = api_response['price_format']
+    new_price.time = api_response['time']
+    new_price.time_dt = api_response['time_dt']
+
+    new_price.save()
