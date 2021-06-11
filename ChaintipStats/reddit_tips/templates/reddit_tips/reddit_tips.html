@@ -18,7 +18,7 @@
     </head>
     <body>
         <div>
-            <p>Earliest Tip: {{ all_stats.start_date }}</p>
+            <p>{{ all_stats.start_date }} - {{ all_stats.end_date }} </p>
         </div>
         <div>
             <div id="tip_data" class = "box_display_flex">
@@ -40,11 +40,7 @@
                 </div>
             </div>
             <div id = "price_data" class = "box_display_flex">
-                <div>
-                    <p class = "data_title">Current BCH Price </p>
-                    <p class = "data_numbers">${{ all_stats.bch_price }}</p>
-                </div>
-                <div>
+                 <div>
                     <p class = "data_title">Tip Total (BCH)</p>
                     <p class = "data_numbers">{{ all_stats.total_BCH }}</p>
                 </div>
@@ -56,6 +52,10 @@
                 <div>
                     <p class = "data_title">Tip Total (USD) <span class = "percent">(current price)</span></p>
                     <p class = "data_numbers">${{ all_stats.total_USD_current }}</p>
+                </div>
+               <div>
+                    <p class = "data_title">Current BCH Price </p>
+                    <p class = "data_numbers">${{ all_stats.bch_price }}</p>
                 </div>
             </div>
         </div>
@@ -126,7 +126,7 @@
             </div>
         </div>
 
-        <div id=all_tip_table_div" class = "stat_table_div">
+        <div id="all_tip_table_div" class = "stat_table_div">
             <table id="all_tip_table" class="data_table base_table_style">
                 <p class = "table_title">All Tips</p>
                 <thead>
@@ -145,8 +145,8 @@
                     {% for tip in all_tips %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td>{{ tip.sender }}</td>
-                            <td>{{ tip.receiver }}</td>
+                            <td><a href='https://reddit.com/{{ tip.sender }}'>{{ tip.sender }}</a></td>
+                            <td><a href='https://reddit.com/{{ tip.receiver }}'>{{ tip.receiver }}</a></td>
                             <td><a href='{{ tip.parent_comment_permalink }}'>{{ tip.subreddit }}</a></td>
                             <td>{{ tip.coin_amount }}</td>
                             <td>{{ tip.fiat_value }}</td>
