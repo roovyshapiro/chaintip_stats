@@ -29,13 +29,7 @@ def main(request):
     all_tips_receivers = all_tips.filter(~Q(returned = True))
     top_receivers = all_tips_receivers.values_list('receiver').annotate(receiver_count=Count('receiver')).order_by('-receiver_count')
     all_stats['top_receivers'] = top_receivers[0:16]
-    top_subs = all_tips.values_list('subreddit').annotate(subreddit_count=Count('subreddit')).order_by('-subreddit_count')
-    all_stats['top_subs'] = top_subs[0:21]
-
-    distinct_subs = all_tips.values_list('subreddit').distinct()
-    distinct_subs = [''.join(i) for i in distinct_subs]
-    all_stats['distinct_subs'] = distinct_subs
-    all_stats['distinct_subs_amount'] = len(distinct_subs)
+    all_stats['all_subs'] = all_tips.values_list('subreddit').annotate(subreddit_count=Count('subreddit')).order_by('-subreddit_count')
 
     all_stats['bch_price'] = bch_prices.first().price_format
     print(all_stats['bch_price'], type(all_stats['bch_price']))
