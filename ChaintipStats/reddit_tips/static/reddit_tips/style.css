@@ -44,3 +44,10 @@ body{
   border: 5px solid blue;
   border-radius: 10px;
 }
+
+.table_title{
+  text-align: center;
+  font-weight: bold;
+  font-size: xx-large;
+  padding-bottom: 20px;
+}
