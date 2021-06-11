@@ -82,6 +82,33 @@
                     </tbody>
                 </table>
             </div>
+
+            <div id = "tipper_table_div" class="stat_table_div">
+                <p class = "table_title">Top Tippers (by value)</p>
+                <table id="all_tipper_table" class="data_table base_table_style">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tipper</th>
+                            <th>BCH</th>
+                            <th>USD</th>
+                            <th>USD (current)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tipper, tipper_values in all_stats.sender_amount.items %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href='https://reddit.com/{{ tipper }}'>{{ tipper }}</a></td>
+                                <td>{{ tipper_values.bch }}</td>
+                                <td>{{ tipper_values.usd }}</td>
+                                <td>{{ tipper_values.usd_current }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
             <div id = "receiver_table_div" class="stat_table_div">
                 <p class = "table_title">Top Recipients</p>
                 <table id="all_receiver_table" class="data_table base_table_style">

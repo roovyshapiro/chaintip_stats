@@ -8,6 +8,7 @@ def main(request):
     bch_prices = BCHPrice.objects.all().order_by('-time_dt')
 
     all_stats = {}
+    all_stats['bch_price'] = bch_prices.first().price_format
 
     all_stats['total_tips'] = len(all_tips)
     all_stats['claimed_tips'] = len(all_tips.filter(claimed=True))
@@ -27,11 +28,22 @@ def main(request):
     all_stats['end_date'] = all_tips_ordered.first().created_datetime
 
     all_stats['all_senders'] = all_tips.filter(~Q(sender = " ")).values_list('sender').annotate(sender_count=Count('sender')).order_by('-sender_count')
+    #Organize senders by total value tipped
+    sender_amount = {}
+    for sender, count in all_stats['all_senders']:
+        sender_amount[sender] = {'bch':0,'usd':0,'usd_current':0}
+        for tip in all_tips:
+            if tip.sender == sender:
+                sender_amount[sender]['bch'] += float(tip.coin_amount)
+                sender_amount[sender]['usd'] += float(tip.fiat_value)
+        sender_amount[sender]['bch'] = "{0:.8f}".format(sender_amount[sender]['bch'])
+        sender_amount[sender]['usd'] = "{0:.2f}".format(sender_amount[sender]['usd'])
+        sender_amount[sender]['usd_current'] = "{0:.2f}".format(float(sender_amount[sender]['bch']) * all_stats['bch_price'])
+    all_stats['sender_amount'] = sender_amount
     all_tips_receivers = all_tips.filter(~Q(returned = True))
     all_stats['all_receivers'] = all_tips_receivers.values_list('receiver').annotate(receiver_count=Count('receiver')).order_by('-receiver_count')
     all_stats['all_subs'] = all_tips.values_list('subreddit').annotate(subreddit_count=Count('subreddit')).order_by('-subreddit_count')
 
-    all_stats['bch_price'] = bch_prices.first().price_format
     all_stats['total_USD_current'] = "{:.2f}".format(float(all_stats['total_BCH']) * all_stats['bch_price'])
 
     context = {

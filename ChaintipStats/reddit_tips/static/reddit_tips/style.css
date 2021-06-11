@@ -10,7 +10,7 @@ body{
 
 .box_display_flex{
   display:flex;
-  justify-content:space-evenly;
+  justify-content:center;
 }
 
 .box_display_flex div{
