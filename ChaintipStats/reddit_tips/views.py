@@ -30,8 +30,6 @@ def main(request):
     all_stats['all_subs'] = all_tips.values_list('subreddit').annotate(subreddit_count=Count('subreddit')).order_by('-subreddit_count')
 
     all_stats['bch_price'] = bch_prices.first().price_format
-    print(all_stats['bch_price'], type(all_stats['bch_price']))
-    print(all_stats['total_BCH'], type(all_stats['total_BCH']))
     all_stats['total_USD_current'] = "{:.2f}".format(float(all_stats['total_BCH']) * all_stats['bch_price'])
 
     context = {
