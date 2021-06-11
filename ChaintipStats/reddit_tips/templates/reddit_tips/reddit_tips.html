@@ -18,20 +18,48 @@
     </head>
     <body>
         <div>
-            <p>All Tips: {{ all_stats.total_tips }}</p>
-            <p>Claimed Tips: {{ all_stats.claimed_tips }}</p>
-            <p>Claimed Percentage: {{ all_stats.claimed_percentage }} </p>
-            <p>Returned Tips: {{ all_stats.returned_tips }}</p>
-            <p>Returned Percentage: {{ all_stats.returned_percentage }} </p>
-            <p>Awaiting Claim:  {{ all_stats.claim_waiting }} - {{ all_stats.claim_waiting_percent }} </p>
-            <p> ---- </p>
-            <p>Current BCH Price: {{ all_stats.bch_price }}
-            <p>Total BCH Tipped: {{ all_stats.total_BCH }}</p>
-            <p>Total USD Tipped: {{ all_stats.total_USD }}</p>
-            <p>Total USD Tipped (current value): {{ all_stats.total_USD_current }}</p>
             <p>Earliest Tip: {{ all_stats.start_date }}</p>
-            <p>Unique Subreddits: {{ all_stats.distinct_subs_amount }}
         </div>
+        <div>
+            <div id="tip_data" class = "box_display_flex">
+                <div>
+                    <p class = "data_title">All Tips<p> 
+                    <p class = "data_numbers">{{ all_stats.total_tips }}</p>
+                </div>
+                <div>
+                    <p class = "data_title">Claimed</p> 
+                    <p class = "data_numbers">{{ all_stats.claimed_tips }} <span class = "percent"> {{ all_stats.claimed_percentage }}</span></p>
+                </div>
+                <div>
+                    <p class = "data_title">Unclaimed</p>
+                    <p class = "data_numbers">{{ all_stats.claim_waiting }}  <span class = "percent"> {{ all_stats.claim_waiting_percent }}</span> </p>
+                </div>
+                <div>
+                    <p class = "data_title">Returned</p> 
+                    <p class = "data_numbers">{{ all_stats.returned_tips }} <span class = "percent"> {{ all_stats.returned_percentage }}</span></p>
+                </div>
+            </div>
+            <div id = "price_data" class = "box_display_flex">
+                <div>
+                    <p class = "data_title">Current BCH Price </p>
+                    <p class = "data_numbers">${{ all_stats.bch_price }}</p>
+                </div>
+                <div>
+                    <p class = "data_title">Tip Total (BCH)</p>
+                    <p class = "data_numbers">{{ all_stats.total_BCH }}</p>
+                </div>
+                <div>
+                    <p class = "data_title">Tip Total (USD)</p>
+                    <p class = "data_numbers">${{ all_stats.total_USD }}</p>
+                </div>
+
+                <div>
+                    <p class = "data_title">Tip Total (USD) <span class = "percent">(current price)</span></p>
+                    <p class = "data_numbers">${{ all_stats.total_USD_current }}</p>
+                </div>
+            </div>
+        </div>
+
         <div id = "all_table_divs">
             <div id = "tipper_table_div" class="stat_table_div">
                 <p class = "table_title">Top Tippers</p>
@@ -47,7 +75,7 @@
                         {% for tipper,tip in all_stats.all_senders %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td><a href='https://reddit.com/u/{{ sub }}'>{{ tipper }}</a></td>
+                                <td><a href='https://reddit.com/{{ tipper }}'>{{ tipper }}</a></td>
                                 <td>{{ tip }}</td>
                             </tr>
                         {% endfor %}
@@ -68,7 +96,7 @@
                         {% for recipient,tip in all_stats.all_receivers %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td><a href='https://reddit.com/u/{{ sub }}'>{{ recipient }}</a></td>
+                                <td><a href='https://reddit.com/{{ recipient }}'>{{ recipient }}</a></td>
                                 <td>{{ tip }}</td>
                             </tr>
                         {% endfor %}
@@ -98,8 +126,9 @@
             </div>
         </div>
 
-        <div id=all_tip_table_div">
+        <div id=all_tip_table_div" class = "stat_table_div">
             <table id="all_tip_table" class="data_table base_table_style">
+                <p class = "table_title">All Tips</p>
                 <thead>
                     <tr>
                         <th>#</th>

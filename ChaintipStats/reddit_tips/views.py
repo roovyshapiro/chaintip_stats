@@ -24,7 +24,7 @@ def main(request):
 
     all_tips_ordered = all_tips.order_by('-created_datetime')
     all_stats['start_date'] = all_tips_ordered.last().created_datetime
-    all_stats['all_senders'] = all_tips.values_list('sender').annotate(sender_count=Count('sender')).order_by('-sender_count')
+    all_stats['all_senders'] = all_tips.filter(~Q(sender = " ")).values_list('sender').annotate(sender_count=Count('sender')).order_by('-sender_count')
     all_tips_receivers = all_tips.filter(~Q(returned = True))
     all_stats['all_receivers'] = all_tips_receivers.values_list('receiver').annotate(receiver_count=Count('receiver')).order_by('-receiver_count')
     all_stats['all_subs'] = all_tips.values_list('subreddit').annotate(subreddit_count=Count('subreddit')).order_by('-subreddit_count')
