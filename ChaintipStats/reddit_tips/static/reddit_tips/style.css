@@ -30,3 +30,17 @@ body{
   color: white;
   text-align: left;
 }
+
+#all_table_divs{
+  display:flex;
+  margin-top:30px;
+  margin-bottom:50px;
+}
+
+.stat_table_div{
+  margin-right: 10px;
+  margin-left: 10px;
+  padding: 15px;
+  border: 5px solid blue;
+  border-radius: 10px;
+}
