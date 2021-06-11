@@ -50,11 +50,11 @@
                 </div>
 
                 <div>
-                    <p class = "data_title">Tip Total (USD) <span class = "percent">(current price)</span></p>
+                    <p class = "data_title">Tip Total (USD) <span class = "percent">(current)</span></p>
                     <p class = "data_numbers">${{ all_stats.total_USD_current }}</p>
                 </div>
                <div>
-                    <p class = "data_title">Current BCH Price </p>
+                    <p class = "data_title">BCH Price <span class = "percent">(current)</span> </p>
                     <p class = "data_numbers">${{ all_stats.bch_price }}</p>
                 </div>
             </div>
@@ -62,7 +62,7 @@
 
         <div id = "all_table_divs">
             <div id = "tipper_table_div" class="stat_table_div">
-                <p class = "table_title">Top Tippers</p>
+                <p class = "table_title">Tippers  <span class = "percent">(# of tips)</span></p>
                 <table id="all_tipper_table" class="data_table base_table_style">
                     <thead>
                         <tr>
@@ -84,7 +84,7 @@
             </div>
 
             <div id = "tipper_table_div" class="stat_table_div">
-                <p class = "table_title">Top Tippers (by value)</p>
+                <p class = "table_title">Tippers  <span class = "percent">(value of tips)</span></p>
                 <table id="all_tipper_table" class="data_table base_table_style">
                     <thead>
                         <tr>
@@ -110,7 +110,7 @@
             </div>
 
             <div id = "receiver_table_div" class="stat_table_div">
-                <p class = "table_title">Top Recipients</p>
+                <p class = "table_title">Recipients  <span class = "percent">(# of tips)</span></p>
                 <table id="all_receiver_table" class="data_table base_table_style">
                     <thead>
                         <tr>
@@ -131,7 +131,7 @@
                 </table>
             </div>
             <div id = "sub_table_div" class="stat_table_div">
-                <p class = "table_title">Top Subreddits</p>
+                <p class = "table_title">Subreddits  <span class = "percent">(# of tips)</span></p>
                 <table id="all_sub_table" class="data_table base_table_style">
                     <thead>
                         <tr>
