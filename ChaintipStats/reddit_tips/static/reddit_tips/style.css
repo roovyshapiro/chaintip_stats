@@ -8,26 +8,25 @@ body{
     font-family: 'Montserrat';
 }
 
-
-#tip_table {
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  #tip_table td, #tip_table th {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
-  
-  #tip_table tr:nth-child(even){background-color: #f2f2f2;}
-  
-  #tip_table tr:hover {background-color: #ddd;}
-  
-  #tip_table th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #04AA6D;
-    color: white;
-  }
+#all_tip_table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+#all_tip_table tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+#all_tip_table tr:hover {
+  background-color: #ddd;
+} 
+#all_tip_table td, #all_tip_table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#all_tip_table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #0ac18e;
+  color: white;
+  text-align: left;
+}
