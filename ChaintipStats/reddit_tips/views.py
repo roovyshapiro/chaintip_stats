@@ -68,10 +68,10 @@ def tip_per_day(all_tips):
     date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days + 1)]
     #Convert the list into a dict where each key is the date without hour, minute, second and
     #each value is 0
-    date_generated_dict = {i.replace(hour=0, minute =0, second = 0):0 for i in date_generated}
+    date_generated_dict = {i.replace(hour=0, minute =0, second = 0).strftime('%Y-%m-%d'):0 for i in date_generated}
 
     for tip in all_tips:
-        tip_date = tip.created_datetime.replace(hour=0, minute=0, second=0)
+        tip_date = tip.created_datetime.replace(hour=0, minute=0, second=0).strftime('%Y-%m-%d')
         if tip_date in date_generated_dict:
             date_generated_dict[tip_date] += 1
 

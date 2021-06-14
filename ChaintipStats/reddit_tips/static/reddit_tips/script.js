@@ -5,5 +5,5 @@ $(document).ready( function () {
     $('table.data_table').DataTable();
 } );
 
-var value = JSON.parse(document.getElementById('all_stats').textContent);
+var value = JSON.parse(document.getElementById('all_stats_tip_per_day').textContent);
 console.log(value);
