@@ -3,6 +3,8 @@ from django.db.models import Q, Sum, Count
 from django.shortcuts import render
 from .models import RedditTip, BCHPrice
 import datetime
+from collections import OrderedDict
+from operator import getitem
 
 def main(request):
     all_tips = RedditTip.objects.all()
@@ -42,7 +44,13 @@ def main(request):
         sender_amount[sender]['bch'] = "{0:.8f}".format(sender_amount[sender]['bch'])
         sender_amount[sender]['usd'] = "{0:.2f}".format(sender_amount[sender]['usd'])
         sender_amount[sender]['usd_current'] = "{0:.2f}".format(float(sender_amount[sender]['bch']) * all_stats['bch_price'])
-    all_stats['sender_amount'] = sender_amount
+    #https://www.geeksforgeeks.org/python-sort-nested-dictionary-by-key/
+    #Sorting nested dictionary by key so that the user with the highest 'bch' value ends up first
+    sorted_sender_amount = OrderedDict(sorted(sender_amount.items(), key = lambda x: getitem(x[1], 'bch'), reverse=True))
+
+    all_stats['sender_amount'] = sorted_sender_amount
+    print(sender_amount)
+
     all_tips_receivers = all_tips.filter(~Q(returned = True))
     all_stats['all_receivers'] = all_tips_receivers.values_list('receiver').annotate(receiver_count=Count('receiver')).order_by('-receiver_count')
     all_stats['all_subs'] = all_tips.values_list('subreddit').annotate(subreddit_count=Count('subreddit')).order_by('-subreddit_count')
