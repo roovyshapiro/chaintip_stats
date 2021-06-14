@@ -172,6 +172,7 @@
                     <th>USD</th>
                     <th>Status</th>
                     <th>Created (UTC)</th>
+                    <th>BCH TX</th>
                 </tr>
             </thead>
             <tbody>
@@ -191,6 +192,7 @@
                             <td>Sent</td>
                         {% endif %}
                         <td>{{ tip.created_datetime }}</td>
+                        <td><a href='{{tip.blockchain_tx}}'>{{ tip.blockchain_tx }}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
