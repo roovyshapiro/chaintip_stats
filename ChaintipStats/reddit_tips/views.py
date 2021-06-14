@@ -57,6 +57,7 @@ def main(request):
     all_stats['total_USD_current'] = "{:.2f}".format(float(all_stats['total_BCH']) * all_stats['bch_price'])
 
     all_stats['tip_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'))
+    all_stats['value_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'), tip_value=True)
 
     context = {
         'all_tips':all_tips,
@@ -66,7 +67,7 @@ def main(request):
 
 
 
-def tip_per_day(all_tips):
+def tip_per_day(all_tips, tip_value=False):
     '''
     Prepares a dict of # of tips per day
     '''
@@ -82,7 +83,10 @@ def tip_per_day(all_tips):
     for tip in all_tips:
         tip_date = tip.created_datetime.replace(hour=0, minute=0, second=0).strftime('%Y-%m-%d')
         if tip_date in date_generated_dict:
-            date_generated_dict[tip_date] += 1
+            if tip_value:
+                date_generated_dict[tip_date] += round(tip.fiat_value, 2)
+            else:
+                date_generated_dict[tip_date] += 1
 
     return date_generated_dict
 
