@@ -151,3 +151,7 @@ nav > a:hover{
 #all_tip_table_div{
   margin-bottom:20px;
 }
+
+#canvas_chart{
+  width:33%;
+}

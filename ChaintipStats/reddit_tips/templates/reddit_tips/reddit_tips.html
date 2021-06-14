@@ -46,6 +46,9 @@
     </div>
 
     {{ all_stats.tip_per_day_result|json_script:"all_stats_tip_per_day" }}
+    <div id = "canvas_chart">
+        <canvas id="tip_per_day"></canvas>
+    </div>
 
     <div id = "all_table_divs">
         <div id = "tipper_table_div" class="stat_table_div">
