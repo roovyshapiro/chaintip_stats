@@ -45,6 +45,8 @@
         </div>
     </div>
 
+    {{ all_stats.bch_price|json_script:"all_stats" }}
+
     <div id = "all_table_divs">
         <div id = "tipper_table_div" class="stat_table_div">
             <p class = "table_title">Tippers  <span class = "percent">(# of tips)</span></p>

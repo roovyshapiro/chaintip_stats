@@ -4,3 +4,6 @@
 $(document).ready( function () {
     $('table.data_table').DataTable();
 } );
+
+var value = JSON.parse(document.getElementById('all_stats').textContent);
+console.log(value);
