@@ -2,7 +2,7 @@ from django.http.response import HttpResponse
 from django.db.models import Q, Sum, Count
 from django.shortcuts import render
 from .models import RedditTip, BCHPrice
-import datetime
+import datetime, csv
 from collections import OrderedDict
 from operator import getitem
 
@@ -49,7 +49,6 @@ def main(request):
     sorted_sender_amount = OrderedDict(sorted(sender_amount.items(), key = lambda x: getitem(x[1], 'bch'), reverse=True))
 
     all_stats['sender_amount'] = sorted_sender_amount
-    print(sender_amount)
 
     all_tips_receivers = all_tips.filter(~Q(returned = True))
     all_stats['all_receivers'] = all_tips_receivers.values_list('receiver').annotate(receiver_count=Count('receiver')).order_by('-receiver_count')
@@ -86,6 +85,21 @@ def tip_per_day(all_tips):
             date_generated_dict[tip_date] += 1
 
     return date_generated_dict
+
+
+def export_csv_all_tips(request):
+    all_tips = RedditTip.objects.all().values_list('blockchain_tx', 'coin_amount', 'coin_type','fiat_type','fiat_value','receiver','sender','body_text','created_datetime','created_utc','comment_id','permalink','parent_id','parent_comment_permalink','score','subreddit','claimed','returned',)
+
+    response = HttpResponse(content_type='test/csv')
+
+    csv_writer = csv.writer(response)
+    csv_writer.writerow(['blockchain_tx', 'coin_amount', 'coin_type','fiat_type','fiat_value','receiver','sender','body_text','created_datetime','created_utc','comment_id','permalink','parent_id','parent_comment_permalink','score','subreddit','claimed','returned',])
+
+    for tip in all_tips:
+        csv_writer.writerow(tip)
+    response['Content-Disposition'] = 'attachment; filename="tips.csv"'
+
+    return response
 
 
 def populate_db(request):

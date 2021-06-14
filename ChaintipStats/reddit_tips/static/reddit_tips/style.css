@@ -145,7 +145,6 @@ nav > a:hover{
   text-align: center;
   font-weight: bold;
   font-size: xx-large;
-  padding-bottom: 20px;
 }
 
 #all_tip_table_div{
@@ -159,4 +158,24 @@ nav > a:hover{
 .canvas_chart{
   width:33%;
   margin-left:15px;
+}
+
+#export {
+  background-color: #222b37;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+  border: 2px solid blue;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 20px;
+  padding:2px;
+  float:right;
+}
+
+#export:hover{
+  border-radius: 5px;
+  background-color: blue;
+  border: 1px solid orange;
 }
