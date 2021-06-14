@@ -18,6 +18,8 @@ def main(request):
     all_stats['returned_percentage'] = format(all_stats['returned_tips'] / all_stats['total_tips'], '.2%')
     all_stats['claim_waiting'] = all_stats['total_tips'] - (all_stats['claimed_tips'] + all_stats['returned_tips'])
     all_stats['claim_waiting_percent'] = format(all_stats['claim_waiting'] / all_stats['total_tips'], '.2%')
+    all_stats['total_claimed_returned'] = {'Claimed':all_stats['claimed_tips'], 'Unclaimed': all_stats['claim_waiting'], 'Returned': all_stats['returned_tips'],}
+
 
     total_BCH = all_tips.aggregate(Sum('coin_amount'))
     all_stats['total_BCH'] = format(total_BCH['coin_amount__sum'], '.9')

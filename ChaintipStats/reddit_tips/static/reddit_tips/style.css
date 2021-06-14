@@ -152,6 +152,11 @@ nav > a:hover{
   margin-bottom:20px;
 }
 
-#canvas_chart{
+#charts_flex{
+  display:flex;
+}
+
+.canvas_chart{
   width:33%;
+  margin-left:15px;
 }

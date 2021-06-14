@@ -46,4 +46,27 @@ var myChart = new Chart(
     config
   );
 
-  /* */
+  /* Doughnut Chart */
+
+var total_claimed_returned = JSON.parse(document.getElementById('all_stats_total_claimed_returned').textContent);
+var tcr_keys = Object.keys(total_claimed_returned);
+var tcr_values = Object.values(total_claimed_returned);
+
+new Chart(document.getElementById("total_claimed_returned"), {
+    type: 'doughnut',
+    data: {
+      labels: tcr_keys,
+      datasets: [
+        {
+          backgroundColor: ["#ad84ff","#e8c3b9","#c45850"],
+          data: tcr_values
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Claimed Tips'
+      }
+    }
+});

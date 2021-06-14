@@ -45,9 +45,18 @@
         </div>
     </div>
 
-    {{ all_stats.tip_per_day_result|json_script:"all_stats_tip_per_day" }}
-    <div id = "canvas_chart">
-        <canvas id="tip_per_day"></canvas>
+    <div id="charts_flex">
+
+        {{ all_stats.tip_per_day_result|json_script:"all_stats_tip_per_day" }}
+        <div class = "canvas_chart">
+            <canvas id="tip_per_day"></canvas>
+        </div>
+
+        {{ all_stats.total_claimed_returned|json_script:"all_stats_total_claimed_returned" }}
+        <div class = "canvas_chart">
+            <canvas id="total_claimed_returned"></canvas>
+        </div>
+
     </div>
 
     <div id = "all_table_divs">
