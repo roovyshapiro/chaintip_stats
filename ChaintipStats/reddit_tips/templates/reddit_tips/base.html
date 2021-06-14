@@ -1,0 +1,40 @@
+{% load static %}
+
+<HTML>
+    <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+        <link rel="stylesheet" type="text/css" href="{% static 'reddit_tips/style.css' %}">
+        <!--
+        https://datatables.net/
+        Scrollable Tables have been replaced with Data Tables
+        which provide far more functionality including
+        sorting, filtering & choosing how many rows to load.
+        The following three links are necessary for Data Tables to work.
+        -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>  
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+
+        <nav id ="header">
+            <a class = "header_title" href="/">ChainTip Stats</a>
+            <a class = "header_what_is_this" href="/whatisthis">What Is This?</a>
+            <a class = "header_chain_tip" href="/chaintip">ChainTip</a>
+            <a class = "header_bch" href="/bitcoincash">Bitcoin Cash</a>
+        </nav>
+
+        {% block content %}
+        {% endblock %}
+
+        <div id ="footer_flex">
+            <div>Created by Roovy Shapiro</div>
+            <div><a href="https://github.com/roovyshapiro"><i class="fa fa-linkedin-square" style="font-size: 20px;"></i></a></div>
+            <div><a href="https://www.linkedin.com/in/roovyshapiro"><i class="fa fa-github" style="font-size: 20px;"></i></a></div>
+        </div>
+
+        <script type="text/javascript" src="{% static 'reddit_tips/script.js' %}"></script>
+    </body>
+</HTML>

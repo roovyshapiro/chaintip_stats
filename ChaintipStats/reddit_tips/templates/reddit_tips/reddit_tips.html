@@ -1,196 +1,179 @@
-{% load static %}
+{% extends 'reddit_tips/base.html' %}
 
-<HTML>
-    <head>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-        <link rel="stylesheet" type="text/css" href="{% static 'reddit_tips/style.css' %}">
-        <!--
-        https://datatables.net/
-        Scrollable Tables have been replaced with Data Tables
-        which provide far more functionality including
-        sorting, filtering & choosing how many rows to load.
-        The following three links are necessary for Data Tables to work.
-        -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>  
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <div>
-            <p>{{ all_stats.start_date }} - {{ all_stats.end_date }} </p>
-        </div>
-        <div>
-            <div id="tip_data" class = "box_display_flex">
-                <div>
-                    <p class = "data_title">All Tips<p> 
-                    <p class = "data_numbers">{{ all_stats.total_tips }}</p>
-                </div>
-                <div>
-                    <p class = "data_title">Claimed</p> 
-                    <p class = "data_numbers">{{ all_stats.claimed_tips }} <span class = "percent"> {{ all_stats.claimed_percentage }}</span></p>
-                </div>
-                <div>
-                    <p class = "data_title">Unclaimed</p>
-                    <p class = "data_numbers">{{ all_stats.claim_waiting }}  <span class = "percent"> {{ all_stats.claim_waiting_percent }}</span> </p>
-                </div>
-                <div>
-                    <p class = "data_title">Returned</p> 
-                    <p class = "data_numbers">{{ all_stats.returned_tips }} <span class = "percent"> {{ all_stats.returned_percentage }}</span></p>
-                </div>
+{% block content %}
+
+    <div>
+        <p>{{ all_stats.start_date }} - {{ all_stats.end_date }} </p>
+    </div>
+    <div>
+        <div id="tip_data" class = "box_display_flex">
+            <div>
+                <p class = "data_title">All Tips<p> 
+                <p class = "data_numbers">{{ all_stats.total_tips }}</p>
             </div>
-            <div id = "price_data" class = "box_display_flex">
-                 <div>
-                    <p class = "data_title">Tip Total (BCH)</p>
-                    <p class = "data_numbers">{{ all_stats.total_BCH }}</p>
-                </div>
-                <div>
-                    <p class = "data_title">Tip Total (USD)</p>
-                    <p class = "data_numbers">${{ all_stats.total_USD }}</p>
-                </div>
-
-                <div>
-                    <p class = "data_title">Tip Total (USD) <span class = "percent">(current)</span></p>
-                    <p class = "data_numbers">${{ all_stats.total_USD_current }}</p>
-                </div>
-               <div>
-                    <p class = "data_title">BCH Price <span class = "percent">(current)</span> </p>
-                    <p class = "data_numbers">${{ all_stats.bch_price }}</p>
-                </div>
+            <div>
+                <p class = "data_title">Claimed</p> 
+                <p class = "data_numbers">{{ all_stats.claimed_tips }} <span class = "percent"> {{ all_stats.claimed_percentage }}</span></p>
+            </div>
+            <div>
+                <p class = "data_title">Unclaimed</p>
+                <p class = "data_numbers">{{ all_stats.claim_waiting }}  <span class = "percent"> {{ all_stats.claim_waiting_percent }}</span> </p>
+            </div>
+            <div>
+                <p class = "data_title">Returned</p> 
+                <p class = "data_numbers">{{ all_stats.returned_tips }} <span class = "percent"> {{ all_stats.returned_percentage }}</span></p>
             </div>
         </div>
-
-        <div id = "all_table_divs">
-            <div id = "tipper_table_div" class="stat_table_div">
-                <p class = "table_title">Tippers  <span class = "percent">(# of tips)</span></p>
-                <table id="all_tipper_table" class="data_table base_table_style">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Tipper</th>
-                            <th>Tips</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for tipper,tip in all_stats.all_senders %}
-                            <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td><a href='https://reddit.com/{{ tipper }}'>{{ tipper }}</a></td>
-                                <td>{{ tip }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+        <div id = "price_data" class = "box_display_flex">
+                <div>
+                <p class = "data_title">Tip Total (BCH)</p>
+                <p class = "data_numbers">{{ all_stats.total_BCH }}</p>
+            </div>
+            <div>
+                <p class = "data_title">Tip Total (USD)</p>
+                <p class = "data_numbers">${{ all_stats.total_USD }}</p>
             </div>
 
-            <div id = "tipper_table_div" class="stat_table_div">
-                <p class = "table_title">Tippers  <span class = "percent">(value of tips)</span></p>
-                <table id="all_tipper_table" class="data_table base_table_style">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Tipper</th>
-                            <th>BCH</th>
-                            <th>USD</th>
-                            <th>USD (current)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for tipper, tipper_values in all_stats.sender_amount.items %}
-                            <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td><a href='https://reddit.com/{{ tipper }}'>{{ tipper }}</a></td>
-                                <td>{{ tipper_values.bch }}</td>
-                                <td>{{ tipper_values.usd }}</td>
-                                <td>{{ tipper_values.usd_current }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div>
+                <p class = "data_title">Tip Total (USD) <span class = "percent">(current)</span></p>
+                <p class = "data_numbers">${{ all_stats.total_USD_current }}</p>
             </div>
-
-            <div id = "receiver_table_div" class="stat_table_div">
-                <p class = "table_title">Recipients  <span class = "percent">(# of tips)</span></p>
-                <table id="all_receiver_table" class="data_table base_table_style">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Recipient</th>
-                            <th>Tips</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for recipient,tip in all_stats.all_receivers %}
-                            <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td><a href='https://reddit.com/{{ recipient }}'>{{ recipient }}</a></td>
-                                <td>{{ tip }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div id = "sub_table_div" class="stat_table_div">
-                <p class = "table_title">Subreddits  <span class = "percent">(# of tips)</span></p>
-                <table id="all_sub_table" class="data_table base_table_style">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Subreddit</th>
-                            <th>Tips</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for sub,tip in all_stats.all_subs %}
-                            <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td><a href='https://reddit.com/r/{{ sub }}'>{{ sub }}</a></td>
-                                <td>{{ tip }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div>
+                <p class = "data_title">BCH Price <span class = "percent">(current)</span> </p>
+                <p class = "data_numbers">${{ all_stats.bch_price }}</p>
             </div>
         </div>
+    </div>
 
-        <div id="all_tip_table_div" class = "stat_table_div">
-            <table id="all_tip_table" class="data_table base_table_style">
-                <p class = "table_title">All Tips</p>
+    <div id = "all_table_divs">
+        <div id = "tipper_table_div" class="stat_table_div">
+            <p class = "table_title">Tippers  <span class = "percent">(# of tips)</span></p>
+            <table id="all_tipper_table" class="data_table base_table_style">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Sender</th>
-                        <th>Receiver</th>
-                        <th>Subreddit</th>
-                        <th>BCH</th>
-                        <th>USD</th>
-                        <th>Status</th>
-                        <th>Created (UTC)</th>
+                        <th>Tipper</th>
+                        <th>Tips</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for tip in all_tips %}
+                    {% for tipper,tip in all_stats.all_senders %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td><a href='https://reddit.com/{{ tip.sender }}'>{{ tip.sender }}</a></td>
-                            <td><a href='https://reddit.com/{{ tip.receiver }}'>{{ tip.receiver }}</a></td>
-                            <td><a href='{{ tip.parent_comment_permalink }}'>{{ tip.subreddit }}</a></td>
-                            <td>{{ tip.coin_amount }}</td>
-                            <td>{{ tip.fiat_value }}</td>
-                            {% if tip.claimed %}
-                                <td>Claimed</td>
-                            {% elif tip.returned %}
-                                <td>Returned</td>
-                            {% else %}
-                                <td>Sent</td>
-                            {% endif %}
-                            <td>{{ tip.created_datetime }}</td>
+                            <td><a href='https://reddit.com/{{ tipper }}'>{{ tipper }}</a></td>
+                            <td>{{ tip }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <script type="text/javascript" src="{% static 'reddit_tips/script.js' %}"></script>
-    </body>
-</HTML>
+        <div id = "tipper_table_div" class="stat_table_div">
+            <p class = "table_title">Tippers  <span class = "percent">(value of tips)</span></p>
+            <table id="all_tipper_table" class="data_table base_table_style">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Tipper</th>
+                        <th>BCH</th>
+                        <th>USD</th>
+                        <th>USD (current)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tipper, tipper_values in all_stats.sender_amount.items %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href='https://reddit.com/{{ tipper }}'>{{ tipper }}</a></td>
+                            <td>{{ tipper_values.bch }}</td>
+                            <td>{{ tipper_values.usd }}</td>
+                            <td>{{ tipper_values.usd_current }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id = "receiver_table_div" class="stat_table_div">
+            <p class = "table_title">Recipients  <span class = "percent">(# of tips)</span></p>
+            <table id="all_receiver_table" class="data_table base_table_style">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Recipient</th>
+                        <th>Tips</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for recipient,tip in all_stats.all_receivers %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href='https://reddit.com/{{ recipient }}'>{{ recipient }}</a></td>
+                            <td>{{ tip }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id = "sub_table_div" class="stat_table_div">
+            <p class = "table_title">Subreddits  <span class = "percent">(# of tips)</span></p>
+            <table id="all_sub_table" class="data_table base_table_style">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Subreddit</th>
+                        <th>Tips</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sub,tip in all_stats.all_subs %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href='https://reddit.com/r/{{ sub }}'>{{ sub }}</a></td>
+                            <td>{{ tip }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="all_tip_table_div" class = "stat_table_div">
+        <table id="all_tip_table" class="data_table base_table_style">
+            <p class = "table_title">All Tips</p>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>Subreddit</th>
+                    <th>BCH</th>
+                    <th>USD</th>
+                    <th>Status</th>
+                    <th>Created (UTC)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tip in all_tips %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href='https://reddit.com/{{ tip.sender }}'>{{ tip.sender }}</a></td>
+                        <td><a href='https://reddit.com/{{ tip.receiver }}'>{{ tip.receiver }}</a></td>
+                        <td><a href='{{ tip.parent_comment_permalink }}'>{{ tip.subreddit }}</a></td>
+                        <td>{{ tip.coin_amount }}</td>
+                        <td>{{ tip.fiat_value }}</td>
+                        {% if tip.claimed %}
+                            <td>Claimed</td>
+                        {% elif tip.returned %}
+                            <td>Returned</td>
+                        {% else %}
+                            <td>Sent</td>
+                        {% endif %}
+                        <td>{{ tip.created_datetime }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

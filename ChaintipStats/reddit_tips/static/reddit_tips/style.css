@@ -6,7 +6,73 @@
 }
 body{
     font-family: 'Montserrat';
+    padding-top: 60px;
+    padding-bottom: 40px;
 }
+
+/* BASE.HTML */
+
+/* NAV Header */
+#header{
+  z-index: 1;
+
+  display:flex;
+  width: 100%;
+  position: fixed;        
+  background: #333;
+  color: #fff;
+  top: 0;
+}
+
+nav > a{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color:white;
+  text-decoration: none;
+  margin-top:5px;
+  margin-bottom:5px;
+  margin-left: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.header_title{
+  margin-right:auto !important;
+  font-weight:bold;
+  font-size:20px;
+  border: none;
+}
+
+nav > a:hover{
+  border-radius: 5px;
+  background-color: blue;
+  border: 1px solid orange;
+}
+
+#footer_flex{
+  display:flex;
+  position: fixed;
+  bottom: 0;   
+  width: 100%;
+  padding: 10px 0;
+  padding-left: 40px;
+  color: #fff;
+  background: #333;
+  font-size:15px;
+}
+
+#footer_flex div{
+  margin-right:10px;
+}
+
+#footer_flex a{
+  color:white;
+}
+
+/* */
+
 
 .box_display_flex{
   display:flex;
