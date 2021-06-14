@@ -2,6 +2,7 @@ from django.http.response import HttpResponse
 from django.db.models import Q, Sum, Count
 from django.shortcuts import render
 from .models import RedditTip, BCHPrice
+import datetime
 
 def main(request):
     all_tips = RedditTip.objects.all()
@@ -46,11 +47,36 @@ def main(request):
 
     all_stats['total_USD_current'] = "{:.2f}".format(float(all_stats['total_BCH']) * all_stats['bch_price'])
 
+    all_stats['tip_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'))
+
     context = {
         'all_tips':all_tips,
         'all_stats':all_stats,
     }
     return render(request, "reddit_tips/reddit_tips.html", context) 
+
+
+
+def tip_per_day(all_tips):
+    '''
+    Prepares a dict of # of tips per day
+    '''
+    start = all_tips.first().created_datetime
+    end =  all_tips.last().created_datetime
+
+    #Makes a list of all days in the range of the beginning and end of the available days in db
+    date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days + 1)]
+    #Convert the list into a dict where each key is the date without hour, minute, second and
+    #each value is 0
+    date_generated_dict = {i.replace(hour=0, minute =0, second = 0):0 for i in date_generated}
+
+    for tip in all_tips:
+        tip_date = tip.created_datetime.replace(hour=0, minute=0, second=0)
+        if tip_date in date_generated_dict:
+            date_generated_dict[tip_date] += 1
+
+    return date_generated_dict
+
 
 def populate_db(request):
     from .tasks import get_tips
