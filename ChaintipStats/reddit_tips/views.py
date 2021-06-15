@@ -8,15 +8,16 @@ from collections import OrderedDict
 from operator import getitem
 
 def main(request):
+
+    all_stats = {}
+
     date_request = request.GET.get('date_start')
     today, end_of_day, first_of_week, end_of_week, first_of_month, end_of_month = retrieve_dates(date_request)
-    print(today, end_of_day, first_of_week, end_of_week, first_of_month, end_of_month)
+    all_stats['today'] = today.strftime('%A, %B %d %Y')
     all_tips = RedditTip.objects.all()
     bch_prices = BCHPrice.objects.all().order_by('-time_dt')
 
-    all_stats = {}
     all_stats['bch_price'] = bch_prices.first().price_format
-
     all_stats['total_tips'] = len(all_tips)
     all_stats['claimed_tips'] = len(all_tips.filter(claimed=True))
     all_stats['claimed_percentage'] = format(all_stats['claimed_tips'] / all_stats['total_tips'], '.2%')

@@ -20,10 +20,18 @@
                 <label for="date_start">Date:</label>
                 <input type="date" name="date_start" id="date_start" min={{ all_stats.first_tip_date }} max={{ all_stats.last_tip_date }}>
                 <a href="#" id = "next_day_switcher" class="round_day_switcher" onclick="date_changer('tomorrow')">></a>
-                <button type="submit" id="cases_submit" onclick="save_group_date()">SUBMIT</button>
+                <button type="submit" class="timeframe_button" onclick="save_group_date()">Submit</button>
             </form>
         </div>
+
+        <div id = "day_week_month_buttons">
+            <a href="#" class="timeframe_button">Day</a>
+            <a href="#" class="timeframe_button">Week</a>
+            <a href="#" class="timeframe_button">Month</a>
+            <p>{{ all_stats.today }}</p>
+        </div>
     </div>
+
 
     <div>
         <div id="tip_data" class = "box_display_flex">
