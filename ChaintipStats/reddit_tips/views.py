@@ -1,12 +1,16 @@
 from django.http.response import HttpResponse
 from django.db.models import Q, Sum, Count
+from django.utils import timezone
 from django.shortcuts import render
 from .models import RedditTip, BCHPrice
-import datetime, csv
+import datetime, csv, calendar
 from collections import OrderedDict
 from operator import getitem
 
 def main(request):
+    date_request = request.GET.get('date_start')
+    today, end_of_day, first_of_week, end_of_week, first_of_month, end_of_month = retrieve_dates(date_request)
+    print(today, end_of_day, first_of_week, end_of_week, first_of_month, end_of_month)
     all_tips = RedditTip.objects.all()
     bch_prices = BCHPrice.objects.all().order_by('-time_dt')
 
@@ -59,13 +63,16 @@ def main(request):
     all_stats['tip_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'))
     all_stats['value_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'), tip_value=True)
 
+    #Min Max Values for Date Picker 
+    first_tip = all_tips_ordered.last().created_datetime
+    all_stats['first_tip_date'] = first_tip.strftime('%Y-%m-%d')
+    all_stats['last_tip_date'] = timezone.now().strftime('%Y-%m-%d')
+
     context = {
         'all_tips':all_tips,
         'all_stats':all_stats,
     }
     return render(request, "reddit_tips/reddit_tips.html", context) 
-
-
 
 def tip_per_day(all_tips, tip_value=False):
     '''
@@ -90,6 +97,35 @@ def tip_per_day(all_tips, tip_value=False):
 
     return date_generated_dict
 
+def retrieve_dates(date_request):
+    '''
+    today = (datetime.datetime(2020, 12, 4, 0, 0) 
+    end_of_day = (datetime.datetime(2020, 12, 4, 23, 59) 
+    first_of_week = (datetime.datetime(2020, 11, 30, 0, 0) 
+    end_of_week = (datetime.datetime(2020, 12, 6, 23, 59) 
+    first_of_month = (datetime.datetime(2020, 12, 1, 0, 0)
+    end_of_month = (datetime.datetime(2020, 12, 31, 23, 59)
+    '''
+    if date_request == '' or date_request == None:
+        today = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    else:
+        today = datetime.datetime.strptime(date_request, '%Y-%m-%d')
+
+    end_of_day = today.replace(hour=23, minute = 59, second = 59, microsecond = 0)
+
+    #0 = monday, 5 = Saturday, 6 = Sunday 
+    day = today.weekday()
+    first_of_week = today + timezone.timedelta(days = -day)
+    end_of_week = first_of_week + timezone.timedelta(days = 6)
+    end_of_week = end_of_week.replace(hour = 23, minute = 59, second = 59)
+
+    first_of_month = today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    year = first_of_month.year
+    month = first_of_month.month
+    last_day = calendar.monthrange(year,month)[1]
+    end_of_month = first_of_month.replace(day=last_day, hour=23, minute=59, second=59)
+
+    return today, end_of_day, first_of_week, end_of_week, first_of_month, end_of_month
 
 def export_csv_all_tips(request):
     all_tips = RedditTip.objects.all().values_list('blockchain_tx', 'coin_amount', 'coin_type','fiat_type','fiat_value','receiver','sender','body_text','created_datetime','created_utc','comment_id','permalink','parent_id','parent_comment_permalink','score','subreddit','claimed','returned',)
