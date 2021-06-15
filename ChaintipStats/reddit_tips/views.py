@@ -33,8 +33,12 @@ def main(request):
     all_stats['total_USD'] = "{:.2f}".format(total_USD['fiat_value__sum'])
 
     all_tips_ordered = all_tips.order_by('-created_datetime')
-    all_stats['start_date'] = all_tips_ordered.last().created_datetime
-    all_stats['end_date'] = all_tips_ordered.first().created_datetime
+    #all_stats['start_date'] = all_tips_ordered.last().created_datetime
+    #all_stats['end_date'] = all_tips_ordered.first().created_datetime
+    #Min Max Values for Date Picker 
+    first_tip = all_tips_ordered.last().created_datetime
+    all_stats['first_tip_date'] = first_tip.strftime('%Y-%m-%d')
+    all_stats['last_tip_date'] = timezone.now().strftime('%Y-%m-%d')
 
     all_stats['all_senders'] = all_tips.filter(~Q(sender = " ")).values_list('sender').annotate(sender_count=Count('sender')).order_by('-sender_count')
     #Organize senders by total value tipped
@@ -63,10 +67,7 @@ def main(request):
     all_stats['tip_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'))
     all_stats['value_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'), tip_value=True)
 
-    #Min Max Values for Date Picker 
-    first_tip = all_tips_ordered.last().created_datetime
-    all_stats['first_tip_date'] = first_tip.strftime('%Y-%m-%d')
-    all_stats['last_tip_date'] = timezone.now().strftime('%Y-%m-%d')
+
 
     context = {
         'all_tips':all_tips,
