@@ -89,26 +89,19 @@ function countdown_update(){
     }, 1000);
 }
 
-//When the submit button is clicked on the Case Dashboard, the 
+//When the submit button is clicked on the Dashboard, the 
 //date and group are saved to localstorage so it can be retrieved
-//after the page is reloaded. Sales dashboard utilizies date as well.
-function save_group_date(){
-    selected_group = document.getElementById("group_dropdown");
-    if(selected_group){
-        selected_group = document.getElementById("group_dropdown").value;
-        localStorage.setItem("selected_group", selected_group);
-    }
-
+//after the page is reloaded.
+function save_date(){
     selected_date = document.getElementById('date_start').value;
     localStorage.setItem("selected_date", selected_date);
     console.log(localStorage);
     document.getElementById("date_form").submit();
-
 }
 
 //This function is called when the arrows are clicked next to the timechanger
 //to change the date back and forth by one day. This automatically submits the page
-//as the submit function was moved to save_group_date()
+//as the submit function was moved to save_date()
 function date_changer(timeframe){
     //["2020", "12", "15"]
     var chosen_date_arr = localStorage.getItem('selected_date').split('-');
@@ -147,10 +140,15 @@ function date_changer(timeframe){
     new_date = `${chosen_date.getFullYear()}-${month}-${day}`;
     localStorage.setItem('selected_date', new_date);
     document.getElementById("date_start").value = new_date;
-    save_group_date();
+    save_date();
 }
 
-
+//When the Day, Week, Month or All button is clicked on the Dashboard
+function timeframe(selected_timeframe){
+  localStorage.setItem("selected_timeframe", selected_timeframe);
+  console.log(localStorage);
+  document.getElementById("time_frame_form").submit();
+}
 
 
 //********************** */
