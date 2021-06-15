@@ -28,10 +28,10 @@
             <a href="#" class="timeframe_button">Day</a>
             <a href="#" class="timeframe_button">Week</a>
             <a href="#" class="timeframe_button">Month</a>
+            <a href="#" class="timeframe_button">All</a>
             <p>{{ all_stats.today }}</p>
         </div>
     </div>
-
 
     <div>
         <div id="tip_data" class = "box_display_flex">
@@ -191,8 +191,8 @@
             <div>
                 <p class = "table_title">All Tips</p>
             </div>
-            <div>
-                <a id = "export" href="/export">EXPORT to CSV</a>
+            <div id = "export">
+                <a class = "timeframe_button" href="/export">EXPORT to CSV</a>
             </div>
         </div>
             <thead>
