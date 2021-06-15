@@ -2,6 +2,31 @@
 
 {% block content %}
 
+    <div id = "refresh_date_group">
+        <div class = "auto_refresh_box">
+            <div class='tooltip'>
+                <p class="round_day_switcher">?</p>
+                <p class="tooltiptext">Data is automatically retrieved from Reddit and CoinMarketCap every 30 minutes or so. However, the new data won't be displayed until the page is refreshed. Enabling the auto-refresh box will continue to automatically refresh the page at the end of the specified amount of minutes.</p>
+            </div>
+            <label id="number_input" for="minutes">Minutes:</label>
+            <input type="number" value='15' id="minutes_input" name="minutes" min="1" max="20" onchange="update_refresh_time()">
+            <input type="checkbox" id="checkbox_autoupdate" onclick="checkbox_click()" unchecked/>
+            <label id="auto_update_label" for="checkbox_autoupdate">Auto Refresh</label>
+        </div>
+
+        <div id ="date_selector">
+            <form id = "date_form" method="GET" action=".">
+                <a href="#" class="round_day_switcher" onclick="date_changer('yesterday')"><</a>
+                <label for="date_start">Date:</label>
+                <input type="date" name="date_start" id="date_start" min={{date_dict.first_db}} max={{date_dict.last_db}}>
+                <a href="#" id = "next_day_switcher" class="round_day_switcher" onclick="date_changer('tomorrow')">></a>
+                <button type="submit" id="cases_submit" onclick="save_group_date()">SUBMIT</button>
+            </form>
+        </div>
+    </div>
+
+
+
     <div>
         <p>Start: <strong>{{ all_stats.start_date }}</strong></p>
         <p>End: <strong>{{ all_stats.end_date }}</strong></p>
