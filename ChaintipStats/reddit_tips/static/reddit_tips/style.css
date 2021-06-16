@@ -6,7 +6,7 @@
 }
 body{
     font-family: 'Montserrat';
-    padding-top: 60px;
+    padding-top: 40px;
     padding-bottom: 40px;
 }
 
@@ -71,7 +71,12 @@ nav > a:hover{
   color:white;
 }
 
-/* */
+/* Donate Button */
+
+
+.jss2{
+  height:20px;
+}
 
 /* Auto Refresh / Group / Date Selector / ToolTip */
 
