@@ -71,7 +71,7 @@ def main(request):
 
 
     context = {
-        'all_tips':all_tips,
+        'all_tips':all_tips_ordered,
         'all_stats':all_stats,
     }
     return render(request, "reddit_tips/reddit_tips.html", context) 

@@ -137,8 +137,8 @@
                             <td>{{ forloop.counter }}</td>
                             <td><a href='https://reddit.com/{{ tipper }}'>{{ tipper }}</a></td>
                             <td>{{ tipper_values.bch }}</td>
-                            <td>{{ tipper_values.usd }}</td>
-                            <td>{{ tipper_values.usd_current }}</td>
+                            <td>${{ tipper_values.usd }}</td>
+                            <td>${{ tipper_values.usd_current }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -220,7 +220,7 @@
                         <td><a href='https://reddit.com/{{ tip.receiver }}'>{{ tip.receiver }}</a></td>
                         <td><a href='{{ tip.parent_comment_permalink }}'>{{ tip.subreddit }}</a></td>
                         <td>{{ tip.coin_amount }}</td>
-                        <td>{{ tip.fiat_value }}</td>
+                        <td>${{ tip.fiat_value}}</td>
                         {% if tip.claimed %}
                             <td>Claimed</td>
                         {% elif tip.returned %}
