@@ -20,18 +20,17 @@ def main(request):
     all_stats['bch_price'] = bch_prices.first().price_format
     all_stats['total_tips'] = len(all_tips)
     all_stats['claimed_tips'] = len(all_tips.filter(claimed=True))
-    all_stats['claimed_percentage'] = format(all_stats['claimed_tips'] / all_stats['total_tips'], '.2%')
+    all_stats['claimed_percentage'] = str(round(float(format(all_stats['claimed_tips'] / all_stats['total_tips'], '.2%').replace('%','')))) + '%'
     all_stats['returned_tips'] = len(all_tips.filter(returned=True))
-    all_stats['returned_percentage'] = format(all_stats['returned_tips'] / all_stats['total_tips'], '.2%')
+    all_stats['returned_percentage'] = str(round(float(format(all_stats['returned_tips'] / all_stats['total_tips'], '.2%').replace('%','')))) + '%'
     all_stats['claim_waiting'] = all_stats['total_tips'] - (all_stats['claimed_tips'] + all_stats['returned_tips'])
-    all_stats['claim_waiting_percent'] = format(all_stats['claim_waiting'] / all_stats['total_tips'], '.2%')
+    all_stats['claim_waiting_percent'] = str(round(float(format(all_stats['claim_waiting'] / all_stats['total_tips'], '.2%').replace('%','')))) + '%'
     all_stats['total_claimed_returned'] = {'Claimed':all_stats['claimed_tips'], 'Unclaimed': all_stats['claim_waiting'], 'Returned': all_stats['returned_tips'],}
 
-
     total_BCH = all_tips.aggregate(Sum('coin_amount'))
-    all_stats['total_BCH'] = format(total_BCH['coin_amount__sum'], '.9')
+    all_stats['total_BCH'] = total_BCH['coin_amount__sum']
     total_USD = all_tips.aggregate(Sum('fiat_value'))
-    all_stats['total_USD'] = "{:.2f}".format(total_USD['fiat_value__sum'])
+    all_stats['total_USD'] = total_USD['fiat_value__sum']
 
     all_tips_ordered = all_tips.order_by('-created_datetime')
     #all_stats['start_date'] = all_tips_ordered.last().created_datetime
@@ -50,9 +49,7 @@ def main(request):
             if tip.sender == sender:
                 sender_amount[sender]['bch'] += float(tip.coin_amount)
                 sender_amount[sender]['usd'] += float(tip.fiat_value)
-        sender_amount[sender]['bch'] = "{0:.8f}".format(sender_amount[sender]['bch'])
-        sender_amount[sender]['usd'] = "{0:.2f}".format(sender_amount[sender]['usd'])
-        sender_amount[sender]['usd_current'] = "{0:.2f}".format(float(sender_amount[sender]['bch']) * all_stats['bch_price'])
+        sender_amount[sender]['usd_current'] = float(sender_amount[sender]['bch']) * all_stats['bch_price']
     #https://www.geeksforgeeks.org/python-sort-nested-dictionary-by-key/
     #Sorting nested dictionary by key so that the user with the highest 'bch' value ends up first
     sorted_sender_amount = OrderedDict(sorted(sender_amount.items(), key = lambda x: getitem(x[1], 'bch'), reverse=True))

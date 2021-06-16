@@ -59,20 +59,20 @@
         <div id = "price_data" class = "box_display_flex">
                 <div>
                 <p class = "data_title">Tip Total (BCH)</p>
-                <p class = "data_numbers">{{ all_stats.total_BCH }}</p>
+                <p class = "data_numbers">{{ all_stats.total_BCH|floatformat:8 }}</p>
             </div>
             <div>
                 <p class = "data_title">Tip Total (USD)</p>
-                <p class = "data_numbers">${{ all_stats.total_USD }}</p>
+                <p class = "data_numbers">${{ all_stats.total_USD|floatformat:2 }}</p>
             </div>
 
             <div>
                 <p class = "data_title">Tip Total (USD) <span class = "percent">(current)</span></p>
-                <p class = "data_numbers">${{ all_stats.total_USD_current }}</p>
+                <p class = "data_numbers">${{ all_stats.total_USD_current|floatformat:2 }}</p>
             </div>
             <div>
                 <p class = "data_title">BCH Price <span class = "percent">(current)</span> </p>
-                <p class = "data_numbers">${{ all_stats.bch_price }}</p>
+                <p class = "data_numbers">${{ all_stats.bch_price|floatformat:2 }}</p>
             </div>
         </div>
     </div>
@@ -136,9 +136,9 @@
                         <tr>
                             <td>{{ forloop.counter }}</td>
                             <td><a href='https://reddit.com/{{ tipper }}'>{{ tipper }}</a></td>
-                            <td>{{ tipper_values.bch }}</td>
-                            <td>${{ tipper_values.usd }}</td>
-                            <td>${{ tipper_values.usd_current }}</td>
+                            <td>{{ tipper_values.bch|floatformat:8 }}</td>
+                            <td>${{ tipper_values.usd|floatformat:2 }}</td>
+                            <td>${{ tipper_values.usd_current|floatformat:2 }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -219,8 +219,8 @@
                         <td><a href='https://reddit.com/{{ tip.sender }}'>{{ tip.sender }}</a></td>
                         <td><a href='https://reddit.com/{{ tip.receiver }}'>{{ tip.receiver }}</a></td>
                         <td><a href='{{ tip.parent_comment_permalink }}'>{{ tip.subreddit }}</a></td>
-                        <td>{{ tip.coin_amount }}</td>
-                        <td>${{ tip.fiat_value}}</td>
+                        <td>{{ tip.coin_amount|floatformat:8 }}</td>
+                        <td>${{ tip.fiat_value|floatformat:2 }}</td>
                         {% if tip.claimed %}
                             <td>Claimed</td>
                         {% elif tip.returned %}
