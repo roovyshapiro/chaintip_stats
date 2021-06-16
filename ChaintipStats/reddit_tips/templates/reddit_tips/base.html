@@ -22,10 +22,59 @@
     <body>
         <nav id ="header">
             <a class = "header_title" href="/">CHAINTIP STATS</a>
-            <a class = "header_what_is_this" href="#">What Is This?</a>
-            <a class = "header_chain_tip" href="https://www.chaintip.org" target="_blank">ChainTip</a>
+            <a class = "header_what_is_this" id = "myBtn" href="#">What Is This?</a>
+            <a class = "header_chain_tip" href="https://www.chaintip.org" target="_blank">Chaintip</a>
             <a class = "header_bch" href="https://bchfaq.com/" target="_blank">Bitcoin Cash</a>
         </nav>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>What is Chaintip and how does it work?</h2>
+                <div class="text_response">
+                    <p><a href="https://www.chaintip.org/" target="_blank">Chaintip</a> for Reddit was created by <a href="https://www.reddit.com/user/tibanne" target="_blank">u/Tibanne</a> to allow users to easily tip Bitcoin Cash to each other directly.</p>
+                    <p>Let's say you want to tip a user for a comment or post they made on reddit:</p>
+                    <ol>
+                    <li>Simply reply to their comment or post and mention "<a href="https://www.reddit.com/user/chaintip" target="_blank">u/chaintip</a>".</li>
+                    <li>Chaintip then sends you a private message letting you know which Bitcoin Cash address to send the tip to.</li>
+                    <li>The user can then claim the tip by checking the private message they received from u/chaintip and replying with a Bitcoin Cash <a href="https://wallet.bitcoin.com/" target="_blank">wallet</a> address.</li>
+                    <li>Chaintip sends them the Bitcoin Cash and edits the original comment to let everyone know the tip was claimed.</li>
+                    <li>If the user doesn't claim the tip within a week, it gets returned to the sender.</li>
+                    </ol>
+                </div>
+                <h2>What's the purpose of Chaintip Stats?</h2>
+                <div class="text_response">
+                    <p>Chaintip Stats provides analysis regarding the usage of Chaintip throughout Reddit with data points such as:</p>
+                    <ul>
+                        <li>How much Bitcoin Cash was tipped in total?&nbsp;</li>
+                        <li>How much was it worth in USD at the time of the tip being sent and how much is it worth now?</li>
+                        <li>Which user is sending the most number of tips?</li>
+                        <li>Which user is sending the most value?</li>
+                        <li>Which subreddits have the most tips?</li>
+                        <li>etc.</li>
+                    </ul>
+                </div>
+                <h2>How does Chaintip Stats work?</h2>
+                <div class="text_response">
+                    <p>Chaintip Stats is a web application built with Django.</p> 
+                    <p>Every few minutes, all the recent comments from u/chaintip are collected from Reddit via API and then stored in a database.</p>
+                    <p>Current BCH -&gt; USD price data is retrieved from the CoinMarketCap API and stored as well.</p>
+                    <p>Some Django magic is done on the back end to calculate and present the data to the web page.</p>
+                    <p><a href="https://datatables.net/" target="_blank">DataTables</a> is used to give the tables some extra functionality.</p>
+                    <p><a href="https://www.chartjs.org/docs/master/" target="_blank">Chart.JS</a> is used to present the data in graphs and charts.</p>
+                    <p>Check out the project on <a href="https://github.com/roovyshapiro/chaintip_stats" target="_blank">github</a> to learn more.</p>
+                </div>
+                <h2><a href="https://whybitcoincash.com/" target="_blank">Why Bitcoin Cash?</a></h2>
+                <div class="text_response">
+                    <p>Bitcoin Cash (BCH) is the most faithful implementation of Satoshi Nakamoto's Bitcoin CryptoCurrency project. BCH is focused on low fees, adoption, scalability and usage as an actual currency for everyday transcations.</p>
+                    <p><em>"Bitcoin Cash is a global, peer-to-peer cryptocurrency that allows value to be sent to anyone, anywhere in the world, without intermediaries. Bitcoin Cash is not controlled by any single entity and is instead secured permissionlessly by thousands of computers around the world dedicated to maintaining the network.</em></p>
+                    <p><em>Bitcoin Cash is decentralized so that no business, institution, or government can control it and no one can censor your payments. It is an alternative to government-controlled fiat currency that has been mismanaged and debased to an unprecedented degree. Bitcoin Cash, on the other hand, maintains a diminishing minting schedule and will forever be capped at 21 million coins."</em></p>
+                    <p><a href ="https://bchfaq.com/faq/what-is-bitcoin-cash/" target="_blank">-https://bchfaq.com/faq/what-is-bitcoin-cash/</a></p>
+                </div>
+            </div>
+        </div>
 
         {% block content %}
         {% endblock %}
