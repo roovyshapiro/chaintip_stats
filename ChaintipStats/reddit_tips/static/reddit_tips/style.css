@@ -6,7 +6,7 @@
 }
 body{
     font-family: 'Montserrat';
-    padding-top: 40px;
+    padding-top: 50px;
     padding-bottom: 40px;
 }
 
@@ -15,7 +15,7 @@ body{
 /* NAV Header */
 #header{
   z-index: 1;
-
+  height:50px;
   display:flex;
   width: 100%;
   position: fixed;        
@@ -47,8 +47,8 @@ nav > a{
 
 nav > a:hover{
   border-radius: 5px;
-  background-color: blue;
-  border: 1px solid orange;
+  background-color: white;
+  color:#333;
 }
 
 #footer_flex{
@@ -241,6 +241,7 @@ nav > a:hover{
 #charts_flex{
   display:flex;
   margin-left:50px;
+  margin-top:10px;
 }
 
 .canvas_chart{
