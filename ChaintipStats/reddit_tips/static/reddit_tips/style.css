@@ -69,13 +69,20 @@ nav > a:hover{
 
 /* Modal Content */
 .modal-content {
-  background-color: #fefefe;
+  background-color: white;
+  border-radius: 20px;
   margin: auto;
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-top:20px;
+  padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 60%;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+  animation-name: animatetop;
+  animation-duration: 0.8s;
+}
+
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
 }
 
 .modal-content p{
@@ -83,11 +90,18 @@ nav > a:hover{
 }
 
 .text_response{
-  width:80%;
-  text-align:justify;
-  margin-top:10px;
-  margin-bottom:20px;
-  font-size:14px;
+    text-align: justify;
+    font-size: 14px;
+    margin: auto;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 30%), 0 0 40px rgb(0 0 0 / 10%) inset;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.text_response h2{
+  margin-bottom:10px;
 }
 
 .text_response ul,ol{
@@ -100,10 +114,11 @@ nav > a:hover{
 
 /* The Close Button */
 .close {
-  color: #aaaaaa;
+  color: black;
   float: right;
-  font-size: 28px;
+  font-size: 40px;
   font-weight: bold;
+  margin-right:10px;
 }
 
 .close:hover,
