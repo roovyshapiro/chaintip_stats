@@ -13,6 +13,9 @@
             <input type="checkbox" id="checkbox_autoupdate" onclick="checkbox_click()" unchecked/>
             <label id="auto_update_label" for="checkbox_autoupdate">Auto Refresh</label>
         </div>
+        <div>
+            Starting From: <strong>{{ all_stats.start_date|date:"l, F jS Y"}}</strong>
+        </div>
         <!--
         This feature to show different timeframes worth of data is a work in progress.
         Will revisit it soon as its not strictly necessary for the initial release.

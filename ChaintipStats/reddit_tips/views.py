@@ -33,7 +33,7 @@ def main(request):
     all_stats['total_USD'] = total_USD['fiat_value__sum']
 
     all_tips_ordered = all_tips.order_by('-created_datetime')
-    #all_stats['start_date'] = all_tips_ordered.last().created_datetime
+    all_stats['start_date'] = all_tips_ordered.last().created_datetime
     #all_stats['end_date'] = all_tips_ordered.first().created_datetime
     #Min Max Values for Date Picker 
     first_tip = all_tips_ordered.last().created_datetime
