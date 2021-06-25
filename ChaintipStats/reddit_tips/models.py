@@ -2,6 +2,7 @@ from os import set_inheritable
 from django.db import models
 from django.utils import timezone
 
+
 class RedditTip(models.Model):
     '''
     Example Tip:
@@ -32,7 +33,7 @@ class RedditTip(models.Model):
     coin_type = models.CharField(max_length=10)
     fiat_type = models.CharField(max_length=10)
     fiat_value = models.FloatField()
-    receiver = models.CharField(max_length=30) 
+    receiver = models.CharField(max_length=30)
     sender = models.CharField(max_length=30)
 
     body_text = models.TextField()
@@ -87,7 +88,7 @@ class BCHPrice(models.Model):
         'time_dt': datetime.datetime(2021, 6, 9, 3, 9, 7),
     }
     '''
-    price = models.CharField(max_length=30) 
+    price = models.CharField(max_length=30)
     price_format = models.FloatField()
     time = models.CharField(max_length=30)
     time_dt = models.DateTimeField(null=True)

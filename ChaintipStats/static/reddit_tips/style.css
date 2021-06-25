@@ -1,0 +1,335 @@
+  
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+}
+body{
+    font-family: 'Montserrat';
+    padding-top: 50px;
+    padding-bottom: 40px;
+}
+
+/* BASE.HTML */
+
+/* NAV Header */
+#header{
+  z-index: 1;
+  height:50px;
+  display:flex;
+  width: 100%;
+  position: fixed;        
+  background: #333;
+  color: #fff;
+  top: 0;
+}
+
+nav > a{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color:white;
+  text-decoration: none;
+  margin-top:5px;
+  margin-bottom:5px;
+  margin-left: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.header_title{
+  margin-right:auto !important;
+  font-weight:bold;
+  font-size:20px;
+  border: none;
+}
+
+nav > a:hover{
+  border-radius: 5px;
+  background-color: white;
+  color:#333;
+}
+
+/* What is This? - pop-up modal */
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: white;
+  border-radius: 20px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+  animation-name: animatetop;
+  animation-duration: 0.8s;
+}
+
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+
+.modal-content p{
+  line-height: 1.8;
+}
+
+.text_response{
+    text-align: justify;
+    font-size: 14px;
+    margin: auto;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 30%), 0 0 40px rgb(0 0 0 / 10%) inset;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.text_response h2{
+  margin-bottom:10px;
+}
+
+.text_response ul,ol{
+  margin-left:10px;
+}
+.text_response li{
+  margin-left:15px;
+  margin-top:5px;
+}
+
+/* The Close Button */
+.close {
+  color: black;
+  float: right;
+  font-size: 40px;
+  font-weight: bold;
+  margin-right:10px;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+/* Footer  */
+#footer_flex{
+  display:flex;
+  position: fixed;
+  bottom: 0;   
+  width: 100%;
+  padding: 10px 0;
+  padding-left: 40px;
+  color: #fff;
+  background: #333;
+  font-size:15px;
+}
+
+#footer_flex div{
+  margin-right:10px;
+}
+
+#footer_flex a{
+  color:white;
+}
+
+/* Donate Button */
+
+
+.jss2{
+  height:20px;
+}
+
+/* Auto Refresh / Group / Date Selector / ToolTip */
+
+#refresh_date_group{
+  margin-left:10px;
+}
+
+.auto_refresh_box{
+  margin-bottom:1px;
+}
+
+.round_day_switcher {
+  background-color: lightgray;
+  color: black;
+  padding: 2px 8px;
+  border-radius: 60%;
+  margin-top:2px;
+  font-weight:bold;
+  text-decoration: none;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 300px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 105%;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+/**/
+#day_week_month_buttons{
+  display:flex;
+}
+
+.timeframe_button {
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+	background-color:#ededed;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#777777;
+	font-family:Arial;
+	font-size:12px;
+	font-weight:bold;
+	padding:3px 12px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+  margin-right:5px;
+  margin-top:3px;
+  margin-bottom:5px;
+}
+.timeframe_button:hover {
+	background:linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
+	background-color:#dfdfdf;
+}
+.timeframe_button:active {
+	position:relative;
+	top:1px;
+}
+
+#day_week_month_buttons p{
+  align-self:center;
+  font-weight:bold;
+}
+
+/**/
+
+.box_display_flex{
+  display:flex;
+  justify-content:center;
+}
+
+.box_display_flex div{
+  box-shadow: 0 1px 4px rgb(0 0 0 / 30%), 0 0 40px rgb(0 0 0 / 10%) inset;  border-radius: 10px;
+  margin: 20px;
+  padding: 20px;
+}
+
+.data_title{
+  text-align: center;
+  font-weight: bold;
+  font-size: xx-large;
+  padding-bottom: 20px;
+}
+
+.data_numbers{
+  font-size:xx-large;
+  font-weight:normal;
+  text-align:center;
+}
+
+.percent{
+  font-size:large;
+  font-weight:normal;
+}
+
+.base_table_style {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+.base_table_style tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+.base_table_style tr:hover {
+  background-color: #ddd;
+} 
+.base_table_style td, .base_table_style th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+.base_table_style th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #ee8c28;
+  color: white;
+  text-align: left;
+}
+
+#all_table_divs{
+  display:flex;
+  margin-top:30px;
+  margin-bottom:50px;
+}
+
+.stat_table_div{
+  margin-right: 10px;
+  margin-left: 10px;
+  padding: 15px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 30%), 0 0 40px rgb(0 0 0 / 10%) inset;  
+  border-radius: 10px;
+}
+
+.table_title{
+  text-align: center;
+  font-weight: bold;
+  font-size: xx-large;
+}
+
+#all_tip_table_div{
+  margin-bottom:20px;
+}
+
+#charts_flex{
+  display:flex;
+  margin-left:50px;
+  margin-top:10px;
+}
+
+.canvas_chart{
+  width:31%;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 30%), 0 0 40px rgb(0 0 0 / 10%) inset;
+  margin-right:50px;
+  padding-bottom:10px;
+}
+
+#export{
+  float: right;
+}
