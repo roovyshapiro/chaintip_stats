@@ -333,3 +333,34 @@ nav > a:hover{
 #export{
   float: right;
 }
+
+/****** Mobile Friendly ******/
+
+@media only screen and (max-width: 768px) {
+  #both_boxes_display_flex{
+    display:flex;
+    width:100%;
+  }
+  .box_display_flex{
+    flex-direction:column;
+    width:50%;
+  }
+  .box_display_flex div{
+    flex-basis:100%;
+  }
+  .data_title{
+    font-size:15px;
+  }
+  .data_numbers{
+    font-size:15px;
+  }
+  .percent{
+    font-size:10px;
+  }
+  #charts_flex{
+    flex-direction:column;
+  }
+  #all_table_divs{
+    flex-direction: column;
+  }
+}
