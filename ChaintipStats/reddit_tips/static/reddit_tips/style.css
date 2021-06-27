@@ -337,6 +337,39 @@ nav > a:hover{
 /****** Mobile Friendly ******/
 
 @media only screen and (max-width: 768px) {
+  body{
+    padding-top:30px;
+  }
+  /* NAV Header */
+  #header{
+    height:30px;
+    width: 100%;
+    font-size:10px;
+  }
+  nav > a{
+    margin-top:5px;
+    margin-bottom:5px;
+    margin-left: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .header_title{
+    margin-right:auto !important;
+    font-weight:bold;
+    font-size:15px;
+    border: none;
+  }
+  nav > a:hover{
+    border-radius: 5px;
+    background-color: white;
+    color:#333;
+  }
+
+  #refresh_date_group{
+    text-align:center;
+    font-size:10px;
+    margin-top:10px;
+  }
   #both_boxes_display_flex{
     display:flex;
     width:100%;
@@ -358,9 +391,38 @@ nav > a:hover{
     font-size:10px;
   }
   #charts_flex{
+    display:flex;
     flex-direction:column;
+    justify-content: space-between;
+    margin:0px;
+  }
+  .canvas_chart{
+    margin-bottom:10px;
+    height:200px;
+    width:390px;
   }
   #all_table_divs{
     flex-direction: column;
+  }
+  /* Footer  */
+  #footer_flex{
+    display:flex;
+    position: fixed;
+    bottom: 0;   
+    width: 100%;
+    padding: 2px 0;
+    font-size:10px;
+    padding-top:8px;
+  }
+
+  #footer_flex div{
+    margin-right:12px;
+  }
+  #created_by{
+    padding-left:5px;
+  }
+  #created_name::before{
+    content: "\a";
+    white-space: pre;
   }
 }
