@@ -33,7 +33,7 @@ SECRET_KEY = credential_dict['django_secret_key']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.55.145']
 
 
 # Application definition

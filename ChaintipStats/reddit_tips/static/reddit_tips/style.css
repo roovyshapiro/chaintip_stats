@@ -69,13 +69,10 @@ nav > a:hover{
 
 /* Modal Content */
 .modal-content {
-  background-color: white;
   border-radius: 20px;
   margin: auto;
   padding: 20px;
-  border: 1px solid #888;
   width: 60%;
-  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
   animation-name: animatetop;
   animation-duration: 0.8s;
 }
@@ -95,7 +92,7 @@ nav > a:hover{
     margin: auto;
     background-color: white;
     border-radius: 20px;
-    box-shadow: 0 1px 4px rgb(0 0 0 / 30%), 0 0 40px rgb(0 0 0 / 10%) inset;
+    box-shadow: inset 0 0 10px #000000;
     padding: 20px;
     margin-bottom: 20px;
 }
@@ -326,7 +323,7 @@ nav > a:hover{
 .canvas_chart{
   width:31%;
   box-shadow: 0 1px 4px rgb(0 0 0 / 30%), 0 0 40px rgb(0 0 0 / 10%) inset;
-  margin-right:50px;
+  margin:0 auto;
   padding-bottom:10px;
 }
 
@@ -343,15 +340,14 @@ nav > a:hover{
   /* NAV Header */
   #header{
     height:30px;
-    width: 100%;
     font-size:10px;
   }
   nav > a{
     margin-top:5px;
     margin-bottom:5px;
-    margin-left: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
+    margin-left: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
   }
   .header_title{
     margin-right:auto !important;
@@ -398,11 +394,23 @@ nav > a:hover{
   }
   .canvas_chart{
     margin-bottom:10px;
-    height:200px;
-    width:390px;
+    width:90%;
   }
   #all_table_divs{
     flex-direction: column;
+  }
+  .stat_table_div{
+    overflow-x: auto;
+  }
+  /* What is This? */
+  .modal-content{
+    width:100%;
+  }
+  .text-response{
+    box-shadow:inset 0 0 10px #000000;
+  }
+  .text-response p{
+    font-size: 8px;
   }
   /* Footer  */
   #footer_flex{
@@ -410,13 +418,13 @@ nav > a:hover{
     position: fixed;
     bottom: 0;   
     width: 100%;
-    padding: 2px 0;
+    padding: 3px 0;
     font-size:10px;
     padding-top:8px;
   }
 
   #footer_flex div{
-    margin-right:12px;
+    margin-right:3%;
   }
   #created_by{
     padding-left:5px;
