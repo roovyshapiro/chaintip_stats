@@ -404,6 +404,7 @@ nav > a:hover{
   }
   .stat_table_div{
     overflow-x: auto;
+    margin-bottom:20px;
   }
   /* What is This? */
   .modal-content{
