@@ -413,6 +413,7 @@ nav > a:hover{
   }
   .all_table_divs{
     flex-direction: column;
+    flex-wrap: nowrap;
   }
   .stat_table_div{
     overflow-x: auto;
