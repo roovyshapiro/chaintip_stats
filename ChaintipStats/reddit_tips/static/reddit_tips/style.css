@@ -240,7 +240,7 @@ nav > a:hover{
 
 .box_display_flex{
   display:flex;
-  justify-content:center;
+  justify-content:space-evenly;
 }
 
 .box_display_flex div{
@@ -248,6 +248,7 @@ nav > a:hover{
   box-shadow: 0 1rem 2rem rgb(0 0 0 / 20%);  border-radius: 10px;
   margin: 20px;
   padding: 20px;
+  flex:1;
 }
 
 .data_title{
@@ -295,9 +296,12 @@ nav > a:hover{
   display:flex;
   margin-top:30px;
   margin-bottom:50px;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 .stat_table_div{
+  flex:1;
   margin-right: 10px;
   margin-left: 10px;
   padding: 15px;
@@ -318,16 +322,20 @@ nav > a:hover{
 
 #charts_flex{
   display:flex;
-  margin-left:50px;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
   margin-top:10px;
 }
 
 .canvas_chart{
-  width:31%;
+  flex:1;
+  width:32%;
   background-color: white;
   box-shadow: 0 1rem 2rem rgb(0 0 0 / 20%);  margin:0 auto;
   border-radius: 10px;
   padding-bottom:10px;
+  margin-left:10px;
+  margin-right:10px;
 }
 
 #export{
