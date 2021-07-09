@@ -292,7 +292,7 @@ nav > a:hover{
   text-align: left;
 }
 
-#all_table_divs{
+.all_table_divs{
   display:flex;
   margin-top:30px;
   margin-bottom:50px;
@@ -407,7 +407,7 @@ nav > a:hover{
     margin-bottom:10px;
     width:90%;
   }
-  #all_table_divs{
+  .all_table_divs{
     flex-direction: column;
   }
   .stat_table_div{
