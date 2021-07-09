@@ -53,8 +53,9 @@ def main(request):
     #https://www.geeksforgeeks.org/python-sort-nested-dictionary-by-key/
     #Sorting nested dictionary by key so that the user with the highest 'bch' value ends up first
     sorted_sender_amount = OrderedDict(sorted(sender_amount.items(), key = lambda x: getitem(x[1], 'bch'), reverse=True))
-
     all_stats['sender_amount'] = sorted_sender_amount
+
+    all_stats['senders_by_subs'] = sender_subreddits(all_stats['all_senders'], all_tips)
 
     all_tips_receivers = all_tips.filter(~Q(returned = True))
     all_stats['all_receivers'] = all_tips_receivers.values_list('receiver').annotate(receiver_count=Count('receiver')).order_by('-receiver_count')
@@ -95,6 +96,28 @@ def tip_per_day(all_tips, tip_value=False):
                 date_generated_dict[tip_date] += 1
 
     return date_generated_dict
+
+
+def sender_subreddits(all_senders, all_tips):
+    '''
+    Orders Tippers by the amount of unique subreddits they tipped in.
+    A user who tipped 100 tips in only one subreddit will get a count of 1.
+    '''
+    #all_senders = all_tips.filter(~Q(sender = " ")).values_list('sender').annotate(sender_count=Count('subreddit')).order_by('-sender_count')
+    sender_amount = {}
+    for sender, count in all_senders:
+        sender_amount[sender] = {}
+        sender_subs = []
+        for tip in all_tips:
+            if tip.sender == sender:
+                sender_subs.append(tip.subreddit)
+        sender_amount[sender]['subs'] = [i for i in set(sender_subs)]
+        sender_amount[sender]['subs_len'] = len(sender_amount[sender]['subs'])
+        #sender_amount[sender]['count'] = count
+    #https://www.geeksforgeeks.org/python-sort-nested-dictionary-by-key/
+    #Sorting nested dictionary by key so that the user with the highest 'bch' value ends up first
+    sorted_sender_subs = OrderedDict(sorted(sender_amount.items(), key = lambda x: getitem(x[1], 'subs_len'), reverse=True))
+    return sorted_sender_subs
 
 def retrieve_dates(date_request):
     '''
