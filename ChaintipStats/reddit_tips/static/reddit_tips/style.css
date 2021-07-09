@@ -342,6 +342,10 @@ nav > a:hover{
   float: right;
 }
 
+.subreddit_list{
+  font-size:.8em;
+}
+
 /****** Mobile Friendly ******/
 
 @media only screen and (max-width: 768px) {
@@ -399,7 +403,6 @@ nav > a:hover{
   }
   #charts_flex{
     display:flex;
-    flex-direction:column;
     justify-content: space-between;
     margin:0px;
   }
