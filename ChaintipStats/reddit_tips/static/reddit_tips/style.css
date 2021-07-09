@@ -342,6 +342,10 @@ nav > a:hover{
   float: right;
 }
 
+.subreddit_list{
+  font-size:.8em;
+}
+
 /****** Mobile Friendly ******/
 
 @media only screen and (max-width: 768px) {
