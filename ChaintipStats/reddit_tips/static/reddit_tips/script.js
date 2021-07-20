@@ -161,6 +161,10 @@ $(document).ready( function () {
 } );
 
 /*
+
+CHARTS FOR ALL DATA
+
+
 Rendering a bar chart of all tips per day using ChartsJS
 https://docs.djangoproject.com/en/3.1/ref/templates/builtins/#json-script
 https://www.chartjs.org/docs/master/samples/bar/vertical.html
@@ -272,7 +276,131 @@ new Chart(document.getElementById("total_claimed_returned"), {
     }
 });
 
-/* What is this? Pop up Modal  */
+
+/*
+
+CHARTS FOR MONTH DATA
+
+
+Rendering a bar chart of all tips per day using ChartsJS
+https://docs.djangoproject.com/en/3.1/ref/templates/builtins/#json-script
+https://www.chartjs.org/docs/master/samples/bar/vertical.html
+*/
+var month_tips_per_day = JSON.parse(document.getElementById('month_stats_tip_per_day').textContent);
+
+var month_keys = Object.keys(month_tips_per_day);
+var month_values = Object.values(month_tips_per_day);
+
+const month_labels = month_keys;
+const month_data = {
+  labels: month_labels,
+  datasets: [{
+    label: 'Tips Per Day',
+    data: month_values,
+    backgroundColor:'rgba(153, 102, 255, 0.2)',
+    borderColor: 'rgb(153, 102, 255)',
+    hoverBackgroundColor:'rgba(255, 205, 86, 0.2)',
+    hoverBorderColor:'rgb(255, 205, 86)',
+    borderWidth: 1
+  }]
+};
+
+const month_config = {
+    type: 'bar',
+    data: month_data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+
+var myMonthChart = new Chart(
+    document.getElementById('month_tip_per_day'),
+    month_config
+  );
+
+/* Value per Day instead of tip amount per day */
+
+var month_value_per_day = JSON.parse(document.getElementById('month_stats_value_per_day').textContent);
+
+var month_value_keys = Object.keys(month_value_per_day);
+var month_value_values = Object.values(month_value_per_day);
+
+//Round each item in the fiat_value list to 2 decimal places
+var x = 0;
+var len = month_value_values.length
+while(x < len){ 
+  month_value_values[x] = month_value_values[x].toFixed(2); 
+    x++
+}
+
+const month_value_labels = month_value_keys;
+const month_value_data = {
+  labels: month_value_labels,
+  datasets: [{
+    label: 'USD Tipped per Day',
+    data: value_values,
+    backgroundColor:'rgba(153, 102, 255, 0.2)',
+    borderColor: 'rgb(153, 102, 255)',
+    hoverBackgroundColor:'rgba(255, 205, 86, 0.2)',
+    hoverBorderColor:'rgb(255, 205, 86)',
+    borderWidth: 1
+  }]
+};
+
+const month_value_config = {
+    type: 'bar',
+    data: month_value_data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+
+var myMonthValueChart = new Chart(
+    document.getElementById('month_value_per_day'),
+    month_value_config
+  );
+
+/* Doughnut Chart */
+
+var month_total_claimed_returned = JSON.parse(document.getElementById('month_stats_total_claimed_returned').textContent);
+var month_tcr_keys = Object.keys(month_total_claimed_returned);
+var month_tcr_values = Object.values(month_total_claimed_returned);
+
+new Chart(document.getElementById("month_total_claimed_returned"), {
+    type: 'doughnut',
+    data: {
+      labels: month_tcr_keys,
+      datasets: [
+        {
+          backgroundColor: ["#ad84ff","#e8c3b9","#c45850"],
+          data: month_tcr_values
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Claimed Tips'
+      }
+    }
+});
+
+
+/* 
+
+
+What is this? Pop up Modal  
+
+
+*/
 // Get the modal
 var modal = document.getElementById("myModal");
 

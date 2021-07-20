@@ -40,7 +40,11 @@
             </form>
         -->
         </div>
-    
+
+
+    <!--    DATA FOR CURRENT MONTH ONLY       -->
+
+
     <div id ="all_month_data_div">
         <div class ="month_title data_title">{{ month_stats.month }}</div>
         <div id ="both_boxes_display_flex">
@@ -82,8 +86,150 @@
                 </div>
             </div>
         </div>
+        <div class="charts_flex">
+
+            {{ month_stats.tip_per_day_result|json_script:"month_stats_tip_per_day" }}
+            <div class = "canvas_chart">
+                <canvas id="month_tip_per_day"></canvas>
+            </div>
+
+            {{ month_stats.total_claimed_returned|json_script:"month_stats_total_claimed_returned" }}
+            <div class = "canvas_chart">
+                <canvas id="month_total_claimed_returned"></canvas>
+            </div>
+
+            {{ month_stats.value_per_day_result|json_script:"month_stats_value_per_day" }}
+            <div class = "canvas_chart">
+                <canvas id="month_value_per_day"></canvas>
+            </div>
+
+        </div>
+
+        <div class = "month_table_divs">
+            <div id = "tipper_table_div" class="stat_table_div">
+                <p class = "table_title">Tippers  <span class = "percent">(# of tips)</span></p>
+                <table id="month_tipper_table" class="data_table base_table_style">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tipper</th>
+                            <th>Tips</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tipper,tip in month_stats.month_senders %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href='https://reddit.com/{{ tipper }}'>{{ tipper }}</a></td>
+                                <td>{{ tip }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            
+
+            <div id = "receiver_table_div" class="stat_table_div">
+                <p class = "table_title">Recipients  <span class = "percent">(# of tips)</span></p>
+                <table id="month_receiver_table" class="data_table base_table_style">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Recipient</th>
+                            <th>Tips</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for recipient,tip in month_stats.month_receivers %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href='https://reddit.com/{{ recipient }}'>{{ recipient }}</a></td>
+                                <td>{{ tip }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div id = "sub_table_div" class="stat_table_div">
+                <p class = "table_title">Subreddits  <span class = "percent">(# of tips)</span></p>
+                <table id="month_sub_table" class="data_table base_table_style">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Subreddit</th>
+                            <th>Tips</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sub,tip in month_stats.month_subs %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href='https://reddit.com/r/{{ sub }}'>{{ sub }}</a></td>
+                                <td>{{ tip }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class = "month_table_divs">
+            <div class="stat_table_div">
+                <p class = "table_title">Tippers  <span class = "percent">(value of tips)</span></p>
+                <table id="month_tipper_table" class="data_table base_table_style">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tipper</th>
+                            <th>BCH</th>
+                            <th>USD</th>
+                            <th>USD (current)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tipper, tipper_values in month_stats.sender_amount.items %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href='https://reddit.com/{{ tipper }}'>{{ tipper }}</a></td>
+                                <td>{{ tipper_values.bch|floatformat:8 }}</td>
+                                <td>${{ tipper_values.usd|floatformat:2 }}</td>
+                                <td>${{ tipper_values.usd_current|floatformat:2 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="stat_table_div">
+                <p class = "table_title">Tippers  <span class = "percent">(Unique subreddits)</span></p>
+                <table id="month_tipper_table" class="data_table base_table_style">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tipper</th>
+                            <th>Unique subs</th>
+                            <th>Subreddits</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tipper, data in month_stats.senders_by_subs.items %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href='https://reddit.com/{{ tipper }}'>{{ tipper }}</a></td>
+                                <td>{{ data.subs_len }}</td>
+                                <td class ="subreddit_list">{{ data.subs | join:", "}} </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <hr>
     </div>
+
+    <!--    ALL DATA       -->
+
     <div id = "all_data_div">
         <div id ="all_title" class ="month_title data_title"> {{ all_stats.start_date|date:"F jS Y"}} <span class="title_time">{{ all_stats.start_date|time:"H:i"}}UTC</span><span id="dash">-</span>{{ all_stats.end_date|date:"F jS Y"}} <span class="title_time">{{ all_stats.end_date|time:"H:i"}}UTC</span></div>
         <div id ="both_boxes_display_flex">
@@ -126,7 +272,7 @@
             </div>
         </div>
 
-        <div id="charts_flex">
+        <div class="charts_flex">
 
             {{ all_stats.tip_per_day_result|json_script:"all_stats_tip_per_day" }}
             <div class = "canvas_chart">
