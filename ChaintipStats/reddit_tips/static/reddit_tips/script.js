@@ -100,54 +100,48 @@ function save_date(){
 }
 
 //This function is called when the arrows are clicked next to the timechanger
-//to change the date back and forth by one day. This automatically submits the page
+//to change the date back and forth by one month. This automatically submits the page
 //as the submit function was moved to save_date()
 function date_changer(timeframe){
-    //["2020", "12", "15"]
+    //["2021", "07"]
     var chosen_date_arr = localStorage.getItem('selected_date').split('-');
-    //Tue Dec 15 2020 00:00:00 GMT-0500 (Eastern Standard Time)
-    chosen_date = new Date(`${chosen_date_arr[0]},${chosen_date_arr[1]},${chosen_date_arr[2]}`);
+    //Thu Jul 01 2021 00:00:00 GMT-0400 (Eastern Daylight Time)
+    chosen_date = new Date(`${chosen_date_arr[0]},${chosen_date_arr[1]}`);
 
     if(timeframe=='yesterday'){
-        //If its 01-01, set date to Dec 31
-        chosen_date.setDate(chosen_date.getDate() - 1);
-        }
+      //Don't allow going back further than the minimum month in the date picker
+      var min_month_raw = document.getElementById("date_start").min;
+      var min_month_raw_arr = min_month_raw.split('-');
+      var min_month = new Date(`${min_month_raw_arr[0]},${min_month_raw_arr[1]}`);
+      if(chosen_date.getMonth() < min_month.getMonth() || chosen_date.getMonth() == min_month.getMonth()){
+        return;
+      }else{
+        chosen_date.setMonth(chosen_date.getMonth() - 1);
+      }
+    }
 
-    else if(timeframe=='tomorrow'){
-        var today = new Date();
-        //var tomorrow = new Date();
-        //Don't allow user to choose a date in the future
-        //end the function now so it doesn't refresh the page
-        //for no reason.
-        if(chosen_date > today  || chosen_date == today){
+    if(timeframe=='tomorrow'){
+      //Don't allow going further than the maximum month in the date picker
+        var max_month_raw = document.getElementById("date_start").max;
+        var max_month_raw_arr = max_month_raw.split('-');
+        var max_month = new Date(`${max_month_raw_arr[0]},${max_month_raw_arr[1]}`);
+        if(chosen_date.getMonth() < max_month.getMonth()  || chosen_date.getMonth() == max_month.getMonth()){
             return;
         } else{
-            chosen_date.setDate(chosen_date.getDate() + 1);
+            chosen_date.setMonth(chosen_date.getMonth() + 1);
         }
     }
 
-    //1 -> 01, 3 -> 03, etc.
-    var day = chosen_date.getDate();
-    if(day.toString().length == 1){
-        day = `0${day}`;
-    }
-    //1 -> 01, 3 -> 03 etc.
+   //1 -> 01, 3 -> 03 etc.
    var month = chosen_date.getMonth() + 1;
    if(month.toString().length == 1){
         month = `0${month}`;
     }
 
-    new_date = `${chosen_date.getFullYear()}-${month}-${day}`;
+    new_date = `${chosen_date.getFullYear()}-${month}`;
     localStorage.setItem('selected_date', new_date);
     document.getElementById("date_start").value = new_date;
     save_date();
-}
-
-//When the Day, Week, Month or All button is clicked on the Dashboard
-function timeframe(selected_timeframe){
-  localStorage.setItem("selected_timeframe", selected_timeframe);
-  console.log(localStorage);
-  document.getElementById("time_frame_form").submit();
 }
 
 

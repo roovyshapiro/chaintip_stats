@@ -18,7 +18,7 @@
                 <form id = "date_form" method="GET" action=".">
                     <a href="#" class="round_day_switcher" onclick="date_changer('yesterday')"><</a>
                     <label for="date_start">Date:</label>
-                    <input type="date" name="date_start" id="date_start" min={{ all_stats.first_tip_date }} max={{ all_stats.last_tip_date }}>
+                    <input type="month" name="date_start" id="date_start" min={{ all_stats.first_tip_date }} max={{ all_stats.last_tip_date }}>
                     <a href="#" id = "next_day_switcher" class="round_day_switcher" onclick="date_changer('tomorrow')">></a>
                     <button type="submit" class="timeframe_button" onclick="save_date()">Submit</button>
                 </form>
