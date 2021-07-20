@@ -420,6 +420,13 @@ nav > a:hover{
   .data_title{
     font-size:15px;
   }
+  .title_time{
+    font-size:11px;
+  }
+  #dash{
+    margin-left:5px;
+    margin-right:5px;
+  }
   .data_numbers{
     font-size:15px;
   }
@@ -477,5 +484,8 @@ nav > a:hover{
   #show_month_all_buttons{
     display:flex;
     justify-content:center;
+  }
+  #created_by_span{
+    display:none;
   }
 }
