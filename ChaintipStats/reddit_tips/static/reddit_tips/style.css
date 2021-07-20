@@ -238,6 +238,13 @@ nav > a:hover{
 
 /**/
 
+#all_data_div{
+  display:none;
+}
+#show_month_button{
+  display:none;
+}
+
 /* Month Text */
 .month_title{
   display:flex;
@@ -338,7 +345,7 @@ nav > a:hover{
   margin-bottom:20px;
 }
 
-#charts_flex{
+.charts_flex{
   display:flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -419,7 +426,7 @@ nav > a:hover{
   .percent{
     font-size:10px;
   }
-  #charts_flex{
+  .charts_flex{
     display:flex;
     justify-content: space-between;
     margin:0px;
@@ -466,5 +473,9 @@ nav > a:hover{
   #created_name::before{
     content: "\a";
     white-space: pre;
+  }
+  #show_month_all_buttons{
+    display:flex;
+    justify-content:center;
   }
 }

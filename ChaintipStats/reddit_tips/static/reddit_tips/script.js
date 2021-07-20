@@ -100,54 +100,48 @@ function save_date(){
 }
 
 //This function is called when the arrows are clicked next to the timechanger
-//to change the date back and forth by one day. This automatically submits the page
+//to change the date back and forth by one month. This automatically submits the page
 //as the submit function was moved to save_date()
 function date_changer(timeframe){
-    //["2020", "12", "15"]
+    //["2021", "07"]
     var chosen_date_arr = localStorage.getItem('selected_date').split('-');
-    //Tue Dec 15 2020 00:00:00 GMT-0500 (Eastern Standard Time)
-    chosen_date = new Date(`${chosen_date_arr[0]},${chosen_date_arr[1]},${chosen_date_arr[2]}`);
+    //Thu Jul 01 2021 00:00:00 GMT-0400 (Eastern Daylight Time)
+    chosen_date = new Date(`${chosen_date_arr[0]},${chosen_date_arr[1]}`);
 
     if(timeframe=='yesterday'){
-        //If its 01-01, set date to Dec 31
-        chosen_date.setDate(chosen_date.getDate() - 1);
-        }
+      //Don't allow going back further than the minimum month in the date picker
+      var min_month_raw = document.getElementById("date_start").min;
+      var min_month_raw_arr = min_month_raw.split('-');
+      var min_month = new Date(`${min_month_raw_arr[0]},${min_month_raw_arr[1]}`);
+      if(chosen_date.getMonth() < min_month.getMonth() || chosen_date.getMonth() == min_month.getMonth()){
+        return;
+      }else{
+        chosen_date.setMonth(chosen_date.getMonth() - 1);
+      }
+    }
 
-    else if(timeframe=='tomorrow'){
-        var today = new Date();
-        //var tomorrow = new Date();
-        //Don't allow user to choose a date in the future
-        //end the function now so it doesn't refresh the page
-        //for no reason.
-        if(chosen_date > today  || chosen_date == today){
+    if(timeframe=='tomorrow'){
+      //Don't allow going further than the maximum month in the date picker
+        var max_month_raw = document.getElementById("date_start").max;
+        var max_month_raw_arr = max_month_raw.split('-');
+        var max_month = new Date(`${max_month_raw_arr[0]},${max_month_raw_arr[1]}`);
+        if(chosen_date.getMonth() < max_month.getMonth()  || chosen_date.getMonth() == max_month.getMonth()){
             return;
         } else{
-            chosen_date.setDate(chosen_date.getDate() + 1);
+            chosen_date.setMonth(chosen_date.getMonth() + 1);
         }
     }
 
-    //1 -> 01, 3 -> 03, etc.
-    var day = chosen_date.getDate();
-    if(day.toString().length == 1){
-        day = `0${day}`;
-    }
-    //1 -> 01, 3 -> 03 etc.
+   //1 -> 01, 3 -> 03 etc.
    var month = chosen_date.getMonth() + 1;
    if(month.toString().length == 1){
         month = `0${month}`;
     }
 
-    new_date = `${chosen_date.getFullYear()}-${month}-${day}`;
+    new_date = `${chosen_date.getFullYear()}-${month}`;
     localStorage.setItem('selected_date', new_date);
     document.getElementById("date_start").value = new_date;
     save_date();
-}
-
-//When the Day, Week, Month or All button is clicked on the Dashboard
-function timeframe(selected_timeframe){
-  localStorage.setItem("selected_timeframe", selected_timeframe);
-  console.log(localStorage);
-  document.getElementById("time_frame_form").submit();
 }
 
 
@@ -161,6 +155,10 @@ $(document).ready( function () {
 } );
 
 /*
+
+CHARTS FOR ALL DATA
+
+
 Rendering a bar chart of all tips per day using ChartsJS
 https://docs.djangoproject.com/en/3.1/ref/templates/builtins/#json-script
 https://www.chartjs.org/docs/master/samples/bar/vertical.html
@@ -272,7 +270,131 @@ new Chart(document.getElementById("total_claimed_returned"), {
     }
 });
 
-/* What is this? Pop up Modal  */
+
+/*
+
+CHARTS FOR MONTH DATA
+
+
+Rendering a bar chart of all tips per day using ChartsJS
+https://docs.djangoproject.com/en/3.1/ref/templates/builtins/#json-script
+https://www.chartjs.org/docs/master/samples/bar/vertical.html
+*/
+var month_tips_per_day = JSON.parse(document.getElementById('month_stats_tip_per_day').textContent);
+
+var month_keys = Object.keys(month_tips_per_day);
+var month_values = Object.values(month_tips_per_day);
+
+const month_labels = month_keys;
+const month_data = {
+  labels: month_labels,
+  datasets: [{
+    label: 'Tips Per Day',
+    data: month_values,
+    backgroundColor:'rgba(153, 102, 255, 0.2)',
+    borderColor: 'rgb(153, 102, 255)',
+    hoverBackgroundColor:'rgba(255, 205, 86, 0.2)',
+    hoverBorderColor:'rgb(255, 205, 86)',
+    borderWidth: 1
+  }]
+};
+
+const month_config = {
+    type: 'bar',
+    data: month_data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+
+var myMonthChart = new Chart(
+    document.getElementById('month_tip_per_day'),
+    month_config
+  );
+
+/* Value per Day instead of tip amount per day */
+
+var month_value_per_day = JSON.parse(document.getElementById('month_stats_value_per_day').textContent);
+
+var month_value_keys = Object.keys(month_value_per_day);
+var month_value_values = Object.values(month_value_per_day);
+
+//Round each item in the fiat_value list to 2 decimal places
+var x = 0;
+var len = month_value_values.length
+while(x < len){ 
+  month_value_values[x] = month_value_values[x].toFixed(2); 
+    x++
+}
+
+const month_value_labels = month_value_keys;
+const month_value_data = {
+  labels: month_value_labels,
+  datasets: [{
+    label: 'USD Tipped per Day',
+    data: value_values,
+    backgroundColor:'rgba(153, 102, 255, 0.2)',
+    borderColor: 'rgb(153, 102, 255)',
+    hoverBackgroundColor:'rgba(255, 205, 86, 0.2)',
+    hoverBorderColor:'rgb(255, 205, 86)',
+    borderWidth: 1
+  }]
+};
+
+const month_value_config = {
+    type: 'bar',
+    data: month_value_data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+
+var myMonthValueChart = new Chart(
+    document.getElementById('month_value_per_day'),
+    month_value_config
+  );
+
+/* Doughnut Chart */
+
+var month_total_claimed_returned = JSON.parse(document.getElementById('month_stats_total_claimed_returned').textContent);
+var month_tcr_keys = Object.keys(month_total_claimed_returned);
+var month_tcr_values = Object.values(month_total_claimed_returned);
+
+new Chart(document.getElementById("month_total_claimed_returned"), {
+    type: 'doughnut',
+    data: {
+      labels: month_tcr_keys,
+      datasets: [
+        {
+          backgroundColor: ["#ad84ff","#e8c3b9","#c45850"],
+          data: month_tcr_values
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Claimed Tips'
+      }
+    }
+});
+
+
+/* 
+
+
+What is this? Pop up Modal  
+
+
+*/
 // Get the modal
 var modal = document.getElementById("myModal");
 
@@ -301,6 +423,7 @@ window.onclick = function(event) {
 
 /* Show Month / All Buttons */
 // Currently only shows one at a time
+/*
 function showMonth() {
   var x = document.getElementById("all_month_data_div");
   var y = document.getElementById("all_data_div");
@@ -323,4 +446,31 @@ function showAll() {
     y.style.display = "none";
     x.style.display = "block";
   }
+}
+*/
+
+function showMonth() {
+  var x = document.getElementById("all_month_data_div");
+  var y = document.getElementById("all_data_div");
+  var month_btn = document.getElementById("show_month_button");
+  var all_btn = document.getElementById("show_all_button");
+
+  x.style.display = "block";
+  y.style.display = "none";
+  month_btn.style.display="none";
+  all_btn.style.display="block";
+}
+
+function showAll() {
+  var y = document.getElementById("all_data_div");
+  var x = document.getElementById("all_month_data_div");
+  var all_btn = document.getElementById("show_all_button");
+  var month_btn = document.getElementById("show_month_button");
+
+    x.style.display = "none";
+    y.style.display = "block";
+    all_btn.style.display="none";
+    month_btn.style.display="block";
+
+
 }

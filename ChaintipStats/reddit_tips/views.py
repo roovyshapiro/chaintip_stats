@@ -38,8 +38,8 @@ def main(request):
     all_stats['end_date'] = all_tips_ordered.first().created_datetime
     #Min Max Values for Date Picker 
     first_tip = all_tips_ordered.last().created_datetime
-    all_stats['first_tip_date'] = first_tip.strftime('%Y-%m-%d')
-    all_stats['last_tip_date'] = timezone.now().strftime('%Y-%m-%d')
+    all_stats['first_tip_date'] = first_tip.strftime('%Y-%m')
+    all_stats['last_tip_date'] = timezone.now().strftime('%Y-%m')
 
     all_stats['all_senders'] = all_tips.filter(~Q(sender = " ")).values_list('sender').annotate(sender_count=Count('sender')).order_by('-sender_count')
     #Organize senders by total value tipped
@@ -189,7 +189,7 @@ def retrieve_dates(date_request):
     if date_request == '' or date_request == None:
         today = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
     else:
-        today = datetime.datetime.strptime(date_request, '%Y-%m-%d')
+        today = datetime.datetime.strptime(date_request, '%Y-%m')
 
     end_of_day = today.replace(hour=23, minute = 59, second = 59, microsecond = 0)
 
