@@ -10,6 +10,7 @@ from operator import getitem
 def main(request):
 
     all_stats = {}
+    month_stats = {}
 
     date_request = request.GET.get('date_start')
     today, end_of_day, first_of_week, end_of_week, first_of_month, end_of_month = retrieve_dates(date_request)
@@ -34,7 +35,7 @@ def main(request):
 
     all_tips_ordered = all_tips.order_by('-created_datetime')
     all_stats['start_date'] = all_tips_ordered.last().created_datetime
-    #all_stats['end_date'] = all_tips_ordered.first().created_datetime
+    all_stats['end_date'] = all_tips_ordered.first().created_datetime
     #Min Max Values for Date Picker 
     first_tip = all_tips_ordered.last().created_datetime
     all_stats['first_tip_date'] = first_tip.strftime('%Y-%m-%d')
@@ -67,10 +68,67 @@ def main(request):
     all_stats['value_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'), tip_value=True)
 
 
+    #MONTH SPECIFIC DATA
+    month_stats['today'] = today.strftime('%A, %B %d %Y')
+    month_stats['month'] = today.strftime('%B %Y')
+    all_tips = all_tips.filter(created_datetime__gte=first_of_month, created_datetime__lte=end_of_month)
+
+    month_stats['bch_price'] = bch_prices.first().price_format
+    month_stats['total_tips'] = len(all_tips)
+    month_stats['claimed_tips'] = len(all_tips.filter(claimed=True))
+    month_stats['claimed_percentage'] = str(round(float(format(month_stats['claimed_tips'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
+    month_stats['returned_tips'] = len(all_tips.filter(returned=True))
+    month_stats['returned_percentage'] = str(round(float(format(month_stats['returned_tips'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
+    month_stats['claim_waiting'] = month_stats['total_tips'] - (month_stats['claimed_tips'] + month_stats['returned_tips'])
+    month_stats['claim_waiting_percent'] = str(round(float(format(month_stats['claim_waiting'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
+    month_stats['total_claimed_returned'] = {'Claimed':month_stats['claimed_tips'], 'Unclaimed': month_stats['claim_waiting'], 'Returned': month_stats['returned_tips'],}
+
+    total_BCH = all_tips.aggregate(Sum('coin_amount'))
+    month_stats['total_BCH'] = total_BCH['coin_amount__sum']
+    total_USD = all_tips.aggregate(Sum('fiat_value'))
+    month_stats['total_USD'] = total_USD['fiat_value__sum']
+
+    month_tips_ordered = all_tips.order_by('-created_datetime')
+    month_stats['start_date'] = month_tips_ordered.last().created_datetime
+    #month_stats['end_date'] = all_tips_ordered.first().created_datetime
+    #Min Max Values for Date Picker 
+    first_tip = month_tips_ordered.last().created_datetime
+    month_stats['first_tip_date'] = first_tip.strftime('%Y-%m-%d')
+    month_stats['last_tip_date'] = timezone.now().strftime('%Y-%m-%d')
+
+    month_stats['all_senders'] = all_tips.filter(~Q(sender = " ")).values_list('sender').annotate(sender_count=Count('sender')).order_by('-sender_count')
+    #Organize senders by total value tipped
+    sender_amount = {}
+    for sender, count in month_stats['all_senders']:
+        sender_amount[sender] = {'bch':0,'usd':0,'usd_current':0}
+        for tip in all_tips:
+            if tip.sender == sender:
+                sender_amount[sender]['bch'] += float(tip.coin_amount)
+                sender_amount[sender]['usd'] += float(tip.fiat_value)
+        sender_amount[sender]['usd_current'] = float(sender_amount[sender]['bch']) * month_stats['bch_price']
+    #https://www.geeksforgeeks.org/python-sort-nested-dictionary-by-key/
+    #Sorting nested dictionary by key so that the user with the highest 'bch' value ends up first
+    sorted_sender_amount = OrderedDict(sorted(sender_amount.items(), key = lambda x: getitem(x[1], 'bch'), reverse=True))
+    month_stats['sender_amount'] = sorted_sender_amount
+
+    month_stats['senders_by_subs'] = sender_subreddits(month_stats['all_senders'], all_tips)
+
+    all_tips_receivers = all_tips.filter(~Q(returned = True))
+    month_stats['all_receivers'] = all_tips_receivers.values_list('receiver').annotate(receiver_count=Count('receiver')).order_by('-receiver_count')
+    month_stats['all_subs'] = all_tips.values_list('subreddit').annotate(subreddit_count=Count('subreddit')).order_by('-subreddit_count')
+
+    month_stats['total_USD_current'] = "{:.2f}".format(float(month_stats['total_BCH']) * month_stats['bch_price'])
+
+    month_stats['tip_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'))
+    month_stats['value_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'), tip_value=True)
+
+
 
     context = {
         'all_tips':all_tips_ordered,
         'all_stats':all_stats,
+        'month_stats':month_stats,
+
     }
     return render(request, "reddit_tips/reddit_tips.html", context) 
 
