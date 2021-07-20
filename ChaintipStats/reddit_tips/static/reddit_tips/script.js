@@ -298,3 +298,29 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+/* Show Month / All Buttons */
+// Currently only shows one at a time
+function showMonth() {
+  var x = document.getElementById("all_month_data_div");
+  var y = document.getElementById("all_data_div");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+    y.style.display = "none";
+  } else {
+    y.style.display = "block";
+    x.style.display = "none";
+  }
+}
+
+function showAll() {
+  var y = document.getElementById("all_data_div");
+  var x = document.getElementById("all_month_data_div");
+  if (y.style.display === "none") {
+    x.style.display = "none";
+    y.style.display = "block";
+  } else {
+    y.style.display = "none";
+    x.style.display = "block";
+  }
+}

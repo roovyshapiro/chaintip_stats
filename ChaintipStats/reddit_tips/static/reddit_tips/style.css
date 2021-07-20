@@ -238,6 +238,24 @@ nav > a:hover{
 
 /**/
 
+/* Month Text */
+.month_title{
+  display:flex;
+  justify-content:center;
+}
+.title_time{
+  font-weight: normal;
+  font-size:large;
+  align-self:flex-end;
+}
+#all_title{
+  margin-top:20px;
+}
+#dash{
+  margin-left:15px;
+  margin-right:15px;
+}
+/**/
 .box_display_flex{
   display:flex;
   justify-content:space-evenly;
