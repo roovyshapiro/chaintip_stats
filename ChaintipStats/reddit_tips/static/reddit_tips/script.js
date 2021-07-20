@@ -423,6 +423,7 @@ window.onclick = function(event) {
 
 /* Show Month / All Buttons */
 // Currently only shows one at a time
+/*
 function showMonth() {
   var x = document.getElementById("all_month_data_div");
   var y = document.getElementById("all_data_div");
@@ -445,4 +446,31 @@ function showAll() {
     y.style.display = "none";
     x.style.display = "block";
   }
+}
+*/
+
+function showMonth() {
+  var x = document.getElementById("all_month_data_div");
+  var y = document.getElementById("all_data_div");
+  var month_btn = document.getElementById("show_month_button");
+  var all_btn = document.getElementById("show_all_button");
+
+  x.style.display = "block";
+  y.style.display = "none";
+  month_btn.style.display="none";
+  all_btn.style.display="block";
+}
+
+function showAll() {
+  var y = document.getElementById("all_data_div");
+  var x = document.getElementById("all_month_data_div");
+  var all_btn = document.getElementById("show_all_button");
+  var month_btn = document.getElementById("show_month_button");
+
+    x.style.display = "none";
+    y.style.display = "block";
+    all_btn.style.display="none";
+    month_btn.style.display="block";
+
+
 }

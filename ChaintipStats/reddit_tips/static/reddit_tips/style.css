@@ -238,6 +238,13 @@ nav > a:hover{
 
 /**/
 
+#all_data_div{
+  display:none;
+}
+#show_month_button{
+  display:none;
+}
+
 /* Month Text */
 .month_title{
   display:flex;
@@ -466,5 +473,9 @@ nav > a:hover{
   #created_name::before{
     content: "\a";
     white-space: pre;
+  }
+  #show_month_all_buttons{
+    display:flex;
+    justify-content:center;
   }
 }
