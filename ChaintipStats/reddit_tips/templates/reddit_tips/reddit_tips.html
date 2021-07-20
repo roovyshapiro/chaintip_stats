@@ -25,20 +25,6 @@
             </div>
             <button onclick="showMonth()">Month</button>
             <button onclick="showAll()">All</button>
-
-            <!--
-            This feature to show different timeframes worth of data is a work in progress.
-            Will revisit it soon as its not strictly necessary for the initial release.
-            <form id = "time_frame_form" method="GET" action=".">
-                <div id = "day_week_month_buttons">
-                    <button class="timeframe_button" onclick="timeframe('Day')">Day</button>
-                    <button class="timeframe_button" onclick="timeframe('Week')">Week</button>
-                    <button class="timeframe_button" onclick="timeframe('Month')">Month</button>
-                    <button class="timeframe_button" onclick="timeframe('All')">All</button>
-                    <p>{{ all_stats.today }}</p>
-                </div>
-            </form>
-        -->
         </div>
 
 
@@ -105,7 +91,7 @@
 
         </div>
 
-        <div class = "month_table_divs">
+        <div class = "all_table_divs">
             <div id = "tipper_table_div" class="stat_table_div">
                 <p class = "table_title">Tippers  <span class = "percent">(# of tips)</span></p>
                 <table id="month_tipper_table" class="data_table base_table_style">
@@ -117,7 +103,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for tipper,tip in month_stats.month_senders %}
+                        {% for tipper,tip in month_stats.all_senders %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td><a href='https://reddit.com/{{ tipper }}'>{{ tipper }}</a></td>
@@ -127,8 +113,6 @@
                     </tbody>
                 </table>
             </div>
-
-            
 
             <div id = "receiver_table_div" class="stat_table_div">
                 <p class = "table_title">Recipients  <span class = "percent">(# of tips)</span></p>
@@ -141,7 +125,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for recipient,tip in month_stats.month_receivers %}
+                        {% for recipient,tip in month_stats.all_receivers %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td><a href='https://reddit.com/{{ recipient }}'>{{ recipient }}</a></td>
@@ -163,7 +147,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for sub,tip in month_stats.month_subs %}
+                        {% for sub,tip in month_stats.all_subs %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td><a href='https://reddit.com/r/{{ sub }}'>{{ sub }}</a></td>
@@ -175,7 +159,7 @@
             </div>
         </div>
 
-        <div class = "month_table_divs">
+        <div class = "all_table_divs">
             <div class="stat_table_div">
                 <p class = "table_title">Tippers  <span class = "percent">(value of tips)</span></p>
                 <table id="month_tipper_table" class="data_table base_table_style">
