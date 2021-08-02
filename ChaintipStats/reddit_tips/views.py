@@ -66,7 +66,7 @@ def main(request):
 
     all_stats['tip_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'))
     all_stats['value_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'), tip_value=True)
-
+    all_stats['tip_value_per_month_result'] = tip_per_month(all_tips)
 
     #MONTH SPECIFIC DATA
     month_stats['today'] = today.strftime('%A, %B %d %Y')
@@ -133,7 +133,6 @@ def main(request):
 
     month_stats['tip_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'))
     month_stats['value_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'), tip_value=True)
-
     context = {
         'all_tips':all_tips_ordered,
         'all_stats':all_stats,
@@ -165,6 +164,30 @@ def tip_per_day(all_tips, tip_value=False):
 
     return date_generated_dict
 
+def tip_per_month(all_tips):
+    '''
+    Prepares a dict of # of tips and value of tips per month
+    '''
+    case_years = {}
+    for tip in all_tips:
+        year = tip.created_datetime.year
+        month = tip.created_datetime.strftime("%B")
+        if year not in case_years:
+            case_years[year] = {}
+        if month not in case_years[year]:
+            case_years[year][month] = {}
+        try:
+            case_years[year][month]['tip_amount'] += 1
+        except KeyError:
+            case_years[year][month]['tip_amount'] = 0
+            case_years[year][month]['tip_amount'] += 1
+        try:
+            case_years[year][month]['tip_value'] += tip.fiat_value
+        except KeyError:
+            case_years[year][month]['tip_value'] = 0
+            case_years[year][month]['tip_value'] += tip.fiat_value
+
+    return case_years
 
 def sender_subreddits(all_senders, all_tips):
     '''
