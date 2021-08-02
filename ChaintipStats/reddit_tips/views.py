@@ -76,11 +76,23 @@ def main(request):
     month_stats['bch_price'] = bch_prices.first().price_format
     month_stats['total_tips'] = len(all_tips)
     month_stats['claimed_tips'] = len(all_tips.filter(claimed=True))
-    month_stats['claimed_percentage'] = str(round(float(format(month_stats['claimed_tips'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
+    try:
+        month_stats['claimed_percentage'] = str(round(float(format(month_stats['claimed_tips'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
+    except ZeroDivisionError:
+        #first of the month with no tips yet
+        month_stats['claimed_percentage'] = '0%'
     month_stats['returned_tips'] = len(all_tips.filter(returned=True))
-    month_stats['returned_percentage'] = str(round(float(format(month_stats['returned_tips'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
+    try:
+        month_stats['returned_percentage'] = str(round(float(format(month_stats['returned_tips'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
+    except ZeroDivisionError:
+        #first of the month with no tips yet
+        month_stats['claimed_percentage'] = '0%'
     month_stats['claim_waiting'] = month_stats['total_tips'] - (month_stats['claimed_tips'] + month_stats['returned_tips'])
-    month_stats['claim_waiting_percent'] = str(round(float(format(month_stats['claim_waiting'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
+    try:
+        month_stats['claim_waiting_percent'] = str(round(float(format(month_stats['claim_waiting'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
+    except ZeroDivisionError:
+        #first of the month with no tips yet
+        month_stats['claim_waiting_percent'] = '0%'
     month_stats['total_claimed_returned'] = {'Claimed':month_stats['claimed_tips'], 'Unclaimed': month_stats['claim_waiting'], 'Returned': month_stats['returned_tips'],}
 
     total_BCH = all_tips.aggregate(Sum('coin_amount'))
@@ -88,13 +100,9 @@ def main(request):
     total_USD = all_tips.aggregate(Sum('fiat_value'))
     month_stats['total_USD'] = total_USD['fiat_value__sum']
 
-    month_tips_ordered = all_tips.order_by('-created_datetime')
-    month_stats['start_date'] = month_tips_ordered.last().created_datetime
+    #month_tips_ordered = all_tips.order_by('-created_datetime')
+    #month_stats['start_date'] = month_tips_ordered.last().created_datetime
     #month_stats['end_date'] = all_tips_ordered.first().created_datetime
-    #Min Max Values for Date Picker 
-    first_tip = month_tips_ordered.last().created_datetime
-    month_stats['first_tip_date'] = first_tip.strftime('%Y-%m-%d')
-    month_stats['last_tip_date'] = timezone.now().strftime('%Y-%m-%d')
 
     month_stats['all_senders'] = all_tips.filter(~Q(sender = " ")).values_list('sender').annotate(sender_count=Count('sender')).order_by('-sender_count')
     #Organize senders by total value tipped
@@ -117,12 +125,14 @@ def main(request):
     month_stats['all_receivers'] = all_tips_receivers.values_list('receiver').annotate(receiver_count=Count('receiver')).order_by('-receiver_count')
     month_stats['all_subs'] = all_tips.values_list('subreddit').annotate(subreddit_count=Count('subreddit')).order_by('-subreddit_count')
 
-    month_stats['total_USD_current'] = "{:.2f}".format(float(month_stats['total_BCH']) * month_stats['bch_price'])
+    try:
+        month_stats['total_USD_current'] = "{:.2f}".format(float(month_stats['total_BCH']) * month_stats['bch_price'])
+    except TypeError:
+        #first of the month with no tips yet
+        month_stats['total_USD_current'] = '0'
 
     month_stats['tip_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'))
     month_stats['value_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'), tip_value=True)
-
-
 
     context = {
         'all_tips':all_tips_ordered,
