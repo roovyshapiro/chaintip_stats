@@ -182,11 +182,10 @@ def tip_per_month(all_tips):
             case_years[year][month]['tip_amount'] = 0
             case_years[year][month]['tip_amount'] += 1
         try:
-            case_years[year][month]['tip_value'] += tip.fiat_value
+            case_years[year][month]['tip_value'] += round(tip.fiat_value, 2)
         except KeyError:
             case_years[year][month]['tip_value'] = 0
-            case_years[year][month]['tip_value'] += tip.fiat_value
-
+            case_years[year][month]['tip_value'] += round(tip.fiat_value, 2)
     return case_years
 
 def sender_subreddits(all_senders, all_tips):
