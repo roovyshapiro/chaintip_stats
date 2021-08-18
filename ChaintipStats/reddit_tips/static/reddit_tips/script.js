@@ -334,7 +334,7 @@ const month_value_data = {
   labels: month_value_labels,
   datasets: [{
     label: 'USD Tipped per Day',
-    data: value_values,
+    data: month_value_values,
     backgroundColor:'rgba(153, 102, 255, 0.2)',
     borderColor: 'rgb(153, 102, 255)',
     hoverBackgroundColor:'rgba(255, 205, 86, 0.2)',
