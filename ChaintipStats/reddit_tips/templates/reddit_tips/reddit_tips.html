@@ -211,7 +211,53 @@
                 </table>
             </div>
         </div>
-        <hr>
+
+        <div id="all_tip_table_div" class = "stat_table_div">
+            <table id="all_tip_table" class="data_table base_table_style">
+            <div id = "title and button">
+                <div>
+                    <p class = "table_title">All Tips - {{ month_stats.month }}</p>
+                </div>
+                <div id = "export">
+                    <a class = "timeframe_button" href="/export">EXPORT to CSV</a>
+                </div>
+            </div>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Sender</th>
+                        <th>Receiver</th>
+                        <th>Subreddit</th>
+                        <th>BCH</th>
+                        <th>USD</th>
+                        <th>Status</th>
+                        <th>Created (UTC)</th>
+                        <th>BCH TX</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tip in all_month_tips %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href='https://reddit.com/{{ tip.sender }}'>{{ tip.sender }}</a></td>
+                            <td><a href='https://reddit.com/{{ tip.receiver }}'>{{ tip.receiver }}</a></td>
+                            <td><a href='{{ tip.parent_comment_permalink }}'>{{ tip.subreddit }}</a></td>
+                            <td>{{ tip.coin_amount|floatformat:8 }}</td>
+                            <td>${{ tip.fiat_value|floatformat:2 }}</td>
+                            {% if tip.claimed %}
+                                <td>Claimed</td>
+                            {% elif tip.returned %}
+                                <td>Returned</td>
+                            {% else %}
+                                <td>Sent</td>
+                            {% endif %}
+                            <td>{{ tip.created_datetime }}</td>
+                            <td><a href='{{tip.blockchain_tx}}'>{{ tip.blockchain_tx }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!--    ALL DATA       -->
