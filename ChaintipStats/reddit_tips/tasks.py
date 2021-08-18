@@ -2,15 +2,15 @@ from __future__ import absolute_import, unicode_literals
 from celery import Celery, shared_task
 from django.utils import timezone
 from django.utils.timezone import make_aware
-import models.RedditTip
-import models.BCHPrice
-import Chaintip_stats
-import CoinMarketCapAPI
+ 
+from .models import RedditTip, BCHPrice
+from .chaintip_stats import Chaintip_stats
+from .coinmarketcap import CoinMarketCapAPI
 import json, os
 
 @shared_task
 def get_tips():
-    '''
+    '''    
     Example Tip:
     {
         "body": {
@@ -38,7 +38,7 @@ def get_tips():
     coin_type = models.CharField(max_length=10)
     fiat_type = models.Charfield(max_length=10)
     fiat_value = models.FloatField()
-    receiver = models.CharField(max_length=30)
+    receiver = models.CharField(max_length=30) 
     sender = models.CharField(max_length=30)
 
     body_text = models.TextField()
@@ -94,8 +94,11 @@ def get_tips():
         elif tip['type'] == "returned":
             new_tip.returned = True
             new_tip.claimed = False
-
-        new_tip.save()
+        try:
+            new_tip.save()
+        except ValueError:
+            print(f"TIP NOT SAVED! {tip}")
+            continue
 
 
 @shared_task
@@ -131,7 +134,7 @@ def get_price():
         "time": "2021-06-09T03:09:07.000Z"
         'time_dt': datetime.datetime(2021, 6, 9, 3, 9, 7),
     }
-    price = models.CharField(max_length=30)
+    price = models.CharField(max_length=30) 
     price_format = models.FloatField()
     time = models.CharField(max_length=30)
     time_dt = models.DateTimeField(null=True)
@@ -140,7 +143,7 @@ def get_price():
     date_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.price_format} - {self.time_dt.strftime("%Y-%m-%d %H:%M:%S")}'
+        return f'{self.price_format} - {self.time_dt.strftime("%Y-%m-%d %H:%M:%S")}'   
     '''
 
     credentials_file = 'credentials.json'
@@ -172,8 +175,3 @@ def retrieve_reddit_tips():
     chaintip_comments = chaintip_api.gather_chaintip_stats()
 
     return chaintip_comments
-
-if __name__ == '__main__':
-    get_tips()
-    get_price()
-
