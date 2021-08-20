@@ -95,8 +95,11 @@ class Command(BaseCommand):
             elif tip['type'] == "returned":
                 new_tip.returned = True
                 new_tip.claimed = False
-
-            new_tip.save()
+            try:
+                new_tip.save()
+            except ValueError:
+                print(f"TIP NOT SAVED! {tip}")
+                continue
 
 
     def get_price(self):
