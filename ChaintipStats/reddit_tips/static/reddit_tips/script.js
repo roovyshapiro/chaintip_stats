@@ -255,7 +255,7 @@ new Chart(document.getElementById("total_claimed_returned"), {
       labels: tcr_keys,
       datasets: [
         {
-          backgroundColor: ["#ad84ff","#e8c3b9","#c45850"],
+          backgroundColor: ["#ad84ff","#efef41","#e8c3b9","#c45850"],
           data: tcr_values
         }
       ]
@@ -372,7 +372,7 @@ new Chart(document.getElementById("month_total_claimed_returned"), {
       labels: month_tcr_keys,
       datasets: [
         {
-          backgroundColor: ["#ad84ff","#e8c3b9","#c45850"],
+          backgroundColor: ["#ad84ff","#efef41","#e8c3b9","#c45850"],
           data: month_tcr_values
         }
       ]

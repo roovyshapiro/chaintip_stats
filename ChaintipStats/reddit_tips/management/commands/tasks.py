@@ -76,7 +76,10 @@ class Command(BaseCommand):
             new_tip.fiat_type = tip['body']['fiat_type']
             new_tip.fiat_value = tip['body']['fiat_value']
             new_tip.receiver = tip['body']['receiver']
-            new_tip.sender = tip['body']['sender']
+            try:
+                new_tip.sender = tip['body']['sender']
+            except:
+                pass
 
             new_tip.body_text = tip['body_text']
             new_tip.created_datetime = make_aware(tip['created_datetime'])
@@ -88,13 +91,26 @@ class Command(BaseCommand):
             new_tip.permalink = tip['permalink']
             new_tip.score = tip['score']
             new_tip.subreddit = tip['subreddit']
-            new_tip.sent = True
+            if tip['type'] == "sent":
+                new_tip.sent = True
+                new_tip.claimed = False
+                new_tip.unclaimed = False
+                new_tip.returned = False
             if tip['type'] == "claimed":
+                new_tip.sent = False
                 new_tip.claimed = True
+                new_tip.unclaimed = False
+                new_tip.returned = False
+            if tip['type'] == "unclaimed":
+                new_tip.sent = False
+                new_tip.claimed = False
+                new_tip.unclaimed = True
                 new_tip.returned = False
             elif tip['type'] == "returned":
-                new_tip.returned = True
+                new_tip.sent = False
                 new_tip.claimed = False
+                new_tip.unclaimed = False
+                new_tip.returned = True
             try:
                 new_tip.save()
             except ValueError:
