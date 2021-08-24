@@ -45,6 +45,7 @@ class RedditTip(models.Model):
     score = models.IntegerField()
     subreddit = models.CharField(max_length=30)
     sent = models.BooleanField(null=True, default=None)
+    unclaimed = models.BooleanField(null=True, default=None)
     claimed = models.BooleanField(null=True, default=None)
     returned = models.BooleanField(null=True, default=None)
 

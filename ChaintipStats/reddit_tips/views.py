@@ -20,13 +20,15 @@ def main(request):
 
     all_stats['bch_price'] = bch_prices.first().price_format
     all_stats['total_tips'] = len(all_tips)
+    all_stats['sent_tips'] = len(all_tips.filter(sent=True))
+    all_stats['sent_percentage'] = str(round(float(format(all_stats['sent_tips'] / all_stats['total_tips'], '.2%').replace('%','')))) + '%'
     all_stats['claimed_tips'] = len(all_tips.filter(claimed=True))
     all_stats['claimed_percentage'] = str(round(float(format(all_stats['claimed_tips'] / all_stats['total_tips'], '.2%').replace('%','')))) + '%'
     all_stats['returned_tips'] = len(all_tips.filter(returned=True))
     all_stats['returned_percentage'] = str(round(float(format(all_stats['returned_tips'] / all_stats['total_tips'], '.2%').replace('%','')))) + '%'
-    all_stats['claim_waiting'] = all_stats['total_tips'] - (all_stats['claimed_tips'] + all_stats['returned_tips'])
+    all_stats['claim_waiting'] = len(all_tips.filter(unclaimed=True))
     all_stats['claim_waiting_percent'] = str(round(float(format(all_stats['claim_waiting'] / all_stats['total_tips'], '.2%').replace('%','')))) + '%'
-    all_stats['total_claimed_returned'] = {'Claimed':all_stats['claimed_tips'], 'Unclaimed': all_stats['claim_waiting'], 'Returned': all_stats['returned_tips'],}
+    all_stats['total_claimed_returned'] = {'Sent': all_stats['sent_tips'], 'Claimed':all_stats['claimed_tips'], 'Unclaimed': all_stats['claim_waiting'], 'Returned': all_stats['returned_tips'],}
 
     total_BCH = all_tips.aggregate(Sum('coin_amount'))
     all_stats['total_BCH'] = total_BCH['coin_amount__sum']
@@ -75,7 +77,13 @@ def main(request):
     
     month_stats['bch_price'] = bch_prices.first().price_format
     month_stats['total_tips'] = len(all_month_tips)
+    month_stats['sent_tips'] = len(all_month_tips.filter(sent=True))
     month_stats['claimed_tips'] = len(all_month_tips.filter(claimed=True))
+    try:
+        month_stats['sent_percentage'] = str(round(float(format(month_stats['sent_tips'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
+    except ZeroDivisionError:
+        #first of the month with no tips yet
+        month_stats['sent_percentage'] = '0%'
     try:
         month_stats['claimed_percentage'] = str(round(float(format(month_stats['claimed_tips'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
     except ZeroDivisionError:
@@ -87,13 +95,13 @@ def main(request):
     except ZeroDivisionError:
         #first of the month with no tips yet
         month_stats['claimed_percentage'] = '0%'
-    month_stats['claim_waiting'] = month_stats['total_tips'] - (month_stats['claimed_tips'] + month_stats['returned_tips'])
+    month_stats['claim_waiting'] = len(all_month_tips.filter(unclaimed=True))
     try:
         month_stats['claim_waiting_percent'] = str(round(float(format(month_stats['claim_waiting'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
     except ZeroDivisionError:
         #first of the month with no tips yet
         month_stats['claim_waiting_percent'] = '0%'
-    month_stats['total_claimed_returned'] = {'Claimed':month_stats['claimed_tips'], 'Unclaimed': month_stats['claim_waiting'], 'Returned': month_stats['returned_tips'],}
+    month_stats['total_claimed_returned'] = {'Sent': month_stats['sent_tips'], 'Claimed':month_stats['claimed_tips'], 'Unclaimed': month_stats['claim_waiting'], 'Returned': month_stats['returned_tips'],}
 
     total_BCH = all_month_tips.aggregate(Sum('coin_amount'))
     month_stats['total_BCH'] = total_BCH['coin_amount__sum']
@@ -241,12 +249,12 @@ def retrieve_dates(date_request):
     return today, end_of_day, first_of_week, end_of_week, first_of_month, end_of_month
 
 def export_csv_all_tips(request):
-    all_tips = RedditTip.objects.all().values_list('blockchain_tx', 'coin_amount', 'coin_type','fiat_type','fiat_value','receiver','sender','body_text','created_datetime','created_utc','comment_id','permalink','parent_id','parent_comment_permalink','score','subreddit','claimed','returned',)
+    all_tips = RedditTip.objects.all().values_list('blockchain_tx', 'coin_amount', 'coin_type','fiat_type','fiat_value','receiver','sender','body_text','created_datetime','created_utc','comment_id','permalink','parent_id','parent_comment_permalink','score','subreddit','sent','claimed','unclaimed','returned',)
 
     response = HttpResponse(content_type='test/csv')
 
     csv_writer = csv.writer(response)
-    csv_writer.writerow(['blockchain_tx', 'coin_amount', 'coin_type','fiat_type','fiat_value','receiver','sender','body_text','created_datetime','created_utc','comment_id','permalink','parent_id','parent_comment_permalink','score','subreddit','claimed','returned',])
+    csv_writer.writerow(['blockchain_tx', 'coin_amount', 'coin_type','fiat_type','fiat_value','receiver','sender','body_text','created_datetime','created_utc','comment_id','permalink','parent_id','parent_comment_permalink','score','subreddit','sent','claimed','unclaimed','returned',])
 
     for tip in all_tips:
         csv_writer.writerow(tip)

@@ -35,11 +35,12 @@
 
     <div id ="all_month_data_div">
         <div class ="month_title data_title">{{ month_stats.month }}</div>
+        <div class ="month_title data_title">Total Tips: {{ month_stats.total_tips }}</div>
         <div id ="both_boxes_display_flex">
             <div id="tip_data" class = "box_display_flex">
                 <div>
-                    <p class = "data_title">All Tips<p> 
-                    <p class = "data_numbers">{{ month_stats.total_tips }}</p>
+                    <p class = "data_title">Sent Tips<p> 
+                    <p class = "data_numbers">{{ month_stats.sent_tips }} <span class = "percent"> {{ month_stats.sent_percentage }}</span></p>
                 </div>
                 <div>
                     <p class = "data_title">Claimed</p> 
@@ -246,6 +247,8 @@
                             <td>${{ tip.fiat_value|floatformat:2 }}</td>
                             {% if tip.claimed %}
                                 <td>Claimed</td>
+                            {% elif tip.unclaimed %}
+                                <td>Unclaimed</td>
                             {% elif tip.returned %}
                                 <td>Returned</td>
                             {% else %}
@@ -264,11 +267,13 @@
 
     <div id = "all_data_div">
         <div id ="all_title" class ="month_title data_title"> {{ all_stats.start_date|date:"F jS Y"}} <span class="title_time">{{ all_stats.start_date|time:"H:i"}}UTC</span><span id="dash">-</span>{{ all_stats.end_date|date:"F jS Y"}} <span class="title_time">{{ all_stats.end_date|time:"H:i"}}UTC</span></div>
+        <div class ="month_title data_title"> All Tips: {{ all_stats.total_tips }}</div>
+
         <div id ="both_boxes_display_flex">
             <div id="tip_data" class = "box_display_flex">
                 <div>
-                    <p class = "data_title">All Tips<p> 
-                    <p class = "data_numbers">{{ all_stats.total_tips }}</p>
+                    <p class = "data_title">Sent Tips<p> 
+                    <p class = "data_numbers">{{ all_stats.sent_tips }} <span class = "percent"> {{ all_stats.sent_percentage }}</span></p>
                 </div>
                 <div>
                     <p class = "data_title">Claimed</p> 
@@ -477,6 +482,8 @@
                             <td>${{ tip.fiat_value|floatformat:2 }}</td>
                             {% if tip.claimed %}
                                 <td>Claimed</td>
+                            {% elif tip.unclaimed %}
+                                <td>Unclaimed</td>
                             {% elif tip.returned %}
                                 <td>Returned</td>
                             {% else %}
