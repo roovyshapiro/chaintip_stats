@@ -77,6 +77,10 @@ class Command(BaseCommand):
             new_tip.fiat_value = tip['body']['fiat_value']
             new_tip.receiver = tip['body']['receiver']
             try:
+                new_tip.receiver = tip['body']['receiver']
+            except:
+                pass
+            try:
                 new_tip.sender = tip['body']['sender']
             except:
                 pass

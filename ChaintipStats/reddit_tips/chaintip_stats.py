@@ -62,14 +62,15 @@ class Chaintip_stats:
             else:
                 comment_dict['type'] = 'returned'
                 body_list = comment.body.replace("[chaintip](http://www.chaintip.org) has [returned]("," ").replace(") the unclaimed tip of `"," ").replace("` | `~"," ").replace("` to "," ").replace("***","").split()
+                print(body_list)
                 comment_dict['body'] = {}
-                comment_dict['body']['receiver'] = body_list[5].replace(".",'')
+                #comment_dict['body']['sender'] = body_list[5].replace(".",'')
                 comment_dict['body']['blockchain_tx'] = body_list[0]
                 comment_dict['body']['coin_amount'] = body_list[1]
                 comment_dict['body']['coin_type'] = body_list[2]
                 comment_dict['body']['fiat_value'] = body_list[3]
                 comment_dict['body']['fiat_type'] = body_list[4]
-                #comment_dict['body']['sender'] = ' '
+                #comment_dict['body']['receiver'] = ' '
             comment_dict["subreddit"] = comment.subreddit.display_name
             comment_dict["body_text"] = comment.body.replace("***","").replace("\n"," ")
             comment_dict["id"] = comment.id
