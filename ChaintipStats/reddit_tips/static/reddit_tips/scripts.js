@@ -180,9 +180,9 @@ for (year in years){
   }
 }
 
-const year_month_labels = date_label;
+var year_month_labels = date_label;
 
-const data_tip_per_month = {
+var data_tip_per_month = {
   labels: year_month_labels,
   datasets: [{
     label: 'Tips Per Month',
@@ -195,7 +195,7 @@ const data_tip_per_month = {
   }]
 };
 
-const config_tip_per_month = {
+var config_tip_per_month = {
     type: 'bar',
     data: data_tip_per_month,
     options: {
@@ -213,7 +213,7 @@ var myChart = new Chart(
   );
 
 /* Value per Day instead of tip amount per day */
-const data_tip_value_per_month = {
+var data_tip_value_per_month = {
   labels: year_month_labels,
   datasets: [{
     label: 'USD Tipped per Month',
@@ -226,7 +226,7 @@ const data_tip_value_per_month = {
   }]
 };
 
-const value_config = {
+var value_config = {
     type: 'bar',
     data: data_tip_value_per_month,
     options: {
@@ -283,8 +283,8 @@ var month_tips_per_day = JSON.parse(document.getElementById('month_stats_tip_per
 var month_keys = Object.keys(month_tips_per_day);
 var month_values = Object.values(month_tips_per_day);
 
-const month_labels = month_keys;
-const month_data = {
+var month_labels = month_keys;
+var month_data = {
   labels: month_labels,
   datasets: [{
     label: 'Tips Per Day',
@@ -297,7 +297,7 @@ const month_data = {
   }]
 };
 
-const month_config = {
+var month_config = {
     type: 'bar',
     data: month_data,
     options: {
@@ -329,8 +329,8 @@ while(x < len){
     x++
 }
 
-const month_value_labels = month_value_keys;
-const month_value_data = {
+var month_value_labels = month_value_keys;
+var month_value_data = {
   labels: month_value_labels,
   datasets: [{
     label: 'USD Tipped per Day',
@@ -343,7 +343,7 @@ const month_value_data = {
   }]
 };
 
-const month_value_config = {
+var month_value_config = {
     type: 'bar',
     data: month_value_data,
     options: {
