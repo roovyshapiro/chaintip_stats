@@ -62,20 +62,47 @@ class Chaintip_stats:
             else:
                 comment_dict['type'] = 'returned'
                 body_list = comment.body.replace("[chaintip](http://www.chaintip.org) has [returned]("," ").replace(") the unclaimed tip of `"," ").replace("` | `~"," ").replace("` to "," ").replace("***","").split()
-                print(body_list)
                 comment_dict['body'] = {}
-                #comment_dict['body']['sender'] = body_list[5].replace(".",'')
                 comment_dict['body']['blockchain_tx'] = body_list[0]
                 comment_dict['body']['coin_amount'] = body_list[1]
                 comment_dict['body']['coin_type'] = body_list[2]
                 comment_dict['body']['fiat_value'] = body_list[3]
                 comment_dict['body']['fiat_type'] = body_list[4]
-                #comment_dict['body']['receiver'] = ' '
             comment_dict["subreddit"] = comment.subreddit.display_name
             comment_dict["body_text"] = comment.body.replace("***","").replace("\n"," ")
             comment_dict["id"] = comment.id
             comment_dict["parent_id"] = comment.parent_id
             parent_comment_id = comment.parent_id.replace('t1_','').replace('t3_','')
+
+            #The comment for returned tips doesn't include the username of the original
+            #intended recipient. Instead, we get the sender and receiver's names by retrieving
+            #the parent comment (sender) and grandparent comment (recipient).
+            #We take into account that the grandparent comment might actually be a submission.
+            #In addition, we take into account that sometimes the sender or recipient is deleted
+            #by the time a tip is returned, and so we return an empty string instead of None
+            if comment_dict['type'] == 'returned':
+                parent_comment = self.reddit.comment(id=parent_comment_id)
+                if parent_comment.author == None:
+                    comment_dict['body']['sender'] = ' '
+                else:
+                    comment_author = parent_comment.author
+                    comment_dict['body']['sender'] = f'u/{comment_author.name}'
+                grandparent_comment_id = parent_comment.parent_id
+                if grandparent_comment_id.startswith('t1'):
+                    grandparent_type = 'comment'
+                if grandparent_comment_id.startswith('t3'):
+                    grandparent_type = 'submission'
+                grandparent_comment_id = grandparent_comment_id.replace('t1_','').replace('t3_','')
+                if grandparent_type == 'comment':
+                    grandparent_comment = self.reddit.comment(id=grandparent_comment_id)
+                elif grandparent_type == 'submission':
+                    grandparent_comment = self.reddit.submission(id=grandparent_comment_id)
+                if grandparent_comment.author == None:
+                    comment_dict['body']['receiver']  = ' '
+                else:
+                    grandparent_author = grandparent_comment.author
+                    comment_dict['body']['receiver']  = f'u/{grandparent_author.name}'
+
             comment_dict['parent_comment_permalink'] = "https://reddit.com" + comment.permalink.replace(comment.id,parent_comment_id)
             comment_dict["created_utc"] = comment.created_utc
             comment_dict["created_datetime"] = datetime.datetime.utcfromtimestamp(int(comment.created_utc))
