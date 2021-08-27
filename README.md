@@ -65,8 +65,8 @@ On the back end, Django calculates and presents the data to the web page.
 
 [Chart.JS](https://www.chartjs.org/docs/master/)  is used to present the data in graphs and charts.
 
-## Hosting with [Python Anywhere](https://www.pythonanywhere.com/)
-This site is being hosted on Python Anywhere currently. Originally, the regular API calls to reddit were designed to work with Celery/[Celery Beat](https://www.merixstudio.com/blog/django-celery-beat/). It works well locally but unfortunately Python Anywhere doesn't currently support Celery. Python Anywhere does [support regularly scheduled tasks](https://help.pythonanywhere.com/pages/ScheduledTasks/) though. This project has been split into two branches: one that users Celery and one that uses a simple cron job with a c[ustom Django managament](https://docs.djangoproject.com/en/3.2/howto/custom-management-commands/) command. In the future, I may combine these two branches and get rid of Celery altogether.
+## Hosting with [Python Anywhere](https://www.pythonanywhere.com/?affiliate_id=00a5e5d4)
+This site is being hosted on [Python Anywhere](https://www.pythonanywhere.com/?affiliate_id=00a5e5d4) currently. Originally, the regular API calls to reddit were designed to work with Celery/[Celery Beat](https://www.merixstudio.com/blog/django-celery-beat/). It works well locally but unfortunately Python Anywhere doesn't currently support Celery. Python Anywhere does support regularly scheduled tasks though. This project has been split into two branches: one that users Celery and one that uses a simple cron job with a [custom Django managament](https://docs.djangoproject.com/en/3.2/howto/custom-management-commands/) command. In the future, I may merge these two branches and get rid of Celery altogether.
 
 ## DNS / [stats.chaintip.org](https://stats.chaintip.org/)
 [Chaintip](https://www.chaintip.org/)  for Reddit was created and is maintained by [u/Tibanne](https://www.reddit.com/user/tibanne) and he is the owner of chaintip.org. This live dashboard is a completely separate project but for now, he has allowed the use of the stats subdomain so its easy for users to find.
