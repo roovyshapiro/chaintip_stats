@@ -1,12 +1,20 @@
 # CHAINTIP STATS
-
+- [CHAINTIP STATS](#chaintip-stats)
+  - [What is Chaintip and how does it work?](#what-is-chaintip-and-how-does-it-work)
+  - [What's the purpose of CHAINTIP STATS?](#whats-the-purpose-of-chaintip-stats)
+  - [How does CHAINTIP STATS work?](#how-does-chaintip-stats-work)
+  - [Hosting with Python Anywhere](#hosting-with-python-anywhere)
+  - [DNS / stats.chaintip.org](#dns--statschaintiporg)
+  - [Why Bitcoin Cash?](#why-bitcoin-cash)
+  - [What can I actually do with Bitcoin Cash?](#what-can-i-actually-do-with-bitcoin-cash)
+  
 *Site is currently live at [stats.chaintip.org](https://stats.chaintip.org)*
 
-Monthly View
+**Monthly View**
 ![](https://i.imgur.com/2XzyeCZ.png)
 
-All Time View
-![enter image description here](https://i.imgur.com/Q0wMnRB.png)
+**All Time View**
+![](https://i.imgur.com/Q0wMnRB.png)
 
 ## What is Chaintip and how does it work?
 
@@ -61,7 +69,7 @@ On the back end, Django calculates and presents the data to the web page.
 This site is being hosted on Python Anywhere currently. Originally, the regular API calls to reddit were designed to work with Celery/[Celery Beat](https://www.merixstudio.com/blog/django-celery-beat/). It works well locally but unfortunately Python Anywhere doesn't currently support Celery. Python Anywhere does [support regularly scheduled tasks](https://help.pythonanywhere.com/pages/ScheduledTasks/) though. This project has been split into two branches: one that users Celery and one that uses a simple cron job with a c[ustom Django managament](https://docs.djangoproject.com/en/3.2/howto/custom-management-commands/) command. In the future, I may combine these two branches and get rid of Celery altogether.
 
 ## DNS / [stats.chaintip.org](https://stats.chaintip.org/)
-[Chaintip](https://www.chaintip.org/)  for Reddit was created and is maintained by  u/Tibanne and he is the owner of chaintip.org. This live dashboard is a completely separate project but for now, he has allowed the use of the stats subdomain so its easy for users to find.
+[Chaintip](https://www.chaintip.org/)  for Reddit was created and is maintained by [u/Tibanne](https://www.reddit.com/user/tibanne) and he is the owner of chaintip.org. This live dashboard is a completely separate project but for now, he has allowed the use of the stats subdomain so its easy for users to find.
 
 
 ## [Why Bitcoin Cash?](https://whybitcoincash.com/)
