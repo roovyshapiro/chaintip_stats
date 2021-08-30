@@ -22,5 +22,6 @@ urlpatterns = [
     path('', reddit_views.main, name='reddit_main'),
     path('gettips/', reddit_views.populate_db, name='get_reddit_tips'),
     path('export/', reddit_views.export_csv_all_tips, name='export_tips_csv'),
+    path('fix_old_status/', reddit_views.fix_old_status, name='fix_old_status'),
 
 ]
