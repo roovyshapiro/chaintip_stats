@@ -250,21 +250,39 @@ nav > a:hover{
 }
 
 /* Month Text */
+.tip_total_title{
+  font-size:xxx-large;
+  display:flex;
+  justify-content:center;
+  font-weight:bold;
+}
 .month_title{
   display:flex;
   justify-content:center;
+  font-size:x-large;
+}
+.title_date{
+  font-size:x-large;
 }
 .title_time{
-  font-weight: normal;
-  font-size:large;
-  align-self:flex-end;
+  font-style:italic;
+  font-size:smaller;
 }
 #all_title{
-  margin-top:20px;
+  margin-top:5px;
+  display:flex;
+  justify-content: center;
 }
-#dash{
-  margin-left:15px;
-  margin-right:15px;
+.title_date_and_time{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align:center;
+  padding:15px;
+}
+.dash{
+  padding-top: 30px;
+  font-size: x-large;
 }
 /**/
 .box_display_flex{

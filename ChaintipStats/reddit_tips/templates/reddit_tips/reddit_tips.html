@@ -39,8 +39,8 @@
 
 
     <div id ="all_month_data_div">
-        <div class ="month_title data_title">{{ month_stats.month }}</div>
-        <div class ="month_title data_title">Total Tips: {{ month_stats.total_tips }}</div>
+        <div class ="month_title">{{ month_stats.month }}</div>
+        <div class ="tip_total_title">Total Tips: {{ month_stats.total_tips }}</div>
         <div id ="both_boxes_display_flex">
             <div id="tip_data" class = "box_display_flex">
                 <div>
@@ -263,8 +263,20 @@
     <!--    ALL DATA       -->
 
     <div id = "all_data_div">
-        <div id ="all_title" class ="month_title data_title"> {{ all_stats.start_date|date:"F jS Y"}} <span class="title_time">{{ all_stats.start_date|time:"H:i"}}UTC</span><span id="dash">-</span>{{ all_stats.end_date|date:"F jS Y"}} <span class="title_time">{{ all_stats.end_date|time:"H:i"}}UTC</span></div>
-        <div class ="month_title data_title"> All Tips: {{ all_stats.total_tips }}</div>
+        <div id ="all_title"> 
+            <div class="title_date_and_time">
+                <div class ='title_date'>{{ all_stats.start_date|date:"F jS Y"}}</div>
+                <div class="title_time">{{ all_stats.start_date|time:"H:i"}}UTC</div>
+            </div>
+            <div class="dash">
+                <p>-</p>
+            </div>
+            <div class="title_date_and_time">
+                <div class='title_date'>{{ all_stats.end_date|date:"F jS Y"}} </div>
+                <div class="title_time">{{ all_stats.end_date|time:"H:i"}}UTC</div>
+            </div>
+        </div>
+        <div class ="tip_total_title"> All Tips: {{ all_stats.total_tips }}</div>
 
         <div id ="both_boxes_display_flex">
             <div id="tip_data" class = "box_display_flex">
