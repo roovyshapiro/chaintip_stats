@@ -26,7 +26,11 @@ function retrieve_saved_data() {
     //Put in today's date into the date selector unless a date has been chosen already
     if (localStorage.getItem("selected_date") == null){
         var today = new Date();
-        var today_date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+        var month = today.getMonth()+1;
+        if(month.toString().length < 2){
+          month = '0' + month;
+        }
+        var today_date = `${today.getFullYear()}-${month}`;
         document.getElementById("date_start").value = today_date;
     } else {
         document.getElementById("date_start").value = localStorage.getItem("selected_date");
