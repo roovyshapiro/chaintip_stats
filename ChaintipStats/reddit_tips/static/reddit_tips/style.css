@@ -278,7 +278,8 @@ nav > a:hover{
   flex-direction: column;
   justify-content: center;
   text-align:center;
-  padding:15px;
+  padding-left:15px;
+  padding-right:15px;
 }
 .dash{
   padding-top: 30px;
