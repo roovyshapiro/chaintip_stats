@@ -245,15 +245,7 @@
                             <td><a href='{{ tip.parent_comment_permalink }}'>{{ tip.subreddit }}</a></td>
                             <td>{{ tip.coin_amount|floatformat:8 }}</td>
                             <td>${{ tip.fiat_value|floatformat:2 }}</td>
-                            {% if tip.claimed %}
-                                <td>Claimed</td>
-                            {% elif tip.unclaimed %}
-                                <td>Unclaimed</td>
-                            {% elif tip.returned %}
-                                <td>Returned</td>
-                            {% else %}
-                                <td>Sent</td>
-                            {% endif %}
+                            <td>{{ tip.status }}</td>
                             <td>{{ tip.created_datetime }}</td>
                             <td><a href='{{tip.blockchain_tx}}'>{{ tip.blockchain_tx }}</a></td>
                         </tr>
@@ -480,15 +472,7 @@
                             <td><a href='{{ tip.parent_comment_permalink }}'>{{ tip.subreddit }}</a></td>
                             <td>{{ tip.coin_amount|floatformat:8 }}</td>
                             <td>${{ tip.fiat_value|floatformat:2 }}</td>
-                            {% if tip.claimed %}
-                                <td>Claimed</td>
-                            {% elif tip.unclaimed %}
-                                <td>Unclaimed</td>
-                            {% elif tip.returned %}
-                                <td>Returned</td>
-                            {% else %}
-                                <td>Sent</td>
-                            {% endif %}
+                            <td>{{ tip.status }}</td>
                             <td>{{ tip.created_datetime }}</td>
                             <td><a href='{{tip.blockchain_tx}}'>{{ tip.blockchain_tx }}</a></td>
                         </tr>
