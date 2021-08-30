@@ -121,7 +121,7 @@ function date_changer(timeframe){
         var max_month_raw = document.getElementById("date_start").max;
         var max_month_raw_arr = max_month_raw.split('-');
         var max_month = new Date(`${max_month_raw_arr[0]},${max_month_raw_arr[1]}`);
-        if(chosen_date.getMonth() < max_month.getMonth()  || chosen_date.getMonth() == max_month.getMonth()){
+        if(chosen_date.getMonth() > max_month.getMonth()  || chosen_date.getMonth() == max_month.getMonth()){
             return;
         } else{
             chosen_date.setMonth(chosen_date.getMonth() + 1);
