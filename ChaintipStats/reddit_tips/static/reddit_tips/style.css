@@ -162,6 +162,11 @@ nav > a:hover{
 
 .auto_refresh_box{
   margin-bottom:1px;
+  margin-top:5px;
+  display:flex;
+}
+.auto_refresh_box div{
+  margin-right:5px;
 }
 
 .round_day_switcher {
@@ -169,7 +174,6 @@ nav > a:hover{
   color: black;
   padding: 2px 8px;
   border-radius: 60%;
-  margin-top:2px;
   font-weight:bold;
   text-decoration: none;
 }
@@ -246,21 +250,39 @@ nav > a:hover{
 }
 
 /* Month Text */
+.tip_total_title{
+  font-size:xxx-large;
+  display:flex;
+  justify-content:center;
+  font-weight:bold;
+}
 .month_title{
   display:flex;
   justify-content:center;
+  font-size:x-large;
+}
+.title_date{
+  font-size:x-large;
 }
 .title_time{
-  font-weight: normal;
-  font-size:large;
-  align-self:flex-end;
+  font-style:italic;
+  font-size:smaller;
 }
 #all_title{
-  margin-top:20px;
+  margin-top:5px;
+  display:flex;
+  justify-content: center;
 }
-#dash{
-  margin-left:15px;
-  margin-right:15px;
+.title_date_and_time{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align:center;
+  padding:15px;
+}
+.dash{
+  padding-top: 30px;
+  font-size: x-large;
 }
 /**/
 .box_display_flex{
@@ -399,6 +421,10 @@ nav > a:hover{
     border-radius: 5px;
     background-color: white;
     color:#333;
+  }
+
+  .auto_refresh_box{
+    justify-content: center;
   }
 
   #refresh_date_group{

@@ -17,17 +17,20 @@ function retrieve_saved_data() {
     refresh_minutes = localStorage.getItem("refresh_minutes");
     refresh_seconds = refresh_minutes * 60;
     localStorage.setItem("refresh_seconds", refresh_seconds);
-    document.getElementById("minutes_input").value = refresh_minutes;
     document.getElementById("checkbox_autoupdate").checked = checkbox_status_bool;
     //If the checkbox is already clicked when the page reloads
     if (checkbox_status_bool){
-        document.getElementById("auto_update_label").innerHTML = 'Auto Refresh: ' + refresh_seconds;
+        document.getElementById("auto_update_label").innerHTML = refresh_seconds;
         checkbox_click();
     }
     //Put in today's date into the date selector unless a date has been chosen already
     if (localStorage.getItem("selected_date") == null){
         var today = new Date();
-        var today_date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+        var month = today.getMonth()+1;
+        if(month.toString().length < 2){
+          month = '0' + month;
+        }
+        var today_date = `${today.getFullYear()}-${month}`;
         document.getElementById("date_start").value = today_date;
     } else {
         document.getElementById("date_start").value = localStorage.getItem("selected_date");
@@ -44,10 +47,7 @@ function retrieve_saved_data() {
 function checkbox_click() {
     checkbox_status = document.getElementById("checkbox_autoupdate").checked;
     localStorage.setItem("checkbox_status", checkbox_status);
-    if (refresh_minutes == '' || refresh_minutes == null){
-        document.getElementById("minutes_input").value = 15;
-        update_refresh_time();
-    }
+    update_refresh_time();
     if (checkbox_status == true){
         countdown_timer = setTimeout(function() {
             location.reload();
@@ -56,22 +56,18 @@ function checkbox_click() {
     } else {
         clearTimeout(countdown_timer);
         clearInterval(countdown_update_label_timer);
-        refresh_minutes = document.getElementById("minutes_input").value;
-        refresh_seconds = refresh_minutes * 60; 
-        document.getElementById("auto_update_label").innerHTML = 'Auto Refresh';
+        document.getElementById("auto_update_label").innerHTML = '';
 
     }
 }
 
-//WHEN the number input field is changed
 function update_refresh_time() {
-    refresh_minutes = document.getElementById("minutes_input").value;
+    refresh_minutes = 60;
     refresh_seconds = refresh_minutes * 60; 
     localStorage.setItem("refresh_seconds", refresh_seconds);
     localStorage.setItem("refresh_minutes", refresh_minutes);
     clearTimeout(countdown_timer);
     clearInterval(countdown_update_label_timer);
-    checkbox_click();
 }
 
 //While countdown_timer starts a one time countdown to refresh the page,
@@ -85,7 +81,7 @@ function countdown_update(){
             clearInterval(countdown_update_label_timer);
         }
         localStorage.setItem('refresh_seconds', refresh_seconds);
-        document.getElementById("auto_update_label").innerHTML = 'Auto Refresh: ' + refresh_seconds;
+        document.getElementById("auto_update_label").innerHTML = refresh_seconds;
     }, 1000);
 }
 
@@ -125,7 +121,7 @@ function date_changer(timeframe){
         var max_month_raw = document.getElementById("date_start").max;
         var max_month_raw_arr = max_month_raw.split('-');
         var max_month = new Date(`${max_month_raw_arr[0]},${max_month_raw_arr[1]}`);
-        if(chosen_date.getMonth() < max_month.getMonth()  || chosen_date.getMonth() == max_month.getMonth()){
+        if(chosen_date.getMonth() > max_month.getMonth()  || chosen_date.getMonth() == max_month.getMonth()){
             return;
         } else{
             chosen_date.setMonth(chosen_date.getMonth() + 1);
@@ -255,7 +251,7 @@ new Chart(document.getElementById("total_claimed_returned"), {
       labels: tcr_keys,
       datasets: [
         {
-          backgroundColor: ["#ad84ff","#efef41","#e8c3b9","#c45850"],
+          backgroundColor: ["#0000cd","#1e90ff","#a9a9a9","#fe2712"],
           data: tcr_values
         }
       ]
@@ -372,7 +368,7 @@ new Chart(document.getElementById("month_total_claimed_returned"), {
       labels: month_tcr_keys,
       datasets: [
         {
-          backgroundColor: ["#ad84ff","#efef41","#e8c3b9","#c45850"],
+          backgroundColor: ["#0000cd","#1e90ff","#a9a9a9","#fe2712"],
           data: month_tcr_values
         }
       ]

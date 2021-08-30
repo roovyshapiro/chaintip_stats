@@ -5,12 +5,17 @@
             <div class = "auto_refresh_box">
                 <div class='tooltip'>
                     <p class="round_day_switcher">?</p>
-                    <p class="tooltiptext">Data is automatically retrieved from Reddit and CoinMarketCap every 30 minutes or so. However, the new data won't be displayed until the page is refreshed. Enabling the auto-refresh box will continue to automatically refresh the page at the end of the specified amount of minutes.</p>
+                    <p class="tooltiptext">Data is automatically retrieved from Reddit and CoinMarketCap once an hour. Enabling the auto-refresh box will automatically reload the page with any newly retrieved data. This is useful for a setting up a live monitor.</p>
                 </div>
-                <label id="number_input" for="minutes">Minutes:</label>
-                <input type="number" value='15' id="minutes_input" name="minutes" min="1" max="20" onchange="update_refresh_time()">
-                <input type="checkbox" id="checkbox_autoupdate" onclick="checkbox_click()" unchecked/>
-                <label id="auto_update_label" for="checkbox_autoupdate">Auto Refresh</label>
+                <div>
+                    <p>Auto Refresh:</p>
+                </div>
+                <div>
+                    <input type="checkbox" id="checkbox_autoupdate" onclick="checkbox_click()" unchecked/>
+                </div>
+                <div>
+                    <label id="auto_update_label" for="checkbox_autoupdate"></label>
+                </div>
             </div>
 
 
@@ -34,8 +39,8 @@
 
 
     <div id ="all_month_data_div">
-        <div class ="month_title data_title">{{ month_stats.month }}</div>
-        <div class ="month_title data_title">Total Tips: {{ month_stats.total_tips }}</div>
+        <div class ="month_title">{{ month_stats.month }}</div>
+        <div class ="tip_total_title">Total Tips: {{ month_stats.total_tips }}</div>
         <div id ="both_boxes_display_flex">
             <div id="tip_data" class = "box_display_flex">
                 <div>
@@ -258,8 +263,20 @@
     <!--    ALL DATA       -->
 
     <div id = "all_data_div">
-        <div id ="all_title" class ="month_title data_title"> {{ all_stats.start_date|date:"F jS Y"}} <span class="title_time">{{ all_stats.start_date|time:"H:i"}}UTC</span><span id="dash">-</span>{{ all_stats.end_date|date:"F jS Y"}} <span class="title_time">{{ all_stats.end_date|time:"H:i"}}UTC</span></div>
-        <div class ="month_title data_title"> All Tips: {{ all_stats.total_tips }}</div>
+        <div id ="all_title"> 
+            <div class="title_date_and_time">
+                <div class ='title_date'>{{ all_stats.start_date|date:"F jS Y"}}</div>
+                <div class="title_time">{{ all_stats.start_date|time:"H:i"}}UTC</div>
+            </div>
+            <div class="dash">
+                <p>-</p>
+            </div>
+            <div class="title_date_and_time">
+                <div class='title_date'>{{ all_stats.end_date|date:"F jS Y"}} </div>
+                <div class="title_time">{{ all_stats.end_date|time:"H:i"}}UTC</div>
+            </div>
+        </div>
+        <div class ="tip_total_title"> All Tips: {{ all_stats.total_tips }}</div>
 
         <div id ="both_boxes_display_flex">
             <div id="tip_data" class = "box_display_flex">
