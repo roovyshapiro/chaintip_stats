@@ -5,12 +5,17 @@
             <div class = "auto_refresh_box">
                 <div class='tooltip'>
                     <p class="round_day_switcher">?</p>
-                    <p class="tooltiptext">Data is automatically retrieved from Reddit and CoinMarketCap every 30 minutes or so. However, the new data won't be displayed until the page is refreshed. Enabling the auto-refresh box will continue to automatically refresh the page at the end of the specified amount of minutes.</p>
+                    <p class="tooltiptext">Data is automatically retrieved from Reddit and CoinMarketCap once an hour. Enabling the auto-refresh box will automatically reload the page with any newly retrieved data. This is useful for a setting up a live monitor.</p>
                 </div>
-                <label id="number_input" for="minutes">Minutes:</label>
-                <input type="number" value='15' id="minutes_input" name="minutes" min="1" max="20" onchange="update_refresh_time()">
-                <input type="checkbox" id="checkbox_autoupdate" onclick="checkbox_click()" unchecked/>
-                <label id="auto_update_label" for="checkbox_autoupdate">Auto Refresh</label>
+                <div>
+                    <p>Auto Refresh:</p>
+                </div>
+                <div>
+                    <input type="checkbox" id="checkbox_autoupdate" onclick="checkbox_click()" unchecked/>
+                </div>
+                <div>
+                    <label id="auto_update_label" for="checkbox_autoupdate"></label>
+                </div>
             </div>
 
 

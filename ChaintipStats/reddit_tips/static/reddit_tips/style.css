@@ -162,6 +162,11 @@ nav > a:hover{
 
 .auto_refresh_box{
   margin-bottom:1px;
+  margin-top:5px;
+  display:flex;
+}
+.auto_refresh_box div{
+  margin-right:5px;
 }
 
 .round_day_switcher {
@@ -169,7 +174,6 @@ nav > a:hover{
   color: black;
   padding: 2px 8px;
   border-radius: 60%;
-  margin-top:2px;
   font-weight:bold;
   text-decoration: none;
 }
