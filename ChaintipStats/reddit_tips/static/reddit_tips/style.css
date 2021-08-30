@@ -405,6 +405,10 @@ nav > a:hover{
     color:#333;
   }
 
+  .auto_refresh_box{
+    justify-content: center;
+  }
+
   #refresh_date_group{
     text-align:center;
     font-size:10px;
