@@ -44,10 +44,7 @@ class RedditTip(models.Model):
     permalink = models.CharField(max_length=150)
     score = models.IntegerField()
     subreddit = models.CharField(max_length=30)
-    sent = models.BooleanField(null=True, default=None)
-    unclaimed = models.BooleanField(null=True, default=None)
-    claimed = models.BooleanField(null=True, default=None)
-    returned = models.BooleanField(null=True, default=None)
+    status = models.CharField(max_length=30, null=True, blank=True)
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)

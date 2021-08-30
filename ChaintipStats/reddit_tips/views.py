@@ -20,13 +20,13 @@ def main(request):
 
     all_stats['bch_price'] = bch_prices.first().price_format
     all_stats['total_tips'] = len(all_tips)
-    all_stats['sent_tips'] = len(all_tips.filter(sent=True))
+    all_stats['sent_tips'] = len(all_tips.filter(status='sent'))
     all_stats['sent_percentage'] = str(round(float(format(all_stats['sent_tips'] / all_stats['total_tips'], '.2%').replace('%','')))) + '%'
-    all_stats['claimed_tips'] = len(all_tips.filter(claimed=True))
+    all_stats['claimed_tips'] = len(all_tips.filter(status='claimed'))
     all_stats['claimed_percentage'] = str(round(float(format(all_stats['claimed_tips'] / all_stats['total_tips'], '.2%').replace('%','')))) + '%'
-    all_stats['returned_tips'] = len(all_tips.filter(returned=True))
+    all_stats['returned_tips'] = len(all_tips.filter(status='returned'))
     all_stats['returned_percentage'] = str(round(float(format(all_stats['returned_tips'] / all_stats['total_tips'], '.2%').replace('%','')))) + '%'
-    all_stats['claim_waiting'] = len(all_tips.filter(unclaimed=True))
+    all_stats['claim_waiting'] = len(all_tips.filter(status='unclaimed'))
     all_stats['claim_waiting_percent'] = str(round(float(format(all_stats['claim_waiting'] / all_stats['total_tips'], '.2%').replace('%','')))) + '%'
     all_stats['total_claimed_returned'] = {'Sent': all_stats['sent_tips'], 'Claimed':all_stats['claimed_tips'], 'Unclaimed': all_stats['claim_waiting'], 'Returned': all_stats['returned_tips'],}
 
@@ -60,7 +60,7 @@ def main(request):
 
     all_stats['senders_by_subs'] = sender_subreddits(all_stats['all_senders'], all_tips)
 
-    all_tips_receivers = all_tips.filter(~Q(returned = True))
+    all_tips_receivers = all_tips.filter(~Q(status = 'returned'))
     all_stats['all_receivers'] = all_tips_receivers.values_list('receiver').annotate(receiver_count=Count('receiver')).order_by('-receiver_count')
     all_stats['all_subs'] = all_tips.values_list('subreddit').annotate(subreddit_count=Count('subreddit')).order_by('-subreddit_count')
 
@@ -77,8 +77,8 @@ def main(request):
     
     month_stats['bch_price'] = bch_prices.first().price_format
     month_stats['total_tips'] = len(all_month_tips)
-    month_stats['sent_tips'] = len(all_month_tips.filter(sent=True))
-    month_stats['claimed_tips'] = len(all_month_tips.filter(claimed=True))
+    month_stats['sent_tips'] = len(all_month_tips.filter(status='sent'))
+    month_stats['claimed_tips'] = len(all_month_tips.filter(status='claimed'))
     try:
         month_stats['sent_percentage'] = str(round(float(format(month_stats['sent_tips'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
     except ZeroDivisionError:
@@ -89,13 +89,13 @@ def main(request):
     except ZeroDivisionError:
         #first of the month with no tips yet
         month_stats['claimed_percentage'] = '0%'
-    month_stats['returned_tips'] = len(all_month_tips.filter(returned=True))
+    month_stats['returned_tips'] = len(all_month_tips.filter(status='returned'))
     try:
         month_stats['returned_percentage'] = str(round(float(format(month_stats['returned_tips'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
     except ZeroDivisionError:
         #first of the month with no tips yet
         month_stats['claimed_percentage'] = '0%'
-    month_stats['claim_waiting'] = len(all_month_tips.filter(unclaimed=True))
+    month_stats['claim_waiting'] = len(all_month_tips.filter(status='unclaimed'))
     try:
         month_stats['claim_waiting_percent'] = str(round(float(format(month_stats['claim_waiting'] / month_stats['total_tips'], '.2%').replace('%','')))) + '%'
     except ZeroDivisionError:
@@ -129,7 +129,7 @@ def main(request):
 
     month_stats['senders_by_subs'] = sender_subreddits(month_stats['all_senders'], all_month_tips)
 
-    all_tips_receivers = all_month_tips.filter(~Q(returned = True))
+    all_tips_receivers = all_month_tips.filter(~Q(status = 'returned'))
     month_stats['all_receivers'] = all_tips_receivers.values_list('receiver').annotate(receiver_count=Count('receiver')).order_by('-receiver_count')
     month_stats['all_subs'] = all_month_tips.values_list('subreddit').annotate(subreddit_count=Count('subreddit')).order_by('-subreddit_count')
 
@@ -249,12 +249,12 @@ def retrieve_dates(date_request):
     return today, end_of_day, first_of_week, end_of_week, first_of_month, end_of_month
 
 def export_csv_all_tips(request):
-    all_tips = RedditTip.objects.all().values_list('blockchain_tx', 'coin_amount', 'coin_type','fiat_type','fiat_value','receiver','sender','body_text','created_datetime','created_utc','comment_id','permalink','parent_id','parent_comment_permalink','score','subreddit','sent','claimed','unclaimed','returned',)
+    all_tips = RedditTip.objects.all().values_list('blockchain_tx', 'coin_amount', 'coin_type','fiat_type','fiat_value','receiver','sender','body_text','created_datetime','created_utc','comment_id','permalink','parent_id','parent_comment_permalink','score','subreddit','status',)
 
     response = HttpResponse(content_type='test/csv')
 
     csv_writer = csv.writer(response)
-    csv_writer.writerow(['blockchain_tx', 'coin_amount', 'coin_type','fiat_type','fiat_value','receiver','sender','body_text','created_datetime','created_utc','comment_id','permalink','parent_id','parent_comment_permalink','score','subreddit','sent','claimed','unclaimed','returned',])
+    csv_writer.writerow(['blockchain_tx', 'coin_amount', 'coin_type','fiat_type','fiat_value','receiver','sender','body_text','created_datetime','created_utc','comment_id','permalink','parent_id','parent_comment_permalink','score','subreddit','status',])
 
     for tip in all_tips:
         csv_writer.writerow(tip)

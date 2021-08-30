@@ -59,6 +59,7 @@ def get_tips():
     '''
     tips = retrieve_reddit_tips()
 
+    print(len(tips))
     db_tips = RedditTip.objects.all()
 
     for tip in tips:
@@ -93,26 +94,9 @@ def get_tips():
         new_tip.permalink = tip['permalink']
         new_tip.score = tip['score']
         new_tip.subreddit = tip['subreddit']
-        if tip['type'] == "sent":
-            new_tip.sent = True
-            new_tip.claimed = False
-            new_tip.unclaimed = False
-            new_tip.returned = False
-        if tip['type'] == "claimed":
-            new_tip.sent = False
-            new_tip.claimed = True
-            new_tip.unclaimed = False
-            new_tip.returned = False
-        if tip['type'] == "unclaimed":
-            new_tip.sent = False
-            new_tip.claimed = False
-            new_tip.unclaimed = True
-            new_tip.returned = False
-        elif tip['type'] == "returned":
-            new_tip.sent = False
-            new_tip.claimed = False
-            new_tip.unclaimed = False
-            new_tip.returned = True
+        if tip['type'] == '' or tip['type'] == None:
+            tip['type'] = ' '
+        new_tip.status = tip['type']
         try:
             new_tip.save()
         except ValueError:
