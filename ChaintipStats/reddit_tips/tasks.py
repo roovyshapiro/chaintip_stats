@@ -2,6 +2,8 @@ from __future__ import absolute_import, unicode_literals
 from celery import Celery, shared_task
 from django.utils import timezone
 from django.utils.timezone import make_aware
+from django.db.models import Q
+
  
 from .models import RedditTip, BCHPrice
 from .chaintip_stats import Chaintip_stats
@@ -166,7 +168,21 @@ def get_price():
     new_price.save()
 
 
-def retrieve_reddit_tips():
+def fix_tips_returned():
+    '''
+    A one time task to fix the senders & receivers in returned tips
+    '''
+    list_of_tips = retrieve_reddit_tips(fix_returned=True)
+    db_tips = RedditTip.objects.all()
+
+    for tip_dict in list_of_tips:
+        tip = db_tips.get(comment_id = tip_dict['id'])
+
+        tip.sender = tip_dict['sender']
+        tip.receiver = tip_dict['receiver']
+        tip.save()
+
+def retrieve_reddit_tips(fix_returned = False):
     '''
     '''
     credentials_file = 'credentials.json'
@@ -175,6 +191,13 @@ def retrieve_reddit_tips():
         data = f.read()
     credential_dict = json.loads(data)
     chaintip_api = Chaintip_stats(credential_dict['client_id'], credential_dict['client_secret'], credential_dict['user_agent'], credential_dict['username'], credential_dict['password'])
-    chaintip_comments = chaintip_api.gather_chaintip_stats()
-
+    if fix_returned == False:
+        chaintip_comments = chaintip_api.gather_chaintip_stats()
+    else:
+        db_tips = RedditTip.objects.all().filter(status='returned')
+        db_tips = db_tips.filter(Q(sender = None) | Q(receiver = None) | Q(sender = ' ') | Q(receiver = ' '))
+        print(len(db_tips))
+        chaintip_comments = chaintip_api.fix_returned_users(db_tips)
     return chaintip_comments
+
+
