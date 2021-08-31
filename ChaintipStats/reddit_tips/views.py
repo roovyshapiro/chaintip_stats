@@ -262,37 +262,10 @@ def export_csv_all_tips(request):
 
     return response
 
-
-def fix_old_status(request):
-    '''
-    A one time view to go back and make all the old statuses follow the current model
-    '''
-    all_tips = RedditTip.objects.all()
-    for tip in all_tips:
-        if tip.status in ['sent','returned','claimed','unclaimed']:
-            continue
-        else:
-            if "[claim it]" in tip.body_text:
-                tip.status = 'unclaimed'
-            elif "[returned]" in tip.body_text:
-                tip.status = 'returned'
-            elif "[claimed]" in tip.body_text:
-                tip.status = 'claimed'
-            else:
-                tip.status = 'sent'
-            tip.save()
-
-    return HttpResponse(f'Completed!')
-
-def fix_tip_returned(request):
-    '''
-    A one time view to fix the old returned with missing sender/receivers
-    '''
-    from .tasks import fix_tips_returned
-    fix_tips_returned()
+def test_post(request):
+    from .tasks import make_post
+    make_post()
     return HttpResponse('Completed!!')
-
-
 
 def populate_db(request):
     from .tasks import get_tips
