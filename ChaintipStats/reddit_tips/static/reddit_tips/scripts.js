@@ -32,6 +32,7 @@ function retrieve_saved_data() {
         }
         var today_date = `${today.getFullYear()}-${month}`;
         document.getElementById("date_start").value = today_date;
+		localStorage.setItem("selected_date", today_date);
     } else {
         document.getElementById("date_start").value = localStorage.getItem("selected_date");
     }
@@ -91,7 +92,6 @@ function countdown_update(){
 function save_date(){
     selected_date = document.getElementById('date_start').value;
     localStorage.setItem("selected_date", selected_date);
-    console.log(localStorage);
     document.getElementById("date_form").submit();
 }
 
@@ -167,7 +167,6 @@ var month_tip_amount = [];
 var month_tip_value = [];
 for (year in years){
   var months = Object.keys(tips_per_month[years[year]]);
-  console.log(months);
   for(month in months){
     date_label.push(`${years[year]} - ${months[month]}`);
     month_tip_amount.push(tips_per_month[years[year]][months[month]]['tip_amount']);
