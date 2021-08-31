@@ -515,4 +515,17 @@ nav > a:hover{
   #created_by_span{
     display:none;
   }
+  .tip_total_title{
+    font-size:x-large;
+  }
+  .month_title{
+    font-size:large;
+  }
+  .title_date{
+    font-size:medium;
+  }
+  .title_time{
+    font-style:italic;
+    font-size:smaller;
+  }
 }
