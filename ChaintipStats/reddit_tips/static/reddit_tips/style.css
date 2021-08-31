@@ -404,6 +404,7 @@ nav > a:hover{
   #header{
     height:30px;
     font-size:10px;
+    width:100%;
   }
   nav > a{
     margin-top:5px;
@@ -413,7 +414,7 @@ nav > a:hover{
     padding-right: 3px;
   }
   .header_title{
-    margin-right:auto !important;
+    margin-right: 10px !important;
     font-weight:bold;
     font-size:15px;
     border: none;
@@ -432,6 +433,7 @@ nav > a:hover{
     text-align:center;
     font-size:10px;
     margin-top:10px;
+    width:100%;
   }
   #both_boxes_display_flex{
     display:flex;
