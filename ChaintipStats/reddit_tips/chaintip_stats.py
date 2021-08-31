@@ -113,6 +113,65 @@ class Chaintip_stats:
         print('total comments: ', len(self.chaintip_comments))
         return(self.chaintip_comments)
 
+    def fix_returned_users(self, all_tips):
+        '''
+        A one time function to fix old returned tips that are missing senders or receivers
+        '''
+        returned_chaintip_comments = []
+        for tip in all_tips:
+            comment_dict = {}
+            if tip.status == 'returned':
+                if (tip.sender == '' or tip.sender == ' ' or tip.sender == None) or (tip.receiver == '' or tip.receiver == ' ' or tip.receiver == None): 
+                    try:
+                        #print(tip.status, tip.sender, tip.receiver, tip.comment_id)
+                        comment_dict['permalink'] = tip.permalink
+                        comment = self.reddit.comment(id = tip.comment_id)
+                        parent_comment_id = comment.parent_id.replace('t1_','').replace('t3_','')
+                        parent_comment = self.reddit.comment(id=parent_comment_id)
+                        comment_author = parent_comment.author
+                        comment_dict["id"] = comment.id
+                        comment_dict["parent_id"] = comment.parent_id
+
+                        #The comment for returned tips doesn't include the username of the original
+                        #intended recipient. Instead, we get the sender and receiver's names by retrieving
+                        #the parent comment (sender) and grandparent comment (recipient).
+                        #We take into account that the grandparent comment might actually be a submission.
+                        #In addition, we take into account that sometimes the sender or recipient is deleted
+                        #by the time a tip is returned, and so we return an empty string instead of None
+                        parent_comment = self.reddit.comment(id=parent_comment_id)
+                        if parent_comment.author == None:
+                            comment_dict['sender'] = ' '
+                        else:
+                            comment_author = parent_comment.author
+                            comment_dict['sender'] = f'u/{comment_author.name}'
+                        grandparent_comment_id = parent_comment.parent_id
+                        if grandparent_comment_id.startswith('t1'):
+                            grandparent_type = 'comment'
+                        if grandparent_comment_id.startswith('t3'):
+                            grandparent_type = 'submission'
+                        grandparent_comment_id = grandparent_comment_id.replace('t1_','').replace('t3_','')
+
+                        if grandparent_type == 'comment':
+                            grandparent_comment = self.reddit.comment(id=grandparent_comment_id)
+                        elif grandparent_type == 'submission':
+                            grandparent_comment = self.reddit.submission(id=grandparent_comment_id)
+                        if grandparent_comment.author == None:
+                            comment_dict['receiver']  = ' '
+                        else:
+                            grandparent_author = grandparent_comment.author
+                            comment_dict['receiver']  = f'u/{grandparent_author.name}'
+                        
+                        returned_chaintip_comments.append(comment_dict)
+                    except:
+                        print(f"didn't work!!!{comment_dict}")
+        print(len(returned_chaintip_comments))
+        data = json.dumps(returned_chaintip_comments,  indent=4, sort_keys=True)
+        with open('returned_chaintip_comments.json', 'w') as f:
+            f.write(data)
+        return returned_chaintip_comments
+
+
+
 if __name__ == '__main__':
     with open('credentials.json') as f:
         data = f.read()

@@ -284,6 +284,14 @@ def fix_old_status(request):
 
     return HttpResponse(f'Completed!')
 
+def fix_tip_returned(request):
+    '''
+    A one time view to fix the old returned with missing sender/receivers
+    '''
+    from .tasks import fix_tips_returned
+    fix_tips_returned()
+    return HttpResponse('Completed!!')
+
 
 
 def populate_db(request):
