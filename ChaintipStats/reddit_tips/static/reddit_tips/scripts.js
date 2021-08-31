@@ -32,6 +32,7 @@ function retrieve_saved_data() {
         }
         var today_date = `${today.getFullYear()}-${month}`;
         document.getElementById("date_start").value = today_date;
+		localStorage.setItem("selected_date", today_date);
     } else {
         document.getElementById("date_start").value = localStorage.getItem("selected_date");
     }
