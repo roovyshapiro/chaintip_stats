@@ -139,8 +139,15 @@ def main(request):
         #first of the month with no tips yet
         month_stats['total_USD_current'] = '0'
 
-    month_stats['tip_per_day_result'] = tip_per_day(all_month_tips.order_by('created_datetime'))
-    month_stats['value_per_day_result'] = tip_per_day(all_month_tips.order_by('created_datetime'), tip_value=True)
+    try:
+        month_stats['tip_per_day_result'] = tip_per_day(all_month_tips.order_by('created_datetime'))
+    except AttributeError:
+        month_stats['tip_per_day_result'] = ''
+    try:
+        month_stats['value_per_day_result'] = tip_per_day(all_month_tips.order_by('created_datetime'), tip_value=True)
+    except AttributeError:
+        month_stats['value_per_day_result'] = ''
+
     context = {
         'all_tips':all_tips_ordered,
         'all_month_tips':all_month_tips,
