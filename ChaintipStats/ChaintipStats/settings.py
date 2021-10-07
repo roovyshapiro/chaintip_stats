@@ -123,67 +123,19 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-STATIC_ROOT = "/home/chaintipstats/chaintip_stats/ChaintipStats/static"
+if not DEBUG:
+    STATIC_ROOT = "/home/chaintipstats/chaintip_stats/ChaintipStats/static"
+
 STATIC_URL = '/static/'
 
-
-#STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, "static"),
-#]
+if DEBUG:
+    STATICFILES_DIRS = [
+        #os.path.join(BASE_DIR, "static"),
+        os.path.join(BASE_DIR, "reddit_tips/static"),
+        os.path.join(BASE_DIR, "reddit_tips/static/reddit_tips"),
+    ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-'''
-# Celery application definition
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
-#CELERY_IMPORTS = ['comm.tasks']
-CELERY_BROKER_URL = 'redis://localhost:6379'
-
-from celery.schedules import crontab
-# https://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html#crontab-schedules
-# https://docs.celeryproject.org/en/latest/reference/celery.schedules.html#celery.schedules.crontab
-
-# The crontab hour is inclusive.
-# crontab(minute='*/11', hour='13-23') Will occur every 11 minutes between the hours of 13:00 UTC and 23:59 UTC.
-# On 12-30-2020, it will run at these times:
-# 2020-12-30 13:00:00
-# 2020-12-30 13:11:00
-# 2020-12-30 13:22:00
-# ...
-# ...
-# 2020-12-30 23:33:00
-# 2020-12-30 23:44:00
-# 2020-12-30 23:55:00
-#
-# crontab(minute='0', hour='0-12') Will run at the beginning of every hour between 0:00 UTC and 12:00 UTC.
-# On 12-30-2020, it will run at these times:
-# 2020-12-30 00:00:00
-# 2020-12-30 01:00:00
-# 2020-12-30 02:00:00
-# ...
-# ...
-# 2020-12-30 10:00:00
-# 2020-12-30 11:00:00
-# 2020-12-30 12:00:00
-#
-# day_of_week
-# A (list of) integers from 0-6, where Sunday = 0 and Saturday = 6, that represent the days of a week that execution should occur.
-# hour = '*/' is equivalent to
-# Execute every three hours: midnight, 3am, 6am, 9am, noon, 3pm, 6pm, 9pm.
-CELERY_BEAT_SCHEDULE = {
-    'get_reddit_tips':{
-        'task': 'reddit_tips.tasks.get_tips',
-        'schedule': crontab(minute='*/15'),
-    },
-    'get_BCH_price':{
-        'task': 'reddit_tips.tasks.get_price',
-        'schedule': crontab(minute='*/30'),
-    }
-}
-'''
