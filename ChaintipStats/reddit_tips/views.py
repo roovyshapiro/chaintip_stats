@@ -275,8 +275,9 @@ def test_post(request):
     return HttpResponse('Completed!!')
 
 def populate_db(request):
-    from .tasks import get_tips
-    get_tips()
-    #from .tasks import get_price
-    #get_price()
+    '''
+    Runs the custom "tasks" management command which updates the price and tips via API
+    '''
+    from django.core.management import call_command
+    call_command('tasks')
     return HttpResponse('Testing!')
