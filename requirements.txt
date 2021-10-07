@@ -2,7 +2,6 @@
 amqp==5.0.6
 asgiref==3.3.4
 billiard==3.6.4.0
-celery==5.1.1
 certifi==2021.5.30
 chardet==4.0.0
 click==7.1.2
@@ -14,7 +13,7 @@ django-celery-beat==2.2.0
 django-timezone-field==4.1.2
 idna==2.10
 kombu==5.1.0
-praw==7.3.0
+praw==7.4.0
 prawcore==2.2.0
 prompt-toolkit==3.0.19
 python-crontab==2.5.1

@@ -1,5 +1,4 @@
 from __future__ import absolute_import, unicode_literals
-from celery import Celery, shared_task
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.db.models import Q
@@ -10,7 +9,6 @@ from .chaintip_stats import Chaintip_stats
 from .coinmarketcap import CoinMarketCapAPI
 import json, os
 
-@shared_task
 def get_tips():
     '''    
     Example Tip:
@@ -106,7 +104,6 @@ def get_tips():
             continue
 
 
-@shared_task
 def get_price():
     '''
     Uses CoinMarketCap's API returns the following response in coinmarketcap.py:
