@@ -33,8 +33,7 @@ SECRET_KEY = credential_dict['django_secret_key']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['chaintipstats.pythonanywhere.com', 'stats.chaintip.org']
-
+ALLOWED_HOSTS = ['chaintipstats.pythonanywhere.com', 'stats.chaintip.org', 'localhost', '127.0.0.1',]
 
 # Application definition
 
