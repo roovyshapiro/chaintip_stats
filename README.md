@@ -4,6 +4,7 @@
   - [What's the purpose of CHAINTIP STATS?](#whats-the-purpose-of-chaintip-stats)
   - [How does CHAINTIP STATS work?](#how-does-chaintip-stats-work)
   - [Hosting with Python Anywhere](#hosting-with-python-anywhere)
+  - [Credentials](#credentials)
   - [DNS / stats.chaintip.org](#dns--statschaintiporg)
   - [Why Bitcoin Cash?](#why-bitcoin-cash)
   - [What can I actually do with Bitcoin Cash?](#what-can-i-actually-do-with-bitcoin-cash)
@@ -66,7 +67,21 @@ On the back end, Django calculates and presents the data to the web page.
 [Chart.JS](https://www.chartjs.org/docs/master/)  is used to present the data in graphs and charts.
 
 ## Hosting with [Python Anywhere](https://www.pythonanywhere.com/?affiliate_id=00a5e5d4)
-This site is being hosted on [Python Anywhere](https://www.pythonanywhere.com/?affiliate_id=00a5e5d4) currently. Originally, the regular API calls to reddit were designed to work with Celery/[Celery Beat](https://www.merixstudio.com/blog/django-celery-beat/). It works well locally but unfortunately Python Anywhere doesn't currently support Celery. Python Anywhere does support regularly scheduled tasks though. This project has been split into two branches: one that users Celery and one that uses a simple cron job with a [custom Django managament](https://docs.djangoproject.com/en/3.2/howto/custom-management-commands/) command. In the future, I may merge these two branches and get rid of Celery altogether.
+This site is being hosted on [Python Anywhere](https://www.pythonanywhere.com/?affiliate_id=00a5e5d4) currently. Originally, the regular API calls to reddit were designed to work with Celery/[Celery Beat](https://www.merixstudio.com/blog/django-celery-beat/). As PythonAnywhere doesn't support celery, a simple cron job with a [custom Django managament](https://docs.djangoproject.com/en/3.2/howto/custom-management-commands/) command is used instead.
+
+
+## Credentials
+In order for this project to run, a file called "credentials.json" is needed within the main directory.
+This is where the reddit API information, coinmarketcap API key, and django secret key will be stored.
+
+The format of this file must look like this:
+```
+{"client_id":"<reddit client id>","client_secret":"<reddit client secret>","user_agent":"<reddit user agent>",
+"username":"<regular reddit username>","password":"<regular reddit password>",
+"django_secret_key":"<django secret key>",
+"coinmarketcap_apikey":"<coinmarketcapi api key>"}
+```
+
 
 ## DNS / [stats.chaintip.org](https://stats.chaintip.org/)
 [Chaintip](https://www.chaintip.org/)  for Reddit was created and is maintained by [u/Tibanne](https://www.reddit.com/user/tibanne) and he is the owner of chaintip.org. This live dashboard is a completely separate project but for now, he has allowed the use of the stats subdomain so its easy for users to find.
