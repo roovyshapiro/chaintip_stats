@@ -499,7 +499,7 @@ Example of Data:
 var month_comparison = JSON.parse(document.getElementById('month_comparison').textContent);
 
 var months = Object.keys(month_comparison);
-var colors = ['#933d41', '#fc6c85', '#ffb6c1', '#ffe4e1'] ;
+var colors = ['#191970', '#1e90ff', '#87cefa', '#ace5ee' ];
 
 var line_chart_data = {};
 line_chart_data['datasets'] = [];
@@ -526,14 +526,12 @@ var lineChartOptions = {
   maintainAspectRatio: false,
   pointHitRadius:15,
   pointRadius:4,
-  legend: {
-    position: "top"
-  },
-  plugins:{
-    title: {
+  title: {
       display: true,
       text: "Amount of Tips per day VS Previous Months"
-    },
+  },
+  legend: {
+    position: "top"
   },
 };
 

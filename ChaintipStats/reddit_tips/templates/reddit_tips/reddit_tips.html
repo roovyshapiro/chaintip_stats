@@ -80,28 +80,29 @@
                     </div>
                 </div>
             </div>
+
             <div class="charts_flex">
-
-                {{ month_stats.tip_per_day_result|json_script:"month_stats_tip_per_day" }}
-                <div class = "canvas_chart">
-                    <canvas id="month_tip_per_day"></canvas>
-                </div>
-
                 {{ month_stats.total_claimed_returned|json_script:"month_stats_total_claimed_returned" }}
                 <div class = "canvas_chart">
                     <canvas id="month_total_claimed_returned"></canvas>
-                </div>
-
-                {{ month_stats.value_per_day_result|json_script:"month_stats_value_per_day" }}
-                <div class = "canvas_chart">
-                    <canvas id="month_value_per_day"></canvas>
                 </div>
 
                 {{ month_stats.month_comparison_data|json_script:"month_comparison" }}
                 <div class = "canvas_chart">
                     <canvas id="month_comparison_chart"></canvas>
                 </div>
+            </div>
 
+            <div class="charts_flex">
+                {{ month_stats.tip_per_day_result|json_script:"month_stats_tip_per_day" }}
+                <div class = "canvas_chart">
+                    <canvas id="month_tip_per_day"></canvas>
+                </div>
+
+                {{ month_stats.value_per_day_result|json_script:"month_stats_value_per_day" }}
+                <div class = "canvas_chart">
+                    <canvas id="month_value_per_day"></canvas>
+                </div>
             </div>
 
             <div class = "all_table_divs">
