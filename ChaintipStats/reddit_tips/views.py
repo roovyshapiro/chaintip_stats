@@ -1,6 +1,7 @@
 from django.http.response import HttpResponse
 from django.db.models import Q, Sum, Count
 from django.utils import timezone
+from django.utils.timezone import make_aware
 from django.shortcuts import render
 from .models import RedditTip, BCHPrice
 import datetime, csv, calendar
@@ -148,6 +149,11 @@ def main(request):
     except AttributeError:
         month_stats['value_per_day_result'] = ''
 
+
+    #Generate the data needed for the line graph which compares each day to the previous month's day
+    month_stats['month_comparison_data'] = month_comparison_data(all_tips, today)
+
+
     context = {
         'all_tips':all_tips_ordered,
         'all_month_tips':all_month_tips,
@@ -268,6 +274,91 @@ def export_csv_all_tips(request):
     response['Content-Disposition'] = 'attachment; filename="tips.csv"'
 
     return response
+
+
+def month_comparison_data(all_tips, today):
+    '''
+    {
+    June':{
+        'first_day': datetime.datetime(2021, 6, 1, 0, 0, tzinfo=<UTC>),
+        'last_day': datetime.datetime(2021, 6, 30, 23, 59, 59, tzinfo=<UTC>), 
+        'tip_amount': [6, 6, 6, 10, 0, 0, 6, 6, 7, 7, 6, 0, 0, 6, 4, 7, 3, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }, 
+    'May':{
+        'first_day': datetime.datetime(2021, 5, 1, 0, 0, tzinfo=<UTC>), 
+        'last_day': datetime.datetime(2021, 5, 31, 0, 0, tzinfo=<UTC>), 
+        'tip_amount': [0, 0, 5, 7, 8, 7, 7, 0, 0, 7, 6, 9, 6, 5, 0, 0, 7, 3, 4, 11, 2, 0, 0, 19, 7, 2, 7, 2, 3, 0, 0]
+    }, 
+    'April': {
+        'first_day': datetime.datetime(2021, 4, 1, 0, 0, tzinfo=<UTC>), 
+        'last_day': datetime.datetime(2021, 4, 30, 0, 0, tzinfo=<UTC>), 
+        'tip_amount': [9, 3, 0, 0, 11, 6, 3, 7, 4, 1, 0, 4, 1, 12, 3, 6, 0, 0, 20, 5, 9, 6, 12, 0, 1, 9, 5, 6, 5, 0]
+        }, 
+    'March': {
+        'first_day': datetime.datetime(2021, 3, 1, 0, 0, tzinfo=<UTC>), 
+        'last_day': datetime.datetime(2021, 3, 31, 0, 0, tzinfo=<UTC>), 
+        'tip_amount': [10, 16, 3, 8, 0, 2, 1, 11, 9, 9, 6, 16, 0, 0, 11, 7, 9, 8, 1, 0, 0, 6, 5, 5, 4, 24, 0,0, 9, 4, 0]
+        }
+    }
+    '''
+    today_date = make_aware(today.replace(hour=0, minute=0, second=0, microsecond=0))
+    first_of_month = today_date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    year = first_of_month.year
+    month = first_of_month.month
+    last_day = calendar.monthrange(year,month)[1]
+    end_of_month = first_of_month.replace(day=last_day, hour=23, minute=59, second=59)
+  
+    comparison_data = {}
+
+    last_day_of_previous_month1 = first_of_month - datetime.timedelta(days=1)
+    last_day_of_previous_month1 = last_day_of_previous_month1.replace(hour=23, minute=59, second=59)
+    first_day_of_previous_month1 = last_day_of_previous_month1.replace(day=1, hour=0,minute=0,second=0)
+    
+    last_day_of_previous_month2 = first_day_of_previous_month1 - datetime.timedelta(days=1)
+    last_day_of_previous_month2 = last_day_of_previous_month2.replace(hour=23, minute=59, second=59)
+    first_day_of_previous_month2 = last_day_of_previous_month2.replace(day=1, hour=0,minute=0,second=0)
+
+    last_day_of_previous_month3 = first_day_of_previous_month2 - datetime.timedelta(days=1)
+    last_day_of_previous_month3 = last_day_of_previous_month3.replace(hour=23, minute=59, second=59)
+    first_day_of_previous_month3 = last_day_of_previous_month3.replace(day=1, hour=0,minute=0,second=0)
+
+    comparison_data[first_of_month.strftime('%B')] = {}
+    comparison_data[first_of_month.strftime('%B')]['first_day'] = first_of_month
+    comparison_data[first_of_month.strftime('%B')]['last_day'] = end_of_month
+    comparison_data[first_of_month.strftime('%B')]['tip_amount'] = []
+
+    comparison_data[first_day_of_previous_month1.strftime('%B')] = {}
+    comparison_data[first_day_of_previous_month1.strftime('%B')]['first_day'] = first_day_of_previous_month1
+    comparison_data[first_day_of_previous_month1.strftime('%B')]['last_day'] = last_day_of_previous_month1
+    comparison_data[first_day_of_previous_month1.strftime('%B')]['tip_amount'] = []
+
+    comparison_data[first_day_of_previous_month2.strftime('%B')] = {}
+    comparison_data[first_day_of_previous_month2.strftime('%B')]['first_day'] = first_day_of_previous_month2
+    comparison_data[first_day_of_previous_month2.strftime('%B')]['last_day'] = last_day_of_previous_month2
+    comparison_data[first_day_of_previous_month2.strftime('%B')]['tip_amount'] = []
+
+    comparison_data[first_day_of_previous_month3.strftime('%B')] = {}
+    comparison_data[first_day_of_previous_month3.strftime('%B')]['first_day'] = first_day_of_previous_month3
+    comparison_data[first_day_of_previous_month3.strftime('%B')]['last_day'] = last_day_of_previous_month3
+    comparison_data[first_day_of_previous_month3.strftime('%B')]['tip_amount'] = []
+
+    #Makes a list of all days in the range of the beginning and end of the available days in db
+    for month in comparison_data:
+        if timezone.now().strftime('%B') == month:
+            date_range = [comparison_data[month]['first_day'] + datetime.timedelta(days=x) for x in range(0, (timezone.now() - comparison_data[month]['first_day']).days + 1)]
+        else:
+            date_range = [comparison_data[month]['first_day'] + datetime.timedelta(days=x) for x in range(0, (comparison_data[month]['last_day'] - comparison_data[month]['first_day']).days + 1)]        
+        for date in date_range:
+            date_count = 0
+            for tip in all_tips.filter(created_datetime__gte=comparison_data[month]['first_day'], created_datetime__lte=comparison_data[month]['last_day']):
+                if tip.created_datetime.replace(hour=0, minute = 0, second=0,microsecond=0) == date:
+                    date_count += 1
+            if len(comparison_data[month]['tip_amount']) >= 1:
+                date_count = date_count + comparison_data[month]['tip_amount'][-1]
+            comparison_data[month]['tip_amount'].append(date_count)   
+
+    return comparison_data
+
 
 def test_post(request):
     from .tasks import make_post
