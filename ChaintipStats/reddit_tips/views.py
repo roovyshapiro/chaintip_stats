@@ -279,26 +279,27 @@ def export_csv_all_tips(request):
 def month_comparison_data(all_tips, today):
     '''
     {
-    June':{
-        'first_day': datetime.datetime(2021, 6, 1, 0, 0, tzinfo=<UTC>),
-        'last_day': datetime.datetime(2021, 6, 30, 23, 59, 59, tzinfo=<UTC>), 
-        'tip_amount': [6, 6, 6, 10, 0, 0, 6, 6, 7, 7, 6, 0, 0, 6, 4, 7, 3, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    'October':{
+        'first_day': datetime.datetime(2021, 10, 1, 0, 0, tzinfo=<UTC>),
+        'last_day': datetime.datetime(2021, 10, 31, 23, 59, 59, tzinfo=<UTC>), 
+        'tip_amount': [49, 65, 95, 162, 208, 248, 288, 314, 320, 351, 384, 410, 443, 477, 507, 518, 538, 577, 635, 716, 780, 828, 836, 888, 941, 999, 1035, 1095, 1098]
         }, 
-    'May':{
-        'first_day': datetime.datetime(2021, 5, 1, 0, 0, tzinfo=<UTC>), 
-        'last_day': datetime.datetime(2021, 5, 31, 0, 0, tzinfo=<UTC>), 
-        'tip_amount': [0, 0, 5, 7, 8, 7, 7, 0, 0, 7, 6, 9, 6, 5, 0, 0, 7, 3, 4, 11, 2, 0, 0, 19, 7, 2, 7, 2, 3, 0, 0]
+    'September':{
+        'first_day': datetime.datetime(2021, 9, 1, 0, 0, tzinfo=<UTC>), 
+        'last_day': datetime.datetime(2021, 9, 30, 0, 0, tzinfo=<UTC>), 
+        'tip_amount': [28, 66, 66, 66, 86, 154, 169, 203, 254, 305, 322, 393, 434, 439, 456, 481, 519, 549, 575, 610, 632, 645, 669, 697, 717, 746, 776, 792, 798, 816]
     }, 
-    'April': {
-        'first_day': datetime.datetime(2021, 4, 1, 0, 0, tzinfo=<UTC>), 
-        'last_day': datetime.datetime(2021, 4, 30, 0, 0, tzinfo=<UTC>), 
-        'tip_amount': [9, 3, 0, 0, 11, 6, 3, 7, 4, 1, 0, 4, 1, 12, 3, 6, 0, 0, 20, 5, 9, 6, 12, 0, 1, 9, 5, 6, 5, 0]
+    'August': {
+        'first_day': datetime.datetime(2021, 8, 1, 0, 0, tzinfo=<UTC>), 
+        'last_day': datetime.datetime(2021, 8, 31, 0, 0, tzinfo=<UTC>), 
+        'tip_amount': [15, 34, 43, 61, 99, 114, 122, 169, 213, 240, 279, 315, 369, 384, 408, 448, 485, 519, 548, 560, 570, 586, 640, 664, 717, 731, 754, 768, 782, 803, 832]
         }, 
-    'March': {
-        'first_day': datetime.datetime(2021, 3, 1, 0, 0, tzinfo=<UTC>), 
-        'last_day': datetime.datetime(2021, 3, 31, 0, 0, tzinfo=<UTC>), 
-        'tip_amount': [10, 16, 3, 8, 0, 2, 1, 11, 9, 9, 6, 16, 0, 0, 11, 7, 9, 8, 1, 0, 0, 6, 5, 5, 4, 24, 0,0, 9, 4, 0]
+    'July': {
+        'first_day': datetime.datetime(2021, 7, 1, 0, 0, tzinfo=<UTC>), 
+        'last_day': datetime.datetime(2021, 7, 31, 0, 0, tzinfo=<UTC>), 
+        'tip_amount': [18, 41, 42, 62, 72, 82, 91, 101, 104, 106, 106, 106, 106, 107, 124, 131, 135, 138, 144, 148, 153, 159, 174, 177, 185, 202, 218, 228, 246, 255, 263]
         }
+    } }
     }
     '''
     today_date = make_aware(today.replace(hour=0, minute=0, second=0, microsecond=0))
