@@ -97,6 +97,11 @@
                     <canvas id="month_value_per_day"></canvas>
                 </div>
 
+                {{ month_stats.month_comparison_data|json_script:"month_comparison" }}
+                <div class = "canvas_chart">
+                    <canvas id="month_comparison_chart"></canvas>
+                </div>
+
             </div>
 
             <div class = "all_table_divs">

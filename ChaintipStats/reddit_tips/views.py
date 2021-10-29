@@ -1,3 +1,4 @@
+from django.db.models.expressions import Value
 from django.http.response import HttpResponse
 from django.db.models import Q, Sum, Count
 from django.utils import timezone
@@ -153,7 +154,6 @@ def main(request):
     #Generate the data needed for the line graph which compares each day to the previous month's day
     month_stats['month_comparison_data'] = month_comparison_data(all_tips, today)
 
-
     context = {
         'all_tips':all_tips_ordered,
         'all_month_tips':all_month_tips,
@@ -302,7 +302,10 @@ def month_comparison_data(all_tips, today):
     } }
     }
     '''
-    today_date = make_aware(today.replace(hour=0, minute=0, second=0, microsecond=0))
+    try:
+        today_date = make_aware(today.replace(hour=0, minute=0, second=0, microsecond=0))
+    except ValueError:
+        today_date = today.replace(hour=0, minute=0, second=0, microsecond=0)
     first_of_month = today_date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     year = first_of_month.year
     month = first_of_month.month
@@ -356,7 +359,7 @@ def month_comparison_data(all_tips, today):
                     date_count += 1
             if len(comparison_data[month]['tip_amount']) >= 1:
                 date_count = date_count + comparison_data[month]['tip_amount'][-1]
-            comparison_data[month]['tip_amount'].append(date_count)   
+            comparison_data[month]['tip_amount'].append(date_count)
 
     return comparison_data
 

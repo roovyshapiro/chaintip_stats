@@ -467,3 +467,84 @@ function showAll() {
 
 
 }
+
+
+/*
+Showing how the current tips data compares to the past 3 months
+https://www.chartjs.org/docs/latest/charts/line.html
+Example of Data:
+    {
+    'October':{
+        'first_day': datetime.datetime(2021, 10, 1, 0, 0, tzinfo=<UTC>),
+        'last_day': datetime.datetime(2021, 10, 31, 23, 59, 59, tzinfo=<UTC>), 
+        'tip_amount': [49, 65, 95, 162, 208, 248, 288, 314, 320, 351, 384, 410, 443, 477, 507, 518, 538, 577, 635, 716, 780, 828, 836, 888, 941, 999, 1035, 1095, 1098]
+        }, 
+    'September':{
+        'first_day': datetime.datetime(2021, 9, 1, 0, 0, tzinfo=<UTC>), 
+        'last_day': datetime.datetime(2021, 9, 30, 0, 0, tzinfo=<UTC>), 
+        'tip_amount': [28, 66, 66, 66, 86, 154, 169, 203, 254, 305, 322, 393, 434, 439, 456, 481, 519, 549, 575, 610, 632, 645, 669, 697, 717, 746, 776, 792, 798, 816]
+    }, 
+    'August': {
+        'first_day': datetime.datetime(2021, 8, 1, 0, 0, tzinfo=<UTC>), 
+        'last_day': datetime.datetime(2021, 8, 31, 0, 0, tzinfo=<UTC>), 
+        'tip_amount': [15, 34, 43, 61, 99, 114, 122, 169, 213, 240, 279, 315, 369, 384, 408, 448, 485, 519, 548, 560, 570, 586, 640, 664, 717, 731, 754, 768, 782, 803, 832]
+        }, 
+    'July': {
+        'first_day': datetime.datetime(2021, 7, 1, 0, 0, tzinfo=<UTC>), 
+        'last_day': datetime.datetime(2021, 7, 31, 0, 0, tzinfo=<UTC>), 
+        'tip_amount': [18, 41, 42, 62, 72, 82, 91, 101, 104, 106, 106, 106, 106, 107, 124, 131, 135, 138, 144, 148, 153, 159, 174, 177, 185, 202, 218, 228, 246, 255, 263]
+        }
+    }
+*/
+var month_comparison = JSON.parse(document.getElementById('month_comparison').textContent);
+
+var months = Object.keys(month_comparison);
+var colors = ['#933d41', '#fc6c85', '#ffb6c1', '#ffe4e1'] ;
+
+var line_chart_data = {};
+line_chart_data['datasets'] = [];
+for (month in months) {
+  line_chart_data['datasets'].push(
+    {
+      label: months[month],
+      data: month_comparison[months[month]]['tip_amount'],
+      fill:false,
+      tension: 0.2,
+      borderColor: colors[month],
+    }
+  );
+}
+
+var date_labels = [];
+for (var i = 1; i <= 31; i++) {
+  date_labels.push(i);
+}
+line_chart_data['labels']  = date_labels;
+
+var lineChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  pointHitRadius:15,
+  pointRadius:4,
+  legend: {
+    position: "top"
+  },
+  plugins:{
+    title: {
+      display: true,
+      text: "Amount of Tips per day VS Previous Months"
+    },
+  },
+};
+
+var lineChartConfig = {
+  type: "line",
+  data: line_chart_data,
+  options: lineChartOptions
+};
+
+var lineChart = new Chart(
+  document.getElementById('month_comparison_chart'),
+  lineChartConfig
+);
+
