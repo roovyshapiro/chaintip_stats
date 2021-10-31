@@ -330,21 +330,27 @@ def month_comparison_data(all_tips, today):
     comparison_data[first_of_month.strftime('%B')]['first_day'] = first_of_month
     comparison_data[first_of_month.strftime('%B')]['last_day'] = end_of_month
     comparison_data[first_of_month.strftime('%B')]['tip_amount'] = []
+    comparison_data[first_of_month.strftime('%B')]['tip_value'] = []
 
     comparison_data[first_day_of_previous_month1.strftime('%B')] = {}
     comparison_data[first_day_of_previous_month1.strftime('%B')]['first_day'] = first_day_of_previous_month1
     comparison_data[first_day_of_previous_month1.strftime('%B')]['last_day'] = last_day_of_previous_month1
     comparison_data[first_day_of_previous_month1.strftime('%B')]['tip_amount'] = []
+    comparison_data[first_day_of_previous_month1.strftime('%B')]['tip_value'] = []
 
     comparison_data[first_day_of_previous_month2.strftime('%B')] = {}
     comparison_data[first_day_of_previous_month2.strftime('%B')]['first_day'] = first_day_of_previous_month2
     comparison_data[first_day_of_previous_month2.strftime('%B')]['last_day'] = last_day_of_previous_month2
     comparison_data[first_day_of_previous_month2.strftime('%B')]['tip_amount'] = []
+    comparison_data[first_day_of_previous_month2.strftime('%B')]['tip_value'] = []
+
 
     comparison_data[first_day_of_previous_month3.strftime('%B')] = {}
     comparison_data[first_day_of_previous_month3.strftime('%B')]['first_day'] = first_day_of_previous_month3
     comparison_data[first_day_of_previous_month3.strftime('%B')]['last_day'] = last_day_of_previous_month3
     comparison_data[first_day_of_previous_month3.strftime('%B')]['tip_amount'] = []
+    comparison_data[first_day_of_previous_month3.strftime('%B')]['tip_value'] = []
+
 
     #Makes a list of all days in the range of the beginning and end of the available days in db
     for month in comparison_data:
@@ -354,12 +360,22 @@ def month_comparison_data(all_tips, today):
             date_range = [comparison_data[month]['first_day'] + datetime.timedelta(days=x) for x in range(0, (comparison_data[month]['last_day'] - comparison_data[month]['first_day']).days + 1)]        
         for date in date_range:
             date_count = 0
+            value_count = 0
             for tip in all_tips.filter(created_datetime__gte=comparison_data[month]['first_day'], created_datetime__lte=comparison_data[month]['last_day']):
                 if tip.created_datetime.replace(hour=0, minute = 0, second=0,microsecond=0) == date:
+                    #This captures the amount of tips in a specific day
                     date_count += 1
+                    #This captures the total value of tips in a specific day
+                    value_count += tip.fiat_value
             if len(comparison_data[month]['tip_amount']) >= 1:
                 date_count = date_count + comparison_data[month]['tip_amount'][-1]
+            if len(comparison_data[month]['tip_value']) >= 1:
+                value_count = round(value_count + comparison_data[month]['tip_value'][-1], 2)
+            else:
+                value_count = round(value_count, 2)
+
             comparison_data[month]['tip_amount'].append(date_count)
+            comparison_data[month]['tip_value'].append(value_count)
 
     return comparison_data
 

@@ -180,7 +180,7 @@ var year_month_labels = date_label;
 var data_tip_per_month = {
   labels: year_month_labels,
   datasets: [{
-    label: 'Tips Per Month',
+    label: 'Amount of Tips Per Month',
     data: month_tip_amount,
     backgroundColor:'rgba(153, 102, 255, 0.2)',
     borderColor: 'rgb(153, 102, 255)',
@@ -213,10 +213,10 @@ var myChart = new Chart(
 var data_tip_value_per_month = {
   labels: year_month_labels,
   datasets: [{
-    label: 'USD Tipped per Month',
+    label: 'Value of Tips (USD) per Month',
     data: month_tip_value,
-    backgroundColor:'rgba(153, 102, 255, 0.2)',
-    borderColor: 'rgb(153, 102, 255)',
+    backgroundColor:'rgba(252, 108, 153, 0.2)',
+    borderColor: 'rgb(147, 61, 65)',
     hoverBackgroundColor:'rgba(255, 205, 86, 0.2)',
     hoverBorderColor:'rgb(255, 205, 86)',
     borderWidth: 1
@@ -288,7 +288,7 @@ var month_labels = month_keys;
 var month_data = {
   labels: month_labels,
   datasets: [{
-    label: 'Tips Per Day',
+    label: 'Amount of Tips Per Day',
     data: month_values,
     backgroundColor:'rgba(153, 102, 255, 0.2)',
     borderColor: 'rgb(153, 102, 255)',
@@ -336,10 +336,10 @@ var month_value_labels = month_value_keys;
 var month_value_data = {
   labels: month_value_labels,
   datasets: [{
-    label: 'USD Tipped per Day',
+    label: 'Value of Tips (USD) per Day',
     data: month_value_values,
-    backgroundColor:'rgba(153, 102, 255, 0.2)',
-    borderColor: 'rgb(153, 102, 255)',
+    backgroundColor:'rgba(252, 108, 153, 0.2)',
+    borderColor: 'rgb(147, 61, 65)',
     hoverBackgroundColor:'rgba(255, 205, 86, 0.2)',
     hoverBorderColor:'rgb(255, 205, 86)',
     borderWidth: 1
@@ -558,3 +558,56 @@ var lineChart = new Chart(
   lineChartConfig
 );
 
+
+/*
+Utilizes the same data set as 
+var month_comparison = JSON.parse(document.getElementById('month_comparison').textContent);
+But instead makes a line chart comparing accumulated value per day vs the previous months
+
+*/
+var value_colors = ['#933d41', '#fc6c85', '#ffb6c1', '#ffe4e1']
+
+var line_chart_data_value = {};
+line_chart_data_value['datasets'] = [];
+for (month in months) {
+  line_chart_data_value['datasets'].push(
+    {
+      label: months[month],
+      data: month_comparison[months[month]]['tip_value'],
+      fill:false,
+      tension: 0.2,
+      borderColor: value_colors[month],
+    }
+  );
+}
+
+var date_labels = [];
+for (var i = 1; i <= 31; i++) {
+  date_labels.push(i);
+}
+line_chart_data_value['labels']  = date_labels;
+
+var lineChartOptionsValue = {
+  responsive: true,
+  maintainAspectRatio: false,
+  pointHitRadius:15,
+  pointRadius:4,
+  title: {
+      display: true,
+      text: "Value of Tips (USD) per day VS Previous Months"
+  },
+  legend: {
+    position: "top"
+  },
+};
+
+var lineChartConfigValue = {
+  type: "line",
+  data: line_chart_data_value,
+  options: lineChartOptionsValue
+};
+
+var lineChartValue = new Chart(
+  document.getElementById('month_comparison_chart_value'),
+  lineChartConfigValue
+);
