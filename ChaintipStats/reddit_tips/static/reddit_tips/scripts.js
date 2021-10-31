@@ -194,6 +194,8 @@ var config_tip_per_month = {
     type: 'bar',
     data: data_tip_per_month,
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
         y: {
           beginAtZero: true
@@ -256,6 +258,8 @@ new Chart(document.getElementById("total_claimed_returned"), {
       ]
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       title: {
         display: true,
         text: 'Claimed Tips'
@@ -296,6 +300,8 @@ var month_config = {
     type: 'bar',
     data: month_data,
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
         y: {
           beginAtZero: true
@@ -342,6 +348,8 @@ var month_value_config = {
     type: 'bar',
     data: month_value_data,
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
         y: {
           beginAtZero: true
@@ -373,6 +381,8 @@ new Chart(document.getElementById("month_total_claimed_returned"), {
       ]
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       title: {
         display: true,
         text: 'Claimed Tips'

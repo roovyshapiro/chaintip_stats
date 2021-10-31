@@ -470,6 +470,7 @@ nav > a:hover{
   .canvas_chart{
     margin-bottom:10px;
     width:90%;
+    height:300px;
   }
   .all_table_divs{
     flex-direction: column;
