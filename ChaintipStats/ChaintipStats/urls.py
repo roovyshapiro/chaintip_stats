@@ -19,7 +19,8 @@ from reddit_tips import views as reddit_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', reddit_views.main, name='reddit_main'),
+    path('', reddit_views.main_month, name='reddit_main'),
+    path('all/', reddit_views.main_all, name='reddit_main_all'),
     path('gettips/', reddit_views.populate_db, name='get_reddit_tips'),
     path('export/', reddit_views.export_csv_all_tips, name='export_tips_csv'),
     path('test_post/', reddit_views.test_post, name='test_post'),
