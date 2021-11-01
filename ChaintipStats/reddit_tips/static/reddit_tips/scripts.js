@@ -611,3 +611,57 @@ var lineChartValue = new Chart(
   document.getElementById('month_comparison_chart_value'),
   lineChartConfigValue
 );
+
+
+/*
+Utilizes the same data set as 
+var month_comparison = JSON.parse(document.getElementById('month_comparison').textContent);
+But instead makes a line chart comparing Claimed Tips per day (first time users) vs the previous months
+
+*/
+var value_colors = ['#013220', '#008500', '#00b800', '#00eb00']
+
+var line_chart_data_claimed = {};
+line_chart_data_claimed['datasets'] = [];
+for (month in months) {
+  line_chart_data_claimed['datasets'].push(
+    {
+      label: months[month],
+      data: month_comparison[months[month]]['claimed_tips'],
+      fill:false,
+      tension: 0.2,
+      borderColor: value_colors[month],
+    }
+  );
+}
+
+var date_labels = [];
+for (var i = 1; i <= 31; i++) {
+  date_labels.push(i);
+}
+line_chart_data_claimed['labels']  = date_labels;
+
+var lineChartOptionsClaimed = {
+  responsive: true,
+  maintainAspectRatio: false,
+  pointHitRadius:15,
+  pointRadius:4,
+  title: {
+      display: true,
+      text: "Claimed Tips (first time users) per day VS Previous Months"
+  },
+  legend: {
+    position: "top"
+  },
+};
+
+var lineChartConfigClaimed = {
+  type: "line",
+  data: line_chart_data_claimed,
+  options: lineChartOptionsClaimed
+};
+
+var lineChartClaimed = new Chart(
+  document.getElementById('month_comparison_chart_claimed'),
+  lineChartConfigClaimed
+);

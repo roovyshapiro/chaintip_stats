@@ -208,7 +208,7 @@ def tip_per_month(all_tips):
         except KeyError:
             case_years[year][month]['tip_value'] = 0
             case_years[year][month]['tip_value'] += int(tip.fiat_value)
-    print(case_years)
+
     return case_years
 
 def sender_subreddits(all_senders, all_tips):
@@ -283,24 +283,27 @@ def month_comparison_data(all_tips, today):
     'October':{
         'first_day': datetime.datetime(2021, 10, 1, 0, 0, tzinfo=<UTC>),
         'last_day': datetime.datetime(2021, 10, 31, 23, 59, 59, tzinfo=<UTC>), 
-        'tip_amount': [49, 65, 95, 162, 208, 248, 288, 314, 320, 351, 384, 410, 443, 477, 507, 518, 538, 577, 635, 716, 780, 828, 836, 888, 941, 999, 1035, 1095, 1098]
+        'tip_amount': [49, 65, 95, 162, 208, 248, 288, 314, 320, 351, 384, 410, 443, 477, 507, 518, 538, 577, 635, 716, 780, 828, 836, 888, 941, 999, 1035, 1095, 1098],
+        'tip_value': [272.86, 280.87, 287.62, 330.28, 404.69, 484.26, 642.98, 664.16, 715.56, 830.83, 854.51, 905.14, 919.22, 933.4, 1112.3, 1203.89, 1246.1, 1265.06, 1393.54, 1433.83, 1690.12, 1750.72, 1754.71, 1791.89, 1832.97, 1883.55, 1921.04, 2014.58, 2015.03, 2015.03, 2015.03],
+        'claimed_tips': [7, 8, 20, 34, 44, 54, 65, 73, 73, 80, 88, 95, 104, 113, 119, 122, 123, 138, 150, 167, 180, 197, 200, 207, 216, 226, 236, 251, 252, 252, 252]},
         }, 
     'September':{
         'first_day': datetime.datetime(2021, 9, 1, 0, 0, tzinfo=<UTC>), 
         'last_day': datetime.datetime(2021, 9, 30, 0, 0, tzinfo=<UTC>), 
         'tip_amount': [28, 66, 66, 66, 86, 154, 169, 203, 254, 305, 322, 393, 434, 439, 456, 481, 519, 549, 575, 610, 632, 645, 669, 697, 717, 746, 776, 792, 798, 816]
+        'tip_value': 'tip_value': [9.9, 22.91, 22.91, 22.91, 25.98, 159.79, 216.64, 519.89, 559.92, 571.68, 784.98, 1014.75, 1068.94, 1070.77, 1086.67, 1155.1, 1218.52, 1428.84, 1449.97, 1509.94, 1643.31, 1671.06, 1891.15, 2062.76, 2144.31, 2171.7, 2321.49, 2341.64, 2361.6, 2425.22], 
+        'claimed_tips': [4, 9, 9, 9, 17, 37, 40, 44, 58, 70, 72, 93, 101, 103, 107, 114, 120, 128, 137, 147, 152, 153, 157, 161, 163, 173, 178, 179, 182, 188]
     }, 
     'August': {
         'first_day': datetime.datetime(2021, 8, 1, 0, 0, tzinfo=<UTC>), 
         'last_day': datetime.datetime(2021, 8, 31, 0, 0, tzinfo=<UTC>), 
-        'tip_amount': [15, 34, 43, 61, 99, 114, 122, 169, 213, 240, 279, 315, 369, 384, 408, 448, 485, 519, 548, 560, 570, 586, 640, 664, 717, 731, 754, 768, 782, 803, 832]
+        'tip_amount': [15, 34, 43, 61, 99, 114, 122, 169, 213, 240, 279, 315, 369, 384, 408, 448, 485, 519, 548, 560, 570, 586, 640, 664, 717, 731, 754, 768, 782, 803, 832],
+        'tip_value': [25.73, 80.77, 102.3, 131.33, 348.31, 359.87, 375.55, 414.53, 474.86, 496.82, 524.16, 531.24, 550.37, 572.01, 585.32, 619.13, 625.07, 633.47, 656.65, 672.09, 675.92, 732.65, 779.43, 802.73, 824.79, 826.72, 834.19, 847.13, 855.76, 969.42, 993.8], 
+        'claimed_tips': [4, 10, 11, 18, 24, 29, 31, 41, 50, 53, 59, 66, 73, 73, 76, 85, 96, 105, 112, 115, 116, 119, 130, 138, 147, 151, 159, 161, 163, 167, 171]
         }, 
     'July': {
-        'first_day': datetime.datetime(2021, 7, 1, 0, 0, tzinfo=<UTC>), 
-        'last_day': datetime.datetime(2021, 7, 31, 0, 0, tzinfo=<UTC>), 
-        'tip_amount': [18, 41, 42, 62, 72, 82, 91, 101, 104, 106, 106, 106, 106, 107, 124, 131, 135, 138, 144, 148, 153, 159, 174, 177, 185, 202, 218, 228, 246, 255, 263]
-        }
-    } }
+        ...
+    }
     }
     '''
     try:
@@ -332,25 +335,28 @@ def month_comparison_data(all_tips, today):
     comparison_data[first_of_month.strftime('%B')]['last_day'] = end_of_month
     comparison_data[first_of_month.strftime('%B')]['tip_amount'] = []
     comparison_data[first_of_month.strftime('%B')]['tip_value'] = []
+    comparison_data[first_of_month.strftime('%B')]['claimed_tips'] = []
 
     comparison_data[first_day_of_previous_month1.strftime('%B')] = {}
     comparison_data[first_day_of_previous_month1.strftime('%B')]['first_day'] = first_day_of_previous_month1
     comparison_data[first_day_of_previous_month1.strftime('%B')]['last_day'] = last_day_of_previous_month1
     comparison_data[first_day_of_previous_month1.strftime('%B')]['tip_amount'] = []
     comparison_data[first_day_of_previous_month1.strftime('%B')]['tip_value'] = []
+    comparison_data[first_day_of_previous_month1.strftime('%B')]['claimed_tips'] = []
 
     comparison_data[first_day_of_previous_month2.strftime('%B')] = {}
     comparison_data[first_day_of_previous_month2.strftime('%B')]['first_day'] = first_day_of_previous_month2
     comparison_data[first_day_of_previous_month2.strftime('%B')]['last_day'] = last_day_of_previous_month2
     comparison_data[first_day_of_previous_month2.strftime('%B')]['tip_amount'] = []
     comparison_data[first_day_of_previous_month2.strftime('%B')]['tip_value'] = []
-
+    comparison_data[first_day_of_previous_month2.strftime('%B')]['claimed_tips'] = []
 
     comparison_data[first_day_of_previous_month3.strftime('%B')] = {}
     comparison_data[first_day_of_previous_month3.strftime('%B')]['first_day'] = first_day_of_previous_month3
     comparison_data[first_day_of_previous_month3.strftime('%B')]['last_day'] = last_day_of_previous_month3
     comparison_data[first_day_of_previous_month3.strftime('%B')]['tip_amount'] = []
     comparison_data[first_day_of_previous_month3.strftime('%B')]['tip_value'] = []
+    comparison_data[first_day_of_previous_month3.strftime('%B')]['claimed_tips'] = []
 
 
     #Makes a list of all days in the range of the beginning and end of the available days in db
@@ -362,21 +368,29 @@ def month_comparison_data(all_tips, today):
         for date in date_range:
             date_count = 0
             value_count = 0
+            claim_count = 0
             for tip in all_tips.filter(created_datetime__gte=comparison_data[month]['first_day'], created_datetime__lte=comparison_data[month]['last_day']):
                 if tip.created_datetime.replace(hour=0, minute = 0, second=0,microsecond=0) == date:
                     #This captures the amount of tips in a specific day
                     date_count += 1
                     #This captures the total value of tips in a specific day
                     value_count += tip.fiat_value
+                    #This captures the total amount of claims (first time users) per day
+                    if tip.status == "claimed":
+                        claim_count += 1
             if len(comparison_data[month]['tip_amount']) >= 1:
                 date_count = date_count + comparison_data[month]['tip_amount'][-1]
+            
             if len(comparison_data[month]['tip_value']) >= 1:
                 value_count = round(value_count + comparison_data[month]['tip_value'][-1], 2)
             else:
                 value_count = round(value_count, 2)
+            if len(comparison_data[month]['claimed_tips']) >= 1:
+                claim_count = claim_count + comparison_data[month]['claimed_tips'][-1]
 
             comparison_data[month]['tip_amount'].append(date_count)
             comparison_data[month]['tip_value'].append(value_count)
+            comparison_data[month]['claimed_tips'].append(claim_count)
 
     return comparison_data
 
