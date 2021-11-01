@@ -182,8 +182,8 @@ var data_tip_per_month = {
   datasets: [{
     label: 'Amount of Tips Per Month',
     data: month_tip_amount,
-    backgroundColor:'rgba(153, 102, 255, 0.2)',
-    borderColor: 'rgb(153, 102, 255)',
+    backgroundColor:'rgba(30, 144, 255, 0.2)',
+    borderColor: 'rgb(25, 25, 112)',
     hoverBackgroundColor:'rgba(255, 205, 86, 0.2)',
     hoverBorderColor:'rgb(255, 205, 86)',
     borderWidth: 1
@@ -215,7 +215,7 @@ var data_tip_value_per_month = {
   datasets: [{
     label: 'Value of Tips (USD) per Month',
     data: month_tip_value,
-    backgroundColor:'rgba(252, 108, 153, 0.2)',
+    backgroundColor:'rgba(252, 108, 133, 0.2)',
     borderColor: 'rgb(147, 61, 65)',
     hoverBackgroundColor:'rgba(255, 205, 86, 0.2)',
     hoverBorderColor:'rgb(255, 205, 86)',
@@ -254,7 +254,7 @@ new Chart(document.getElementById("total_claimed_returned"), {
       labels: tcr_keys,
       datasets: [
         {
-          backgroundColor: ["#0000cd","#1e90ff","#a9a9a9","#fe2712"],
+          backgroundColor: ["#191970","#1e90ff","#a9a9a9","#933d41"],
           data: tcr_values
         }
       ]
@@ -290,13 +290,15 @@ var month_data = {
   datasets: [{
     label: 'Amount of Tips Per Day',
     data: month_values,
-    backgroundColor:'rgba(153, 102, 255, 0.2)',
-    borderColor: 'rgb(153, 102, 255)',
+    backgroundColor:'rgba(30, 144, 255, 0.2)',
+    borderColor: 'rgb(25, 25, 112)',
     hoverBackgroundColor:'rgba(255, 205, 86, 0.2)',
     hoverBorderColor:'rgb(255, 205, 86)',
     borderWidth: 1
   }]
 };
+
+
 
 var month_config = {
     type: 'bar',
@@ -338,7 +340,7 @@ var month_value_data = {
   datasets: [{
     label: 'Value of Tips (USD) per Day',
     data: month_value_values,
-    backgroundColor:'rgba(252, 108, 153, 0.2)',
+    backgroundColor:'rgba(252, 108, 133, 0.2)',
     borderColor: 'rgb(147, 61, 65)',
     hoverBackgroundColor:'rgba(255, 205, 86, 0.2)',
     hoverBorderColor:'rgb(255, 205, 86)',
@@ -377,7 +379,7 @@ new Chart(document.getElementById("month_total_claimed_returned"), {
       labels: month_tcr_keys,
       datasets: [
         {
-          backgroundColor: ["#0000cd","#1e90ff","#a9a9a9","#fe2712"],
+          backgroundColor: ["#191970","#1e90ff","#a9a9a9","#933d41"],
           data: month_tcr_values
         }
       ]
@@ -619,7 +621,7 @@ var month_comparison = JSON.parse(document.getElementById('month_comparison').te
 But instead makes a line chart comparing Claimed Tips per day (first time users) vs the previous months
 
 */
-var value_colors = ['#013220', '#008500', '#00b800', '#00eb00']
+var value_colors = ['#1e4d2b', '#228b22', '#93c572', '#d0f0c0']
 
 var line_chart_data_claimed = {};
 line_chart_data_claimed['datasets'] = [];
