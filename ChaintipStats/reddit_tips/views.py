@@ -70,7 +70,7 @@ def main(request):
 
     all_stats['tip_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'))
     all_stats['value_per_day_result'] = tip_per_day(all_tips.order_by('created_datetime'), tip_value=True)
-    all_stats['tip_value_per_month_result'] = tip_per_month(all_tips)
+    all_stats['tip_value_per_month_result'] = tip_per_month(all_tips.order_by('created_datetime'))
 
     #MONTH SPECIFIC DATA
     month_stats['today'] = today.strftime('%A, %B %d %Y')
@@ -204,10 +204,11 @@ def tip_per_month(all_tips):
             case_years[year][month]['tip_amount'] = 0
             case_years[year][month]['tip_amount'] += 1
         try:
-            case_years[year][month]['tip_value'] += round(tip.fiat_value, 2)
+            case_years[year][month]['tip_value'] += int(tip.fiat_value)
         except KeyError:
             case_years[year][month]['tip_value'] = 0
-            case_years[year][month]['tip_value'] += round(tip.fiat_value, 2)
+            case_years[year][month]['tip_value'] += int(tip.fiat_value)
+    print(case_years)
     return case_years
 
 def sender_subreddits(all_senders, all_tips):
